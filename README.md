@@ -1,36 +1,28 @@
-# Welcome to Remix + Vite!
+# Panel de Control para Gestión de Eventos (Versión Cerrada)
 
-📖 See the [Remix docs](https://remix.run/docs) and the [Remix Vite docs](https://remix.run/docs/en/main/future/vite) for details on supported features.
+¡Bienvenido al Panel de Control para Gestión de Eventos (versión cerrada)!
 
-## Development
+Este proyecto es una solución integral para empresas dedicadas al mundo de los eventos, permitiendo la visualización y gestión eficiente de clientes, presupuestos y servicios.
 
-Run the Vite dev server:
+## Características principales
 
-```shellscript
-npm run dev
-```
+- **Visualización Intuitiva**: Gráficos y estadísticas que facilitan la comprensión de datos clave.
+- **Gestión de Clientes**: Seguimiento detallado de interacciones y preferencias de clientes.
+- **Presupuestos Dinámicos**: Herramientas para asignación y seguimiento de presupuestos en tiempo real.
+- **Seguimiento de Servicios**: Control exhaustivo de la ejecución de servicios contratados.
 
-## Deployment
+## Contribuciones
 
-First, build your app for production:
+En este momento, no aceptamos contribuciones de la comunidad. Si tienes preguntas o comentarios, comunícate con el equipo de desarrollo a través del sitio web oficial.
 
-```sh
-npm run build
-```
+## Recursos adicionales
 
-Then run the app in production mode:
+- **Documentación**: La documentación está disponible exclusivamente para usuarios autorizados. Visita nuestro sitio web oficial para obtener más información.
+- **Guía de Contribución**: No estamos aceptando contribuciones en este momento.
 
-```sh
-npm start
-```
+## ¿Cómo empezar?
 
-Now you'll need to pick a host to deploy it to.
+1. **Comunícate con el equipo de desarrollo para obtener acceso a la versión cerrada del repositorio.**
+2. **Sigue las instrucciones de instalación provistas en la documentación.**
 
-### DIY
-
-If you're familiar with deploying Node applications, the built-in Remix app server is production-ready.
-
-Make sure to deploy the output of `npm run build`
-
-- `build/server`
-- `build/client`
+¡Gracias por tu interés en nuestro proyecto! Si tienes preguntas o comentarios, comunícate con el equipo de desarrollo a través del sitio web oficial. Esperamos trabajar contigo para hacer de la gestión de eventos una experiencia más eficiente y exitosa.
