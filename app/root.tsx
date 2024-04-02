@@ -1,5 +1,5 @@
 import type { LinksFunction } from "@remix-run/node";
-import stylesheet from "~/styles/tailwind.css?url";
+import stylesheet from "./styles/tailwind.css?url";
 
 import {
   Links,
