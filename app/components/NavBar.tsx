@@ -56,7 +56,7 @@ const NavBar = () => {
         }
     ];
     return (
-        <div className="flex flex-col h-full mx-auto">
+        <div className="flex flex-col h-full w-[3em] sm:w-[10em] duration-200">
             <div className='h-30 flex items-center px-2 bg-white drop-shadow shadow-m rounded-t-md'>
                 <a href='#home' className='flex-none'>
                     <img src="./logo.jpg" alt="Logo de FloatUI" width={140} className="mx-auto"
@@ -67,12 +67,12 @@ const NavBar = () => {
                     />
                 </a>
             </div>
-            <div className="flex-1 flex flex-col h-full overflow-auto mt-2">
-                <ul className="px-4 text-sm font-medium flex-1">
+            <div className="flex-1 flex flex-col h-full overflow-hidden mt-2">
+                <ul className="px-2 text-sm font-medium flex-1">
                 {
                     navigation.map((item, idx) => (
                     <li key={idx}>
-                        <a href={item.href} className="flex items-center gap-x-2 text-gray-600 p-2 rounded-lg  hover:bg-gray-50 active:bg-gray-100 duration-150">
+                        <a href={item.href} className="flex items-center gap-x-3 text-gray-600 p-2 rounded-lg  hover:bg-gray-50 active:bg-gray-100 duration-150">
                         <div className="text-gray-500">{item.icon}</div>
                         {item.name}
                         </a>
@@ -81,11 +81,11 @@ const NavBar = () => {
                 }
                 </ul>
                 <div>
-                    <ul className="px-4 pb-4 text-sm font-medium">
+                    <ul className="px-2 pb-4 text-sm font-medium overflow-hidden">
                     {
                     navsFooter.map((item, idx) => (
                         <li key={idx}>
-                        <a href={item.href} className="flex items-center gap-x-2 text-gray-600 p-2 rounded-lg  hover:bg-gray-50 active:bg-gray-100 duration-150">
+                        <a href={item.href} className="flex items-center gap-x-3 text-gray-600 p-2 rounded-lg  hover:bg-gray-50 active:bg-gray-100 duration-150">
                             <div className="text-gray-500">{item.icon}</div>
                             {item.name}
                         </a>
@@ -93,7 +93,7 @@ const NavBar = () => {
                     ))
                     }
                     </ul>
-                    <div className="py-4 px-4 border-t">
+                    <div className="py-4 px-4 border-t invisible sm:visible">
                         <div className="flex items-center gap-x-4">
                             <img src="https://randomuser.me/api/portraits/women/79.jpg" className="w-12 h-12 rounded-full" alt="Profile Pic"/>
                             <div>
