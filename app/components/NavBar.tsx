@@ -1,13 +1,6 @@
 const NavBar = () => {
     const navigation = [
         {
-            name: 'Menu',
-            icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-            <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="M5 7h14M5 12h14M5 17h14"/>
-          </svg>
-          
-        },
-        {
             href: 'overview',
             name: 'Overview',
             icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
@@ -67,7 +60,27 @@ const NavBar = () => {
             <div className='h-30 flex items-center px-2 bg-white drop-shadow shadow-m rounded-t-md'>
                 <a href='#home' className='flex-none'>
                 <div className="sm:hidden block">
-                    {/* {
+                    <button 
+                    className="flex items-center gap-x-3 text-gray-600 p-2 rounded-lg hover:bg-gray-50 active:bg-gray-100 duration-150"
+                    key="Menu"
+                    >
+                        <div className="text-gray-500">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                                <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="M5 7h14M5 12h14M5 17h14"/>
+                            </svg>    
+                        </div>
+                    </button>
+                    {/* <a
+                        href="#test"
+                        className="flex items-center gap-x-3 text-gray-600 p-2 rounded-lg 
+                                        hover:bg-gray-50 active:bg-gray-100 duration-150"
+                        key={navigation[0].name}
+                    >
+                        <div className="text-gray-500">{navigation[0].icon}</div>
+                    </a> */}
+                    {
+                        
+                    /* {
                     navigation
                         .filter((item) => item.name === "Menu")
                         .map((item) => (
