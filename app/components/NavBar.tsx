@@ -1,6 +1,13 @@
 const NavBar = () => {
     const navigation = [
         {
+            name: 'Menu',
+            icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+            <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="M5 7h14M5 12h14M5 17h14"/>
+          </svg>
+          
+        },
+        {
             href: 'overview',
             name: 'Overview',
             icon: <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
@@ -29,9 +36,9 @@ const NavBar = () => {
             <path strokeLinecap="round" strokeLinejoin="round" d="M6.429 9.75L2.25 12l4.179 2.25m0-4.5l5.571 3 5.571-3m-11.142 0L2.25 7.5 12 2.25l9.75 5.25-4.179 2.25m0 0L21.75 12l-4.179 2.25m0 0l4.179 2.25L12 21.75 2.25 16.5l4.179-2.25m11.142 0l-5.571 3-5.571-3" />
             </svg>
         }
-        ];
+    ];
 
-        const navsFooter = [
+    const navsFooter = [
         {
             href: 'help',
             name: 'Help',
@@ -59,26 +66,50 @@ const NavBar = () => {
         <div className="flex flex-col h-full w-[3em] sm:w-[10em] duration-200">
             <div className='h-30 flex items-center px-2 bg-white drop-shadow shadow-m rounded-t-md'>
                 <a href='#home' className='flex-none'>
+                <div className="sm:hidden block">
+                    {
+                    navigation
+                        .filter((item) => item.name === "Menu")
+                        .map((item) => (
+                        <a
+                            href={item.href}
+                            className="flex items-center gap-x-3 text-gray-600 p-2 rounded-lg 
+                                            hover:bg-gray-50 active:bg-gray-100 duration-150"
+                            key={item.name}
+                        >
+                            <div className="text-gray-500">{item.icon}</div>
+                        </a>
+                        ))
+                    }
+                </div>
+                <div className="sm:block hidden">
                     <img src="./logo.jpg" alt="Logo de FloatUI" width={140} className="mx-auto"
                     style={{
                         filter: 'drop-shadow(0 0 5px rgba(0, 0, 0, .5))',
                         maskImage: 'radial-gradient(circle at center, black 20%, transparent 99%)'
                     }}
                     />
+                </div>
                 </a>
             </div>
             <div className="flex-1 flex flex-col h-full overflow-hidden mt-2">
                 <ul className="px-2 text-sm font-medium flex-1">
-                {
-                    navigation.map((item, idx) => (
-                    <li key={idx}>
-                        <a href={item.href} className="flex items-center gap-x-3 text-gray-600 p-2 rounded-lg  hover:bg-gray-50 active:bg-gray-100 duration-150">
-                        <div className="text-gray-500">{item.icon}</div>
-                        {item.name}
-                        </a>
-                    </li>
-                    ))
-                }
+                    {
+                        navigation
+                            .filter((item) => item.name !== "Menu")
+                            .map((item, idx) => (
+                            <li key={idx}>
+                                <a
+                                href={item.href}
+                                className="flex items-center gap-x-3 text-gray-600 p-2 rounded-lg 
+                                            hover:bg-gray-50 active:bg-gray-100 duration-150"
+                                >
+                                <div className="text-gray-500">{item.icon}</div>
+                                {item.name}
+                                </a>
+                            </li>
+                            ))
+                    }
                 </ul>
                 <div>
                     <ul className="px-2 pb-4 text-sm font-medium overflow-hidden">
