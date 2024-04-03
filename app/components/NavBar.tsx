@@ -56,59 +56,57 @@ const NavBar = () => {
         }
     ];
     return (
-        <nav className="h-full border bg-white space-y-8 sm:w-80 shadow-lg rounded-md">
-            <div className="flex flex-col h-full">
-                <div className='h-30 flex items-center px-8 bg-white drop-shadow shadow-m rounded-t-md'>
-                    <a href='#home' className='flex-none'>
-                        <img src="./logo.jpg" alt="Logo de FloatUI" width={140} className="mx-auto"
-                        style={{
-                            filter: 'drop-shadow(0 0 5px rgba(0, 0, 0, .5))',
-                            maskImage: 'radial-gradient(circle at center, black 20%, transparent 99%)'
-                        }}
-                        />
-                    </a>
-                </div>
-                <div className="flex-1 flex flex-col h-full overflow-auto mt-2">
-                    <ul className="px-4 text-sm font-medium flex-1">
+        <div className="flex flex-col h-full mx-auto">
+            <div className='h-30 flex items-center px-8 bg-white drop-shadow shadow-m rounded-t-md'>
+                <a href='#home' className='flex-none'>
+                    <img src="./logo.jpg" alt="Logo de FloatUI" width={140} className="mx-auto"
+                    style={{
+                        filter: 'drop-shadow(0 0 5px rgba(0, 0, 0, .5))',
+                        maskImage: 'radial-gradient(circle at center, black 20%, transparent 99%)'
+                    }}
+                    />
+                </a>
+            </div>
+            <div className="flex-1 flex flex-col h-full overflow-auto mt-2">
+                <ul className="px-4 text-sm font-medium flex-1">
+                {
+                    navigation.map((item, idx) => (
+                    <li key={idx}>
+                        <a href={item.href} className="flex items-center gap-x-2 text-gray-600 p-2 rounded-lg  hover:bg-gray-50 active:bg-gray-100 duration-150">
+                        <div className="text-gray-500">{item.icon}</div>
+                        {item.name}
+                        </a>
+                    </li>
+                    ))
+                }
+                </ul>
+                <div>
+                    <ul className="px-4 pb-4 text-sm font-medium">
                     {
-                        navigation.map((item, idx) => (
+                    navsFooter.map((item, idx) => (
                         <li key={idx}>
-                            <a href={item.href} className="flex items-center gap-x-2 text-gray-600 p-2 rounded-lg  hover:bg-gray-50 active:bg-gray-100 duration-150">
+                        <a href={item.href} className="flex items-center gap-x-2 text-gray-600 p-2 rounded-lg  hover:bg-gray-50 active:bg-gray-100 duration-150">
                             <div className="text-gray-500">{item.icon}</div>
                             {item.name}
-                            </a>
+                        </a>
                         </li>
-                        ))
+                    ))
                     }
                     </ul>
-                    <div>
-                        <ul className="px-4 pb-4 text-sm font-medium">
-                        {
-                        navsFooter.map((item, idx) => (
-                            <li key={idx}>
-                            <a href={item.href} className="flex items-center gap-x-2 text-gray-600 p-2 rounded-lg  hover:bg-gray-50 active:bg-gray-100 duration-150">
-                                <div className="text-gray-500">{item.icon}</div>
-                                {item.name}
-                            </a>
-                            </li>
-                        ))
-                        }
-                        </ul>
-                        <div className="py-4 px-4 border-t">
-                            <div className="flex items-center gap-x-4">
-                                <img src="https://randomuser.me/api/portraits/women/79.jpg" className="w-12 h-12 rounded-full" alt="Profile Pic"/>
-                                <div>
-                                    <span className="block text-gray-700 text-sm font-semibold">Alivika tony</span>
-                                    <a href="#user" className="block mt-px text-gray-600 hover:text-indigo-600 text-xs">
-                                        View profile
-                                    </a>
-                                </div>
+                    <div className="py-4 px-4 border-t">
+                        <div className="flex items-center gap-x-4">
+                            <img src="https://randomuser.me/api/portraits/women/79.jpg" className="w-12 h-12 rounded-full" alt="Profile Pic"/>
+                            <div>
+                                <span className="block text-gray-700 text-sm font-semibold">Alivika tony</span>
+                                <a href="#user" className="block mt-px text-gray-600 hover:text-indigo-600 text-xs">
+                                    View profile
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </nav>
+        </div>
   )
 }
 
