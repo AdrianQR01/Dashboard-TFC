@@ -70,30 +70,6 @@ const NavBar = () => {
                             </svg>    
                         </div>
                     </button>
-                    {/* <a
-                        href="#test"
-                        className="flex items-center gap-x-3 text-gray-600 p-2 rounded-lg 
-                                        hover:bg-gray-50 active:bg-gray-100 duration-150"
-                        key={navigation[0].name}
-                    >
-                        <div className="text-gray-500">{navigation[0].icon}</div>
-                    </a> */}
-                    {
-                        
-                    /* {
-                    navigation
-                        .filter((item) => item.name === "Menu")
-                        .map((item) => (
-                        <a
-                            href={item.href}
-                            className="flex items-center gap-x-3 text-gray-600 p-2 rounded-lg 
-                                            hover:bg-gray-50 active:bg-gray-100 duration-150"
-                            key={item.name}
-                        >
-                            <div className="text-gray-500">{item.icon}</div>
-                        </a>
-                        ))
-                    } */}
                 </div>
                 <div className="sm:block hidden">
                     <img src="./logo.jpg" alt="Logo de FloatUI" width={140} className="mx-auto"
