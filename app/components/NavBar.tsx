@@ -67,7 +67,7 @@ const NavBar = () => {
             <div className='h-30 flex items-center px-2 bg-white drop-shadow shadow-m rounded-t-md'>
                 <a href='#home' className='flex-none'>
                 <div className="sm:hidden block">
-                    {
+                    {/* {
                     navigation
                         .filter((item) => item.name === "Menu")
                         .map((item) => (
@@ -80,7 +80,7 @@ const NavBar = () => {
                             <div className="text-gray-500">{item.icon}</div>
                         </a>
                         ))
-                    }
+                    } */}
                 </div>
                 <div className="sm:block hidden">
                     <img src="./logo.jpg" alt="Logo de FloatUI" width={140} className="mx-auto"
@@ -124,7 +124,7 @@ const NavBar = () => {
                     ))
                     }
                     </ul>
-                    <div className="py-4 px-4 border-t invisible sm:visible">
+                    <div className="py-4 px-4 border-t sm:block hidden">
                         <div className="flex items-center gap-x-4">
                             <img src="https://randomuser.me/api/portraits/women/79.jpg" className="w-12 h-12 rounded-full" alt="Profile Pic"/>
                             <div>
