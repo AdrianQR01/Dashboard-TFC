@@ -57,7 +57,7 @@ const NavBar = () => {
     ];
     return (
         <div className="flex flex-col h-full mx-auto">
-            <div className='h-30 flex items-center px-8 bg-white drop-shadow shadow-m rounded-t-md'>
+            <div className='h-30 flex items-center px-2 bg-white drop-shadow shadow-m rounded-t-md'>
                 <a href='#home' className='flex-none'>
                     <img src="./logo.jpg" alt="Logo de FloatUI" width={140} className="mx-auto"
                     style={{
