@@ -1,13 +1,19 @@
 const PrincipalDashboard = () => {
     return (
-        <>
-            <div className="flex flex-row space-x-4">
-                <div className="h-50 w-20 bg-cyan-500">1</div>
-                <div className="h-50 w-20 bg-cyan-600">2</div>
-                <div className="h-50 w-20 bg-cyan-700">3</div>
-                <div className="h-50 w-20 bg-cyan-800">4</div>
-            </div>
-        </>
+        <div className="flex flex-wrap space-x-4">
+        {(() => {
+          const elements: JSX.Element[] = [];
+          for (let i = 1; i <= 8; i++) {
+            const colorIndex = i % 4 + 5;
+            elements.push(
+              <div key={i} className={`flex justify-center items-center  bg-cyan-${colorIndex * 100}`}>
+                {i}{i}{i}{i}{i}{i}{i}{i}{i}{i}{i}{i}{i}
+              </div>
+            );
+          }
+          return elements;
+        })()}
+      </div>
     )
 }
 
