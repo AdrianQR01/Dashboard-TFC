@@ -1,4 +1,4 @@
-import { UserData } from "./UserData"
+// import { UserData } from "./UserData"
 
 // import { UserData } from "./UserData";
 const PrincipalDashboard = () => {
@@ -41,7 +41,7 @@ const PrincipalDashboard = () => {
               elements.push(
                 <div key={i} className={'m-2 flex items-center justify-center'}>
                   {/* {components[1].test} */}
-                  <UserData/>
+                  {/* <UserData/> */}
                 </div>
               );
             }
