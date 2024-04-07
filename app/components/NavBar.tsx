@@ -55,6 +55,7 @@ const NavBar = () => {
             </svg>
         }
     ];
+
     return (
         <div className="flex flex-col h-full w-[3em] sm:w-[10em] duration-200">
             <div className='h-30 flex items-center justify-center bg-white drop-shadow shadow-m rounded-t-md'>
