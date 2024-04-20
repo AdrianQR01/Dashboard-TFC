@@ -57,7 +57,7 @@ const NavBar = () => {
     ];
 
     return (
-        <div className="flex flex-col h-full w-[3em] sm:w-[10em] duration-200">
+        <div className="flex flex-row h-full w-auto sm:flex-col duration-200">
             <div className='h-30 flex items-center justify-center bg-white drop-shadow shadow-m rounded-t-md'>
                 <a href='#home' className='flex-none'>
                 <div className="sm:hidden block">
@@ -82,7 +82,7 @@ const NavBar = () => {
                 </div>
                 </a>
             </div>
-            <div className="flex-1 flex flex-col h-full overflow-hidden mt-2">
+            <div className="flex-1 flex flex-row h-full overflow-hidden mt-2 sm:flex-col">
                 <ul className="text-sm font-medium flex-1 px-1.5 ">
                     {
                         navigation
@@ -101,7 +101,7 @@ const NavBar = () => {
                     }
                 </ul>
                 <div>
-                    <ul className="px-1.5 pb-4 text-sm font-medium overflow-hidden">
+                    <ul className="px-1.5 pb-4 text-sm font-mediumn hidden overflow-hidden sm:flex flex-col">
                     {
                     navsFooter.map((item, idx) => (
                         <li key={idx}>
