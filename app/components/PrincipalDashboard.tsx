@@ -1,4 +1,4 @@
-import { UserData } from "./UserData"
+import { UserData } from './UserData'
 
 // import { UserData } from "./UserData";
 const PrincipalDashboard = () => {
@@ -33,23 +33,22 @@ const PrincipalDashboard = () => {
   //        </div>
   //       }
   //   ]
-    return (
+  return (
         <div className="flex flex-wrap items-center justify-center">
           {(() => {
-            const elements: JSX.Element[] = [];
+            const elements: JSX.Element[] = []
             for (let i = 0; i <= 8; i++) {
               elements.push(
                 <div key={i} className={'m-2 flex items-center justify-center'}>
                   {/* {components[1].test} */}
                   <UserData/>
                 </div>
-              );
+              )
             }
-            return elements;
+            return elements
           })()}
-          
         </div>
-      )
+  )
 }
 
 export default PrincipalDashboard

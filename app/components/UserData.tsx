@@ -11,7 +11,7 @@
 
 // }
 
-import { Accordion, AccordionContent, AccordionPanel, AccordionTitle } from "flowbite-react";
+import { Accordion, AccordionContent, AccordionPanel, AccordionTitle } from 'flowbite-react'
 
 export const UserData = () => {
   return (
@@ -83,5 +83,5 @@ export const UserData = () => {
         </AccordionContent>
       </AccordionPanel>
     </Accordion>
-  );
+  )
 }
