@@ -83,37 +83,34 @@ const NavBar = () => {
                 </a>
             </div>
             <div className="flex-1 flex flex-row h-full overflow-hidden mt-2 sm:flex-col">
-                <ul className="text-sm font-medium flex-1 px-1.5 ">
-                    {
-                        navigation
-                            .map((item, idx) => (
-                            <li key={idx}>
-                                <a
+                <ul className="text-sm font-medium flex-1 px-1.5 flex flex-wrap sm:flex-col">
+                    {navigation.map((item, idx) => (
+                        <li key={idx}>
+                            <a
                                 href={item.href}
                                 className="flex items-center gap-x-4 text-gray-600 p-2 rounded-lg 
-                                            hover:bg-gray-50 active:bg-gray-100 duration-150"
-                                >
+                                hover:bg-gray-50 active:bg-gray-100 duration-150"
+                            >
                                 <div className="text-gray-500">{item.icon}</div>
-                                {item.name}
-                                </a>
-                            </li>
-                            ))
-                    }
+                                {/* Mostrar el nombre del ícono solo en dispositivos de escritorio */}
+                                <span className="hidden sm:block">{item.name}</span>
+                            </a>
+                        </li>
+                    ))}
                 </ul>
                 <div>
-                    <ul className="px-1.5 pb-4 text-sm font-mediumn hidden overflow-hidden sm:flex flex-col">
-                    {
-                    navsFooter.map((item, idx) => (
-                        <li key={idx}>
-                        <a href={item.href} className="flex items-center gap-x-4 text-gray-600 p-2 rounded-lg  hover:bg-gray-50 active:bg-gray-100 duration-150">
-                            <div className="text-gray-500">{item.icon}</div>
-                            {item.name}
-                        </a>
-                        </li>
-                    ))
-                    }
+                    <ul className="px-1.5 pb-4 text-sm font-mediumn overflow-hidden flex flex-row sm:flex-col ">
+                        {navsFooter.map((item, idx) => (
+                            <li key={idx}>
+                                <a href={item.href} className="flex items-center gap-x-4 text-gray-600 p-2 rounded-lg  hover:bg-gray-50 active:bg-gray-100 duration-150">
+                                    <div className="text-gray-500">{item.icon}</div>
+                                    {/* Mostrar el nombre del ícono solo en dispositivos de escritorio */}
+                                    <span className="hidden sm:block">{item.name}</span>
+                                </a>
+                            </li>
+                        ))}
                     </ul>
-                    <div className="py-4 px-4 border-t sm:block hidden">
+                    <div className="py-4 px-4 border-t hidden sm:block">
                         <div className="flex items-center gap-x-4">
                             <img src="https://randomuser.me/api/portraits/women/79.jpg" className="w-12 h-12 rounded-full" alt="Profile Pic"/>
                             <div>
@@ -126,6 +123,9 @@ const NavBar = () => {
                     </div>
                 </div>
             </div>
+
+
+
         </div>
   )
 }
