@@ -82,8 +82,8 @@ const NavBar = () => {
                 </div>
                 </a>
             </div>
-            <div className="flex-1 flex flex-row h-full overflow-hidden mt-2 sm:flex-col">
-                <ul className="text-sm font-medium flex-1 px-1.5 flex flex-wrap sm:flex-col">
+            <div className="flex-1 flex flex-row h-full overflow-hidden sm:flex-col">
+                <ul className="text-sm font-medium flex-1 px-1.5 py-1 flex flex-wrap sm:flex-col">
                     {navigation.map((item, idx) => (
                         <li key={idx}>
                             <a
@@ -99,7 +99,7 @@ const NavBar = () => {
                     ))}
                 </ul>
                 <div>
-                    <ul className="px-1.5 pb-4 text-sm font-mediumn overflow-hidden flex flex-row sm:flex-col ">
+                    <ul className="px-1.5 py-1 text-sm font-mediumn overflow-hidden flex flex-row sm:flex-col ">
                         {navsFooter.map((item, idx) => (
                             <li key={idx}>
                                 <a href={item.href} className="flex items-center gap-x-4 text-gray-600 p-2 rounded-lg  hover:bg-gray-50 active:bg-gray-100 duration-150">
