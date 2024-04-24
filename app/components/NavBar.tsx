@@ -58,7 +58,7 @@ const NavBar = () => {
 
   return (
         <div className="flex flex-row h-full w-auto sm:flex-col duration-200">
-            <div className='h-30 flex items-center justify-center bg-white drop-shadow shadow-m rounded-t-md'>
+            <div className='h-30 hidden items-center justify-center bg-white drop-shadow shadow-m rounded-t-md sm:flex'>
                 <a href='#home' className='flex-none'>
                 <div className="sm:hidden block">
                     <button
@@ -83,7 +83,7 @@ const NavBar = () => {
                 </a>
             </div>
             <div className="flex-1 flex flex-row h-full overflow-hidden sm:flex-col">
-                <ul className="text-sm font-medium flex-1 px-1 py-1 flex flex-wrap sm:flex-col">
+                <ul className="text-sm font-medium flex-1 px-1.5 py-1 flex flex-wrap sm:flex-col">
                     {navigation.map((item, idx) => (
                         <li key={idx}>
                             <a
