@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Cliente {
+  id        String    @id @default(auto()) @map("_id") @db.ObjectId
+  nombre     String
+  apellido  String
+  email     String   @unique
+  profile_pic  String
+  telefono  String
+  eventos    Evento[]
+  presupuestos Presupuesto[] @relation(name: "ClientePresupuesto")
+}
+
+model Presupuesto {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  monto       Float
+  cliente     Cliente   @relation(name: "ClientePresupuesto")
+  clienteId   Int
+  evento      Evento
+  eventoId    Int
+}
+
+model Servicio {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  nombre      String
+  descripcion String
+  precio      Float
+  eventos     Evento[]
+}
+
+model Evento {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  nombre       String
+  fecha        DateTime
+  aforoMaximo Int
+  precioEntrada Float
+  clientes     Cliente[]
+  servicios    Servicio[]
+  artistas     ArtistaOnEvento[]
+}
+
+model Artista {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  nombre       String
+  eventos     ArtistaOnEvento[]
+}
+
+model ArtistaOnEvento {
+  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  evento      Evento   @relation(fields: [eventoId], references: [id])
+  eventoId    String
+  artista     Artista   @relation(fields: [artistaId], references: [id])
+  artistaId   String
+}
