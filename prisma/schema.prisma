@@ -1,61 +1,54 @@
-generator client {
-  provider = "prisma-client-js"
-}
-
 datasource db {
   provider = "mongodb"
   url      = env("DATABASE_URL")
 }
 
+generator client {
+  provider = "prisma-client-js"
+}
+
 model Cliente {
-  id        String    @id @default(auto()) @map("_id") @db.ObjectId
-  nombre     String
-  apellido  String
-  email     String   @unique
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  nombre       String
+  apellido     String
+  email        String        @unique
   profile_pic  String
-  telefono  String
-  eventos    Evento[]
-  presupuestos Presupuesto[] @relation(name: "ClientePresupuesto")
+  telefono     String
+  eventos      Evento[]
+  presupuestos Presupuesto[]
 }
 
 model Presupuesto {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  monto       Float
-  cliente     Cliente   @relation(name: "ClientePresupuesto")
-  clienteId   Int
-  evento      Evento
-  eventoId    Int
+  id        String  @id @default(auto()) @map("_id") @db.ObjectId
+  cantidad  Float
+  cliente   Cliente @relation(fields: [clienteId], references: [id])
+  clienteId String  @db.ObjectId
 }
 
 model Servicio {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
+  id          String @id @default(auto()) @map("_id") @db.ObjectId
   nombre      String
   descripcion String
-  precio      Float
-  eventos     Evento[]
+  precio      String
+  evento      Evento @relation(fields: [eventoId], references: [id])
+  eventoId    String @db.ObjectId
 }
 
 model Evento {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  nombre       String
-  fecha        DateTime
-  aforoMaximo Int
+  id            String     @id @default(auto()) @map("_id") @db.ObjectId
+  nombre        String
+  fecha         DateTime
+  aforoMaximo   Int
   precioEntrada Float
-  clientes     Cliente[]
-  servicios    Servicio[]
-  artistas     ArtistaOnEvento[]
+  cliente       Cliente    @relation(fields: [clienteId], references: [id])
+  clienteId     String     @db.ObjectId
+  servicio      Servicio[]
+  artista       Artista[]
 }
 
 model Artista {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  nombre       String
-  eventos     ArtistaOnEvento[]
-}
-
-model ArtistaOnEvento {
-  id          String    @id @default(auto()) @map("_id") @db.ObjectId
-  evento      Evento   @relation(fields: [eventoId], references: [id])
-  eventoId    String
-  artista     Artista   @relation(fields: [artistaId], references: [id])
-  artistaId   String
+  id       String @id @default(auto()) @map("_id") @db.ObjectId
+  nombre   String
+  evento   Evento @relation(fields: [eventoId], references: [id])
+  eventoId String @db.ObjectId
 }
