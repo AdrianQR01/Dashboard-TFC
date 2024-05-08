@@ -7,7 +7,7 @@ import { db } from "../services/index.js"
 
 export async function loader(){
   const test_client = await db.cliente.findMany()
-  return json(test_client);
+  return test_client;
 };
 
 export default function Dashboard() {
