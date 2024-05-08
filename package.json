@@ -4,7 +4,7 @@
   "sideEffects": false,
   "type": "module",
   "scripts": {
-    "build": "remix vite:build",
+    "build": "prisma generate && remix vite:build",
     "build:css": "tailwindcss -m -i ./tailwind.css -o app/tailwind.css",
     "dev": "remix vite:dev --host",
     "dev:css": "tailwindcss -w -i ./tailwind.css -o app/tailwind.css",
