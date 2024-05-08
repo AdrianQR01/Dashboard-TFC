@@ -2,12 +2,12 @@ import { Outlet } from '@remix-run/react'
 import Navbar from '../components/navbar'
 import { json } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
+import { db } from "../services/index.js"
+
 
 export async function loader(){
-    return json({
-        "name": "Alivika Tony",
-        "avatar": "https://randomuser.me/api/portraits/women/79.jpg",
-    });
+  const test_client = await db.cliente.findMany()
+  return json(test_client);
 };
 
 export default function Dashboard() {
