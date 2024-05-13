@@ -4,7 +4,6 @@ export default function Login() {
     return (
         <div className="2xl:container h-screen m-auto">
             <div hidden className="fixed inset-0 w-7/12 lg:block">
-                <span className="absolute left-6 bottom-6 text-sm">Video by MART PRODUCTION from <a href="https://www.pexels.com/" target="blank" title="Pexels">Pexels</a></span>
                 <video className="w-full h-full object-cover" loop autoPlay src="fondoLogin.jpg" poster="fondoLogin.jpg"></video>
             </div>
             <div hidden role="hidden" className="fixed inset-0 w-6/12 ml-auto bg-white bg-opacity-70 backdrop-blur-xl lg:block"></div>
@@ -14,7 +13,7 @@ export default function Login() {
                         <a href="">
                             <img src="../public/images/logo.svg" className="w-40" alt="logo" />
                         </a>
-                        <p className="font-medium text-lg text-gray-600">Bienvenido! Login first</p>
+                        <p className="font-medium text-lg text-gray-600">Bienvenido!</p>
                     </div>
                     
                     <div className="mt-12 grid gap-6 sm:grid-cols-2">
@@ -42,7 +41,7 @@ export default function Login() {
                         <div>
                             <input 
                                     type="email" 
-                                    placeholder="Your Email"
+                                    placeholder="Email"
                                     className="w-full py-3 px-6 ring-1 ring-gray-300 rounded-xl placeholder-gray-600 bg-transparent transition disabled:ring-gray-200 disabled:bg-gray-100 disabled:placeholder-gray-400 invalid:ring-red-400 focus:invalid:outline-none"
                             />
                         </div>
@@ -50,11 +49,11 @@ export default function Login() {
                         <div className="flex flex-col items-end">
                             <input 
                                     type="password" 
-                                    placeholder="What's the secret word ?"
+                                    placeholder="Contraseña"
                                     className="w-full py-3 px-6 ring-1 ring-gray-300 rounded-xl placeholder-gray-600 bg-transparent transition disabled:ring-gray-200 disabled:bg-gray-100 disabled:placeholder-gray-400 invalid:ring-red-400 focus:invalid:outline-none"
                             />
                             <button type="reset" className="w-max p-3 -mr-3">
-                                <span className="text-sm tracking-wide text-blue-600">Forgot password ?</span>
+                                <span className="text-sm tracking-wide text-blue-600">Olvidaste tu contraseña ?</span>
                             </button>
                         </div>
 
@@ -63,17 +62,10 @@ export default function Login() {
                                 <span className="font-semibold text-white text-lg">Login</span>
                             </button>
                             <a href="#" type="reset" className="w-max p-3 -ml-3">
-                                <span className="text-sm tracking-wide text-blue-600">Create new account</span>
+                                <span className="text-sm tracking-wide text-blue-600">Crea una nueva cuenta</span>
                             </a>
                         </div>
                     </form>
-
-                    <div className="border-t pt-12">
-                        <div className="space-y-2 text-center">
-                            <img src="../public/images/logo.svg" className="w-40 m-auto grayscale" alt="" />
-                            <span className="block text-sm tracking-wide text-gray-500">Get +50 modern blocks for free next month.</span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
