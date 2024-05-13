@@ -3,7 +3,7 @@ import { Outlet } from '@remix-run/react'
 export default function Presupuestos() {
     return (
         <div>
-            <Outlet/>
+            <Outlet />
             Estas en Presupuestos
         </div>
     )
