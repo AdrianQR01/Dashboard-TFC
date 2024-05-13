@@ -1,5 +1,10 @@
-
-
+import type { MetaFunction } from '@remix-run/node'
+export const meta: MetaFunction = () => {
+    return [
+      { title: 'Login' },
+      { name: 'description', content: 'This is the login page' }
+    ]
+  }
 export default function Login() {
     return (
         <div className="2xl:container h-screen m-auto">
