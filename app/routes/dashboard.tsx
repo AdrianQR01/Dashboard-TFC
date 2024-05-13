@@ -17,7 +17,7 @@ export default function Dashboard() {
     <div className="flex flex-col sm:flex-row-reverse h-screen overflow-hidden p-5">
 
       <div className='flex flex-grow h-5/6 sm:h-full'>
-        <main className='relative right-0 max-h-screen bg-slate-300 overflow-y-auto overflow-hidden'>
+        <main className='relative right-0 max-h-screen overflow-y-auto overflow-hidden'>
           <Outlet />
         </main>
       </div>
