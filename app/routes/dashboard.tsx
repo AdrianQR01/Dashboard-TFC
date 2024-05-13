@@ -14,14 +14,15 @@ export default function Dashboard() {
   const userData = useLoaderData<typeof loader>();
   console.log(userData)
   return (
-    <div className="flex h-screen overflow-hidden">
-      <nav className="border bg-white space-y-8 shadow-lg rounded-md container mr-4 ">
+    <div className="flex h-screen overflow-hidden p-5">
+      <nav className="max-w-48 border bg-white space-y-8 shadow-lg rounded-md container">
         <Navbar />
       </nav>
-      <main className='right-0 w-9/12 max-h-screen container bg-slate-300 overflow-y-auto absolute'>
-        <Outlet />
-      </main>
-
+      <div className='flex flex-grow'>
+        <main className='relative right-0 max-h-screen bg-slate-300 overflow-y-auto'>
+          <Outlet />
+        </main>
+      </div>
     </div>
   )
 }
