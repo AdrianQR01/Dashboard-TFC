@@ -15,31 +15,32 @@ export const meta: MetaFunction = () => {
   ]
 }
 
-export async function loader(){
-    return json({
-        "dato1": "tessst",
-        "dato2": "https://randomuser.me/api/portraits/women/79.jpg",
-    });
+export async function loader() {
+  return json({
+    "dato1": "tessst",
+    "dato2": "https://randomuser.me/api/portraits/women/79.jpg",
+  });
 };
 
-export default function DashboardIndex () {
+export default function DashboardIndex() {
   const tags = [
-    <LineChart key='line'/>,
-    <AreaChart key='area'/>,
-    <ColumnChart key='column'/>,
-    <PieChart key ='pie'/>,
-    <DonutChart key='donut'/>,
-    <RadialChart key='radial'/>
+    <LineChart key='line' />,
+    <AreaChart key='area' />,
+    <ColumnChart key='column' />,
+    <PieChart key='pie' />,
+    <DonutChart key='donut' />,
+    <RadialChart key='radial' />
   ]
   const userData = useLoaderData<typeof loader>();
   console.log(userData)
   return (
-    <div className="flex flex-wrap items-center justify-center">
-        {tags.map((tag, index) => (
-            <div key={index} className={'m-2 flex items-center justify-center'}>
-                {tag}
-            </div>
-        ))}
+    <div className="flex flex-wrap items-center justify-center h-fit ">
+      {tags.map((tag, index) => (
+        <div key={index} className={'m-2'}>
+          {tag}
+        </div>
+      ))}
     </div>
+
   )
 }
