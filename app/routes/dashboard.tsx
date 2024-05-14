@@ -1,14 +1,20 @@
 import { Outlet } from '@remix-run/react'
 import Navbar from '../components/navbar'
-import { json } from "@remix-run/node"
+import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
 import { db } from "../services/index.js"
+import { authenticator } from '~/services/auth.server'
 
-
-export async function loader() {
-  const test_client = await db.cliente.findMany()
-  return test_client;
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  const user = await authenticator.isAuthenticated(request, {
+    failureRedirect: "/login",
+  })
+  return {email:user.email, name:user.name, surname:user.surname}
 };
+
+export async function action({ request }: ActionFunctionArgs) {
+  return await authenticator.logout(request, { redirectTo: "/login" })
+}
 
 export default function Dashboard() {
   const userData = useLoaderData<typeof loader>();

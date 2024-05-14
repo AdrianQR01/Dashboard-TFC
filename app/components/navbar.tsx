@@ -1,4 +1,6 @@
-import { Link } from "@remix-run/react"
+import { ActionFunctionArgs } from "@remix-run/node"
+import { Form, Link } from "@remix-run/react"
+import { authenticator } from "~/services/auth.server"
 
 export default function Navbar() {
     const navigation = [
@@ -128,19 +130,31 @@ export default function Navbar() {
                                         hash: "",
                                     }}
                                     className="flex items-center gap-x-4 text-gray-600 p-2 rounded-lg  hover:bg-gray-50 active:bg-gray-100 duration-150">
-                                        <div className="text-gray-500">{item.icon}</div>
-                                        {/* Mostrar el nombre del ícono solo en dispositivos de escritorio */}
-                                        <span className="hidden sm:block">{item.name}</span>
+                                    <div className="text-gray-500">{item.icon}</div>
+                                    {/* Mostrar el nombre del ícono solo en dispositivos de escritorio */}
+                                    <span className="hidden sm:block">{item.name}</span>
                                 </Link>
                             </li>
                         ))}
+                    </ul>
+                    <ul>
+                        <Form method="post">
+                            <button
+                                type="submit"
+                                name="action"
+                                value="logout"
+                                className="bg-white text-black border-2 border-black py-1 px-3 rounded-md font-semibold"
+                            >
+                                Logout
+                            </button>
+                        </Form>
                     </ul>
                     <div className="py-4 px-4 border-t hidden sm:block">
                         <div className="flex items-center gap-x-4">
                             <img src="https://randomuser.me/api/portraits/women/79.jpg" className="w-12 h-12 rounded-full" alt="Profile Pic" />
                             <div>
                                 <span className="block text-gray-700 text-sm font-semibold">Alivika tony</span>
-                                <Link to={{ pathname: "perfil", search: "", hash: ""}} className="block mt-px text-gray-600 hover:text-indigo-600 text-xs">
+                                <Link to={{ pathname: "perfil", search: "", hash: "" }} className="block mt-px text-gray-600 hover:text-indigo-600 text-xs">
                                     View profile
                                 </Link>
                             </div>
