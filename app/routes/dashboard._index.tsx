@@ -1,3 +1,4 @@
+import type { LoaderFunctionArgs } from "@remix-run/node";
 import type { MetaFunction } from '@remix-run/node'
 import AreaChart from '~/components/areachart'
 import ColumnChart from '~/components/columnchart'
@@ -7,6 +8,7 @@ import DonutChart from '~/components/donutchart'
 import RadialChart from '~/components/radialchart'
 import { json } from "@remix-run/node"
 import { useLoaderData } from "@remix-run/react"
+import { authenticator } from "~/services/auth.server";
 
 export const meta: MetaFunction = () => {
   return [
@@ -15,12 +17,10 @@ export const meta: MetaFunction = () => {
   ]
 }
 
-export async function loader() {
-  return json({
-    "dato1": "tessst",
-    "dato2": "https://randomuser.me/api/portraits/women/79.jpg",
-  });
+export const loader = async ({ request }: LoaderFunctionArgs) => {
+  return null
 };
+
 
 export default function DashboardIndex() {
   const tags = [
