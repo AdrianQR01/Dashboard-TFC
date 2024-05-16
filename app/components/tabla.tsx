@@ -28,6 +28,16 @@ export function Tabla() {
     });
   };
 
+  /*  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    onSubmit(userData);
+    closeModal(); // Cierra el modal después de enviar el formulario
+  };  */ 
+
+  /* ESTO VA DEBAJO DE ONCLICK DE CANCELAR
+  <Button onClick={handleSubmit}>Guardar</Button>
+  */
+
   const closeModal = () => {
     setOpenModal(false);
   };
@@ -97,25 +107,42 @@ export function Tabla() {
         <tbody>{tableRows}</tbody>
       </table>
       <Modal show={openModal} position={modalPlacement} onClose={closeModal}>
-        <Modal.Header>Small modal</Modal.Header>
-        <Modal.Body>
-          <div className="space-y-6 p-6">
-            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              With less than a month to go before the European Union enacts new consumer privacy laws for its citizens,
-              companies around the world are updating their terms of service agreements to comply.
-            </p>
-            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on May 25 and is meant
-              to ensure a common set of data rights in the European Union. It requires organizations to notify users as
-              soon as possible of high-risk data breaches that could personally affect them.
-            </p>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={closeModal}>I accept</Button>
-          <Button color="gray" onClick={closeModal}>Decline</Button>
-        </Modal.Footer>
-      </Modal>
+      <Modal.Header>Añadir usuario</Modal.Header>
+      <Modal.Body>
+      <div className="bg-gray-100 rounded-lg shadow-md p-8 space-y-6">
+  <form>
+    <div className="flex flex-col">
+      <label htmlFor="id" className="text-gray-700">ID:</label>
+      <input type="text" id="id" name="id" required className="mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500" />
+    </div>
+    <div className="flex flex-col">
+      <label htmlFor="nombre" className="text-gray-700">Nombre:</label>
+      <input type="text" id="nombre" name="nombre" required className="mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500" />
+    </div>
+    <div className="flex flex-col">
+      <label htmlFor="contraseña" className="text-gray-700">Contraseña:</label>
+      <input type="password" id="contraseña" name="contraseña" required className="mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500" />
+    </div>
+    <div className="flex flex-col">
+      <label htmlFor="apellido" className="text-gray-700">Apellido:</label>
+      <input type="text" id="apellido" name="apellido" required className="mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500" />
+    </div>
+    <div className="flex flex-col">
+      <label htmlFor="email" className="text-gray-700">Email:</label>
+      <input type="email" id="email" name="email" required className="mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500" />
+    </div>
+    <div className="flex flex-col">
+      <label htmlFor="telefono" className="text-gray-700">Teléfono:</label>
+      <input type="tel" id="telefono" name="telefono" required className="mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500" />
+    </div>
+  </form>
+</div>
+
+      </Modal.Body>
+      <Modal.Footer>
+        <Button onClick={closeModal}>Cancelar</Button>
+      </Modal.Footer>
+    </Modal>
     </div>
   );
 }
