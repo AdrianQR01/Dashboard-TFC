@@ -9,7 +9,7 @@ export function ModalGeneral() {
   return (
     <>
       <div className="flex flex-wrap gap-4">
-        <Button onClick={() => setOpenModal(true)}>Toggle modal</Button>
+        <Button onClick={() => setOpenModal(true)}>+</Button>
       </div>
       <Modal
         show={openModal}

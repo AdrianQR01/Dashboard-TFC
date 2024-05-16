@@ -4,9 +4,20 @@ import { Modal, Button } from "flowbite-react";
 export function Tabla() {
   const [openModal, setOpenModal] = useState(false);
   const [modalPlacement, setModalPlacement] = useState('center');
+  const [selectAllChecked, setSelectAllChecked] = useState(false);
 
   const closeModal = () => {
     setOpenModal(false);
+  };
+
+  const handleSelectAllChange = () => {
+    setSelectAllChecked(!selectAllChecked);
+  };
+
+  const handleIndividualChange = () => {
+    if (!selectAllChecked) {
+
+    }
   };
 
   const data = [
@@ -23,7 +34,18 @@ export function Tabla() {
       <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
         <thead>
           <tr className="bg-gray-50 dark:bg-gray-700">
-            <th className="w-4 p-4"></th>
+            <th className="w-4 p-4">
+              <div className="flex items-center">
+                <input
+                  id="checkbox-table-title"
+                  type="checkbox"
+                  className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                  checked={selectAllChecked}
+                  onChange={handleSelectAllChange}
+                />
+                <label htmlFor="checkbox-table-title" className="sr-only">checkbox</label>
+              </div>
+            </th>
             <th className="px-6 py-4">Product Name</th>
             <th className="px-6 py-4">Color</th>
             <th className="px-6 py-4">Category</th>
@@ -40,6 +62,8 @@ export function Tabla() {
                     id={`checkbox-table-${item.id}`}
                     type="checkbox"
                     className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                    checked={selectAllChecked ? true : undefined} // Si selectAllChecked es true, marca todos los checkboxes, de lo contrario, deja el estado indefinido
+                    onChange={handleIndividualChange} // Usa una función diferente para el cambio de estado individual
                   />
                   <label htmlFor={`checkbox-table-${item.id}`} className="sr-only">checkbox</label>
                 </div>
@@ -49,7 +73,6 @@ export function Tabla() {
               <td className="px-6 py-4">{item.category}</td>
               <td className="px-6 py-4">{item.price}</td>
               <td className="px-6 py-4">
-                {/* Botón Edit para abrir el modal */}
                 <button
                   onClick={() => {
                     setOpenModal(true);
