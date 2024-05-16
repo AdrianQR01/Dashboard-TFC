@@ -97,7 +97,7 @@ export default function Navbar() {
                         </button>
                     </div>
                     <div className="sm:block hidden">
-                        <img src="../logo.jpg" alt="Logo de DashboardTFC" width={140} className="mx-auto"
+                        <img src="../logo_principal.jpg" alt="Logo de DashboardTFC" width={140} className="mx-auto"
                             style={{
                                 filter: 'drop-shadow(0 0 5px rgba(0, 0, 0, .5))',
                                 maskImage: 'radial-gradient(circle at center, black 20%, transparent 99%)'

@@ -7,7 +7,7 @@ export default function Login() {
     return (
         <div className="2xl:container h-screen m-auto">
             <div hidden className="fixed inset-0 w-7/12 lg:block">
-                <img src="../fondo_login.jpg" className="w-full h-full object-cover" alt="logo" />
+                <img src="../fondo_login.jpg" className="w-full h-full object-cover" alt="background login" />
             </div>
             <div hidden role="hidden" className="fixed inset-0 w-6/12 ml-auto bg-white bg-opacity-70 backdrop-blur-3xl lg:block"></div>
             <div className="relative h-full ml-auto lg:w-6/12 overflow-hidden">
@@ -15,7 +15,7 @@ export default function Login() {
                     <div className="space-y-6">
                         <a href="">
                             <img
-                                src="../logo.jpg"
+                                src="../logo_principal.jpg"
                                 className="w-40"
                                 alt="logo"
                                 style={{
