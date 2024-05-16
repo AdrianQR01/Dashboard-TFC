@@ -2,7 +2,7 @@
 import { Button, Modal, Select } from "flowbite-react";
 import { useState } from "react";
 
-export function ModalAdd() {
+export function ModalGeneral() {
   const [openModal, setOpenModal] = useState(false);
   const [modalPlacement, setModalPlacement] = useState('center')
 
