@@ -1,26 +1,38 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { Modal, Button } from "flowbite-react";
+
+interface Item {
+  id: number;
+  productName: string;
+  color: string;
+  category: string;
+  price: string;
+}
 
 export function Tabla() {
   const [openModal, setOpenModal] = useState(false);
-  const [modalPlacement, setModalPlacement] = useState('center');
-  const [selectAllChecked, setSelectAllChecked] = useState(false);
+  const [modalPlacement] = useState('center');
+  const [selectedItems, setSelectedItems] = useState<number[]>([]);
+
+  const handleToggleSelectAll = () => {
+    setSelectedItems(selectedItems.length === data.length ? [] : data.map(item => item.id));
+  };
+
+  const handleToggleSelectItem = (id: number) => {
+    setSelectedItems(prevSelected => {
+      if (prevSelected.includes(id)) {
+        return prevSelected.filter(itemId => itemId !== id);
+      } else {
+        return [...prevSelected, id];
+      }
+    });
+  };
 
   const closeModal = () => {
     setOpenModal(false);
   };
 
-  const handleSelectAllChange = () => {
-    setSelectAllChecked(!selectAllChecked);
-  };
-
-  const handleIndividualChange = () => {
-    if (!selectAllChecked) {
-
-    }
-  };
-
-  const data = [
+  const data: Item[] = [
     { id: 1, productName: 'Apple MacBook Pro 17"', color: 'Silver', category: 'Laptop', price: '$2999' },
     { id: 2, productName: 'Microsoft Surface Pro', color: 'White', category: 'Laptop PC', price: '$1999' },
     { id: 3, productName: 'Magic Mouse 2', color: 'Black', category: 'Accessories', price: '$99' },
@@ -28,6 +40,35 @@ export function Tabla() {
     { id: 5, productName: 'iPad', color: 'Gold', category: 'Tablet', price: '$699' },
     { id: 6, productName: 'Apple iMac 27"', color: 'Silver', category: 'PC Desktop', price: '$3999' },
   ];
+
+  const tableRows = data.map(item => (
+    <tr key={item.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
+      <td className="w-4 p-4">
+        <div className="flex items-center">
+          <input
+            id={`checkbox-table-${item.id}`}
+            type="checkbox"
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+            checked={selectedItems.includes(item.id)}
+            onChange={() => handleToggleSelectItem(item.id)}
+          />
+          <label htmlFor={`checkbox-table-${item.id}`} className="sr-only">checkbox</label>
+        </div>
+      </td>
+      <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{item.productName}</td>
+      <td className="px-6 py-4">{item.color}</td>
+      <td className="px-6 py-4">{item.category}</td>
+      <td className="px-6 py-4">{item.price}</td>
+      <td className="px-6 py-4">
+        <button
+          onClick={() => setOpenModal(true)}
+          className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
+        >
+          Edit
+        </button>
+      </td>
+    </tr>
+  ));
 
   return (
     <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
@@ -40,8 +81,8 @@ export function Tabla() {
                   id="checkbox-table-title"
                   type="checkbox"
                   className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                  checked={selectAllChecked}
-                  onChange={handleSelectAllChange}
+                  checked={selectedItems.length === data.length}
+                  onChange={handleToggleSelectAll}
                 />
                 <label htmlFor="checkbox-table-title" className="sr-only">checkbox</label>
               </div>
@@ -53,45 +94,9 @@ export function Tabla() {
             <th className="px-6 py-4">Actions</th>
           </tr>
         </thead>
-        <tbody>
-          {data.map((item) => (
-            <tr key={item.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <td className="w-4 p-4">
-                <div className="flex items-center">
-                  <input
-                    id={`checkbox-table-${item.id}`}
-                    type="checkbox"
-                    className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-                    checked={selectAllChecked ? true : undefined} // Si selectAllChecked es true, marca todos los checkboxes, de lo contrario, deja el estado indefinido
-                    onChange={handleIndividualChange} // Usa una función diferente para el cambio de estado individual
-                  />
-                  <label htmlFor={`checkbox-table-${item.id}`} className="sr-only">checkbox</label>
-                </div>
-              </td>
-              <td className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">{item.productName}</td>
-              <td className="px-6 py-4">{item.color}</td>
-              <td className="px-6 py-4">{item.category}</td>
-              <td className="px-6 py-4">{item.price}</td>
-              <td className="px-6 py-4">
-                <button
-                  onClick={() => {
-                    setOpenModal(true);
-                  }}
-                  className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
-                >
-                  Edit
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
+        <tbody>{tableRows}</tbody>
       </table>
-      {/* Renderiza el modal */}
-      <Modal
-        show={openModal}
-        position={modalPlacement}
-        onClose={closeModal}
-      >
+      <Modal show={openModal} position={modalPlacement} onClose={closeModal}>
         <Modal.Header>Small modal</Modal.Header>
         <Modal.Body>
           <div className="space-y-6 p-6">
@@ -108,11 +113,9 @@ export function Tabla() {
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={closeModal}>I accept</Button>
-          <Button color="gray" onClick={closeModal}>
-            Decline
-          </Button>
+          <Button color="gray" onClick={closeModal}>Decline</Button>
         </Modal.Footer>
       </Modal>
     </div>
-  );  
+  );
 }
