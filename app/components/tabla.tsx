@@ -109,24 +109,28 @@ export const Tabla = React.memo(() => {
         </table>
       </div>
       <Modal show={openModal} position={modalPlacement} onClose={closeModal}>
-        <Modal.Header>{isEditMode ? 'Editar Usuario' : 'Añadir Usuario'}</Modal.Header>
-        <Modal.Body>
-          <div className="bg-gray-100 rounded-md shadow-md p-8 space-y-6">
-            <form>
-              {labels.map(label => (
-                <div key={label} className="flex flex-col">
-                  <label htmlFor={label.toLowerCase()} className="text-gray-700 capitalize">{label}:</label>
-                  <input type={label.toLowerCase() === 'contraseña' ? 'password' : 'text'} id={label.toLowerCase()} name={label.toLowerCase()} required className="mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500" />
-                </div>
-              ))}
-            </form>
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={closeModal}>Cancelar</Button>
-          <Button onClick={closeModal}>Guardar</Button>
-        </Modal.Footer>
-      </Modal>
+  <Modal.Header>{isEditMode ? 'Editar Usuario' : 'Añadir Usuario'}</Modal.Header>
+  <Modal.Body>
+    <div className="bg-gray-100 rounded-md shadow-md p-8 space-y-6">
+      <form>
+        <div className="grid grid-cols-2 gap-4">
+          {labels.map((label, index) => (
+            <div key={label} className="flex flex-col">
+              {/*<label htmlFor={label.toLowerCase()} className="text-gray-700 capitalize">{label}:</label>*/}
+              <input type={label.toLowerCase() === 'contraseña' ? 'password' : 'text'} id={label.toLowerCase()} name={label.toLowerCase()} required className="mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500" placeholder={label}/>
+            </div>
+          ))}
+        </div>
+      </form>
+    </div>
+  </Modal.Body>
+  <Modal.Footer>
+    <Button onClick={closeModal}>Cancelar</Button>
+    <Button onClick={closeModal}>Guardar</Button>
+  </Modal.Footer>
+</Modal>
+
+
     </>
   );
 });
