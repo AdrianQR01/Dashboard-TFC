@@ -50,8 +50,8 @@ export const Tabla = React.memo(() => {
     <>
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <div className="flex justify-between p-4">
-          <h1 className="text-lg font-semibold">Lista de Productos</h1>
-          <Button onClick={openAddUserModal}>Añadir Usuario</Button>
+          <h1 className="text-lg font-semibold">Clientes</h1>
+          <Button onClick={openAddUserModal}>Añadir Cliente</Button>
         </div>
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead>
