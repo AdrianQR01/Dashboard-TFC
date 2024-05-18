@@ -26,7 +26,6 @@ export default function Login() {
                         </a>
                         <p className="font-medium text-lg text-gray-600">Bienvenido! {isSignUpPage ? 'Completa tu registro con este formulario' : 'Inicia con...'}</p>
                     </div>
-
                     <Outlet/>
                 </div>
             </div>
