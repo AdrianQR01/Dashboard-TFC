@@ -5,7 +5,7 @@ import RadialChart from '~/components/radialchart'
 export default function Entradas() {
     return (
         <div>
-            <div >
+            <div className=' bg-slate-500'>
                 <ChartTickets/>
             </div>
             

@@ -47,24 +47,84 @@ export default function ChartTickets() {
             }
         }
     }
+    // Opciones para el gráfico de Entradas Vendidas
+    const optionsVendidas = {
+        series: [{
+            name: 'Entradas Vendidas',
+            data: [30, 40, 45, 50, 49, 60, 70, 91]
+        }],
+        chart: {
+            type: 'bar',
+            height: 350
+        },
+        plotOptions: {
+            bar: {
+                horizontal: false,
+                columnWidth: '55%',
+                endingShape: 'rounded'
+            }
+        },
+        dataLabels: {
+            enabled: false
+        },
+        stroke: {
+            show: true,
+            width: 2,
+            colors: ['transparent']
+        },
+        xaxis: {
+            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug']
+        },
+        yaxis: {
+            title: {
+                text: 'Cantidad'
+            }
+        },
+        fill: {
+            opacity: 1
+        },
+        tooltip: {
+            y: {
+                formatter: function (val: number) {
+                    return val + " entradas";
+                }
+            }
+        }
+    }
+    
     return !Chart
         ? (
             <></>
         )
         : (
-            <div className='flex flex-row items-center border px-4 rounded-xl'> {/* Utiliza flex-col para alinear los elementos verticalmente */}
-                <div className='flex-col mb-6'>
-                    <h1 className='text-2xl font-bold dark:text-white'>Entradas totales</h1> {/* Agrega un margen inferior para separar el texto del gráfico */}
-                    <h3 className='text-lg dark:text-white'>Precio total: 2000$</h3> {/* Agrega un margen inferior para separar el texto del gráfico */}
+            <div className='flex flex-row items-center'>
+                <div className='border px-4 rounded-xl'>
+                    <div className='flex-col mb-6'>
+                        <h1 className='text-2xl font-bold dark:text-white'>Entradas totales</h1>
+                        <h3 className='text-lg dark:text-white'>Precio total: 2000$</h3>
 
+                    </div>
+                    <div className="w-32 pl-6 mt-2">
+                        <Chart
+                            type={options.chart.type}
+                            options={options}
+                            series={options.series}
+                            height="150"
+                            width="100"
+                        />
+                    </div>
                 </div>
-                <div className="w-32 pl-6 mt-2"> {/* Asegúrate de que el gráfico ocupe todo el ancho */}
-                    <Chart
-                        type={options.chart.type}
-                        options={options}
-                        series={options.series}
-                        height="150"
-                    />
+
+                <div className='border px-4 rounded-xl'>
+                    <h1 className='text-2xl font-bold dark:text-white'>Entradas Vendidas</h1>
+                    <div className="w-64 pl-6 mt-2">
+                        <Chart
+                            type={optionsVendidas.chart.type}
+                            options={optionsVendidas}
+                            series={optionsVendidas.series}
+                            height="160"
+                        />
+                    </div>
                 </div>
             </div>
         )
