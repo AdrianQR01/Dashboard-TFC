@@ -1,4 +1,4 @@
-import { Button, Modal } from "flowbite-react";
+import { Button, Modal, Dropdown } from "flowbite-react";
 import { useState, useCallback } from 'react';
 import React from 'react';
 
@@ -77,7 +77,12 @@ export default function Tabla() {
       <div className="relative overflow-x-auto shadow-md sm:rounded-lg">
         <div className="flex justify-between p-4">
           <h1 className="text-lg font-semibold">Clientes</h1>
-          <Button onClick={openAddUserModal}>Añadir Cliente</Button>
+          <div className="flex">
+            <Dropdown label="Action" dismissOnClick={false}>
+              <Dropdown.Item>Borrar todos</Dropdown.Item>
+            </Dropdown>
+            <Button onClick={openAddUserModal} className="ml-4">Añadir Cliente</Button>
+          </div>
         </div>
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead>
@@ -99,6 +104,7 @@ export default function Tabla() {
               <th className="px-6 py-4">Apellido</th>
               <th className="px-6 py-4">Email</th>
               <th className="px-6 py-4">Telefono</th>
+              <th className="px-6 py-4"></th>
             </tr>
           </thead>
           <tbody>
@@ -137,7 +143,8 @@ export default function Tabla() {
       <Modal show={openModal} position={modalPlacement} onClose={closeModal}>
         <Modal.Header>{isEditMode ? 'Editar Usuario' : 'Añadir Usuario'}</Modal.Header>
         <Modal.Body>
-          <div className="bg-gray-100 rounded-md shadow-md p-8 space-y-6">
+         
+        <div className="bg-gray-100 rounded-md shadow-md p-8 space-y-6">
             <form>
               {isEditMode && selectedItem && (
                 <div className="mb-4">
