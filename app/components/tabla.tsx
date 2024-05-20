@@ -2,7 +2,6 @@ import { Button, Modal } from "flowbite-react";
 import { useState, useCallback } from 'react';
 import React from 'react';
 
-
 interface Item {
   id: number;
   nombre: string;
@@ -11,13 +10,28 @@ interface Item {
   telefono: string;
 }
 
-const labels = ['ID', 'Nombre', 'Apellido', 'Email', 'Teléfono'];
+const labels = ['Nombre', 'Apellido', 'Email', 'Teléfono'];
+const labelToPropMap: { [key: string]: keyof Item } = {
+  'Nombre': 'nombre',
+  'Apellido': 'apellido',
+  'Email': 'email',
+  'Teléfono': 'telefono',
+};
 
-export default function Tabla(){
+export default function Tabla() {
   const [openModal, setOpenModal] = useState(false);
   const [modalPlacement] = useState('center');
   const [selectedItems, setSelectedItems] = useState<number[]>([]);
   const [isEditMode, setIsEditMode] = useState(false);
+  const [selectedItem, setSelectedItem] = useState<Item | null>(null);
+  const [data, setData] = useState<Item[]>([
+    { id: 1, nombre: 'Apple MacBook Pro 17"', apellido: 'Silver', email: 'Laptop', telefono: '+34 5454346' },
+    { id: 2, nombre: 'Microsoft Surface Pro', apellido: 'White', email: 'Laptop PC', telefono: '+34 5454346' },
+    { id: 3, nombre: 'Magic Mouse 2', apellido: 'Black', email: 'Accessories', telefono: '+34 5454346' },
+    { id: 4, nombre: 'Apple Watch', apellido: 'Silver', email: 'Accessories', telefono: '+34 5454346' },
+    { id: 5, nombre: 'iPad', apellido: 'Gold', email: 'Tablet', telefono: '+34 5454346' },
+    { id: 6, nombre: 'Apple iMac 27"', apellido: 'Silver', email: 'PC Desktop', telefono: '+34 5454346' },
+  ]);
 
   const handleToggleSelectAll = () => {
     setSelectedItems(selectedItems.length === data.length ? [] : data.map(item => item.id));
@@ -34,17 +48,29 @@ export default function Tabla(){
   }, [setSelectedItems]);
 
   const closeModal = () => setOpenModal(false);
-  const openAddUserModal = () => { setIsEditMode(false); setOpenModal(true); };
-  const openEditUserModal = () => { setIsEditMode(true); setOpenModal(true); };
 
-  const data: Item[] = [
-    { id: 1, nombre: 'Apple MacBook Pro 17"', apellido: 'Silver', email: 'Laptop', telefono: '+34 5454346' },
-    { id: 2, nombre: 'Microsoft Surface Pro', apellido: 'White', email: 'Laptop PC', telefono: '+34 5454346' },
-    { id: 3, nombre: 'Magic Mouse 2', apellido: 'Black', email: 'Accessories', telefono: '+34 5454346' },
-    { id: 4, nombre: 'Apple Watch', apellido: 'Silver', email: 'Accessories', telefono: '+34 5454346' },
-    { id: 5, nombre: 'iPad', apellido: 'Gold', email: 'Tablet', telefono: '+34 5454346' },
-    { id: 6, nombre: 'Apple iMac 27"', apellido: 'Silver', email: 'PC Desktop', telefono: '+34 5454346' },
-  ];
+  const openAddUserModal = () => {
+    setIsEditMode(false);
+    setSelectedItem({ id: data.length + 1, nombre: '', apellido: '', email: '', telefono: '' });
+    setOpenModal(true);
+  };
+
+  const openEditUserModal = (item: Item) => {
+    setIsEditMode(true);
+    setSelectedItem(item);
+    setOpenModal(true);
+  };
+
+  const handleSave = () => {
+    if (selectedItem) {
+      if (isEditMode) {
+        setData(prevData => prevData.map(item => item.id === selectedItem.id ? selectedItem : item));
+      } else {
+        setData(prevData => [...prevData, selectedItem]);
+      }
+      closeModal();
+    }
+  };
 
   return (
     <>
@@ -97,7 +123,7 @@ export default function Tabla(){
                 <td className="px-6 py-4">{item.telefono}</td>
                 <td className="px-6 py-4">
                   <button
-                    onClick={openEditUserModal}
+                    onClick={() => openEditUserModal(item)}
                     className="font-medium text-blue-600 dark:text-blue-500 hover:underline"
                   >
                     Edit
@@ -113,11 +139,29 @@ export default function Tabla(){
         <Modal.Body>
           <div className="bg-gray-100 rounded-md shadow-md p-8 space-y-6">
             <form>
+              {isEditMode && selectedItem && (
+                <div className="mb-4">
+                  <p className="text-gray-700"><strong>ID:</strong> {selectedItem.id}</p>
+                </div>
+              )}
               <div className="grid grid-cols-2 gap-4">
-                {labels.map((label, index) => (
+                {labels.map((label) => (
                   <div key={label} className="flex flex-col">
-                    {/*<label htmlFor={label.toLowerCase()} className="text-gray-700 capitalize">{label}:</label>*/}
-                    <input type={label.toLowerCase() === 'contraseña' ? 'password' : 'text'} id={label.toLowerCase()} name={label.toLowerCase()} required className="mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500" placeholder={label}/>
+                    <label htmlFor={label.toLowerCase()} className="text-gray-700 capitalize">{label}:</label>
+                    <input
+                      type={label.toLowerCase() === 'contraseña' ? 'password' : 'text'}
+                      id={label.toLowerCase()}
+                      name={label.toLowerCase()}
+                      required
+                      className="mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500"
+                      placeholder={label}
+                      value={selectedItem ? selectedItem[labelToPropMap[label]] || '' : ''}
+                      onChange={(e) => {
+                        if (selectedItem) {
+                          setSelectedItem({ ...selectedItem, [labelToPropMap[label]]: e.target.value });
+                        }
+                      }}
+                    />
                   </div>
                 ))}
               </div>
@@ -126,10 +170,9 @@ export default function Tabla(){
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={closeModal}>Cancelar</Button>
-          <Button onClick={closeModal}>Guardar</Button>
+          <Button onClick={handleSave}>Guardar</Button>
         </Modal.Footer>
       </Modal>
     </>
   );
-};
-
+}
