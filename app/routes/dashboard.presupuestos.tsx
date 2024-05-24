@@ -1,8 +1,6 @@
 // app/routes/presupuestos.tsx
 import Tabla from '~/components/tabla';
 import { Tabs } from "flowbite-react";
-import { HiAdjustments, HiClipboardList, HiUserCircle } from "react-icons/hi";
-import { MdDashboard } from "react-icons/md";
 import LineChart from '~/components/linechart';
 
 export default function Presupuestos() {
