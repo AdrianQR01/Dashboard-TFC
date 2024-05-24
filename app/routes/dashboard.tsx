@@ -21,7 +21,6 @@ export default function Dashboard() {
   console.log(userData)
   return (
     <div className="flex flex-col sm:flex-row-reverse h-screen overflow-hidden p-5">
-
       <div className='flex flex-grow sm:h-full h-96 bg-slate-200 relative right-0'>
         {/* h-5/6 */}
         <main className='max-h-screen overflow-y-auto'>
