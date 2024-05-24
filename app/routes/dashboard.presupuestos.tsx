@@ -1,22 +1,22 @@
 // app/routes/presupuestos.tsx
 import Tabla from '~/components/tabla';
-import { Tabs } from "flowbite-react";
+import { Tabs } from 'flowbite-react';
 import LineChart from '~/components/linechart';
 
 export default function Presupuestos() {
   return (
     <div className="container mx-auto px-4">
       <h1 className="text-2xl font-bold mt-4">EventCo Summit 2023</h1>
-      <Tabs aria-label="Tabs with underline" style="underline">
+      <Tabs aria-label="Presupuesto Tabs" style="underline">
         <Tabs.Item title="Gastos">
-          This is <span className="font-medium text-gray-800 dark:text-white">Dashboard tab's associated content</span>.
-          Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
-          control the content visibility and styling.
+          <div className="font-medium text-gray-800 dark:text-white">
+            Contenido asociado a la pestaña de Gastos.
+          </div>
         </Tabs.Item>
         <Tabs.Item title="Ingresos">
-          This is <span className="font-medium text-gray-800 dark:text-white">Settings tab's associated content</span>.
-          Clicking another tab will toggle the visibility of this one for the next. The tab JavaScript swaps classes to
-          control the content visibility and styling.
+          <div className="font-medium text-gray-800 dark:text-white">
+            Contenido asociado a la pestaña de Ingresos.
+          </div>
         </Tabs.Item>
       </Tabs>
       <div className="mt-6">
