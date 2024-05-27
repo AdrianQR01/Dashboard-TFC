@@ -40,7 +40,7 @@ export default function ColumnChart() {
     ],
     chart: {
       type: 'bar',
-      height: '320px',
+      height: '100%',
       fontFamily: 'Inter, sans-serif',
       toolbar: {
         show: false
