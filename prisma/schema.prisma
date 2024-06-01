@@ -15,48 +15,73 @@ model Usuario {
   password     String        
 }
 
-model Cliente {
-  id           String        @id @default(auto()) @map("_id") @db.ObjectId
-  nombre       String
-  apellido     String
-  email        String        @unique
-  profile_pic  String
-  telefono     String
-  eventos      Evento[]
-  presupuestos Presupuesto[]
+model Evento {
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  nombre          String
+  fecha           DateTime
+  ubicacion       String
+  descripcion     String?
+  servicios       Servicio[]
+  presupuesto     Presupuesto?
+  ordenesDeEntrada OrdenDeEntrada[]
+  clientesEventos ClienteEvento[]
+  entradas        Entrada[]
 }
 
-model Presupuesto {
-  id        String  @id @default(auto()) @map("_id") @db.ObjectId
-  cantidad  Float
-  cliente   Cliente @relation(fields: [clienteId], references: [id])
-  clienteId String  @db.ObjectId
+model Cliente {
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  nombre          String
+  apellido        String
+  email           String         @unique
+  telefono        String?
+  clienteEventos  ClienteEvento[]
+  ordenesDeEntrada OrdenDeEntrada[]
 }
 
 model Servicio {
-  id          String @id @default(auto()) @map("_id") @db.ObjectId
-  nombre      String
-  descripcion String
-  precio      String
-  evento      Evento @relation(fields: [eventoId], references: [id])
-  eventoId    String @db.ObjectId
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  nombre          String
+  descripcion     String?
+  costo           Float
+  eventoId        String         @db.ObjectId
+  evento          Evento         @relation(fields: [eventoId], references: [id])
 }
 
-model Evento {
-  id            String     @id @default(auto()) @map("_id") @db.ObjectId
-  nombre        String
-  fecha         DateTime
-  aforoMaximo   Int
-  precioEntrada Float
-  cliente       Cliente    @relation(fields: [clienteId], references: [id])
-  clienteId     String     @db.ObjectId
-  servicio      Servicio[]
-  artista       Artista[]
+model Presupuesto {
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  cantidad        Float
+  moneda          String
+  eventoId        String         @db.ObjectId @unique
+  evento          Evento         @relation(fields: [eventoId], references: [id])
 }
 
-model Artista {
-  id       String @id @default(auto()) @map("_id") @db.ObjectId
-  nombre   String
-  evento   Evento @relation(fields: [eventoId], references: [id])
-  eventoId String @db.ObjectId
+model OrdenDeEntrada {
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  cantidad        Int
+  precio          Float
+  clienteId       String         @db.ObjectId
+  cliente         Cliente        @relation(fields: [clienteId], references: [id])
+  eventoId        String         @db.ObjectId
+  evento          Evento         @relation(fields: [eventoId], references: [id])
+  entradas        Entrada[]
+}
+
+model Entrada {
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  numero          String
+  precio          Float
+  ordenDeEntradaId String         @db.ObjectId
+  ordenDeEntrada OrdenDeEntrada  @relation(fields: [ordenDeEntradaId], references: [id])
+  eventoId        String         @db.ObjectId
+  evento          Evento         @relation(fields: [eventoId], references: [id])
+}
+
+model ClienteEvento {
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  clienteId       String         @db.ObjectId
+  eventoId        String         @db.ObjectId
+  cliente         Cliente        @relation(fields: [clienteId], references: [id])
+  evento          Evento         @relation(fields: [eventoId], references: [id])
+
+  @@index([clienteId, eventoId], name: "cliente_evento_idx")
 }
