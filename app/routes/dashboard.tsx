@@ -1,15 +1,20 @@
-import { Outlet } from '@remix-run/react'
-import Navbar from '../components/navbar'
-import { ActionFunctionArgs, LoaderFunctionArgs, json } from "@remix-run/node"
-import { useLoaderData } from "@remix-run/react"
-import { db } from "../services/index.js"
-import { authenticator } from '~/services/auth.server'
+import { Outlet, useMatches } from "@remix-run/react";
+import Sidebar from "./components/Sidebar";
+import type { LoaderFunctionArgs, ActionFunctionArgs, MetaFunction } from "@remix-run/node";
+import { authenticator } from "~/services/auth.server";
+
+export const meta: MetaFunction = () => {
+  return [
+      { title: 'Vista General' },
+      { name: 'description', content: 'This is the login page' }
+  ]
+}
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
   const user = await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   })
-  return {email:user.email, name:user.name, surname:user.surname}
+  return { email: user.email, name: user.name, surname: user.surname }
 };
 
 export async function action({ request }: ActionFunctionArgs) {
@@ -17,20 +22,18 @@ export async function action({ request }: ActionFunctionArgs) {
 }
 
 export default function Dashboard() {
-  const userData = useLoaderData<typeof loader>();
-  console.log(userData)
+  const matches = useMatches();
+  const actual_url = matches[2].id.split('.')[1]
+  const isIndexPage = actual_url.includes('_index');
   return (
-    <div className="flex flex-col sm:flex-row-reverse h-screen overflow-hidden p-5">
-      <div className='flex flex-grow sm:h-full h-96 bg-slate-200 relative right-0'>
-        {/* h-5/6 */}
-        <main className='max-h-screen overflow-y-auto'>
-          <Outlet />
-
-        </main>
+    <div className="w-full h-dvh flex flex-col-reverse items-center p-4 overflow-hidden sm:flex-row sm:h-screen">
+      <div className="relative pr-3.5 z-auto top-2 sm:static sm:h-full">
+        <Sidebar />
       </div>
-      <nav className="border bg-white sm:max-w-48 min-w-48 space-y-8 shadow-lg rounded-md container">
-        <Navbar />
-      </nav>
+      <div className="flex-1 w-full h-full overflow-x-auto rounded-3xl border relative">
+        <h1 className="text-3xl pl-8 pt-4">{isIndexPage ? 'Vista General' : actual_url.charAt(0).toUpperCase() + actual_url.slice(1)}</h1>
+        <Outlet />
+      </div>
     </div>
   )
 }

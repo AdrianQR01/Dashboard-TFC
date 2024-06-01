@@ -1,6 +1,5 @@
-import type { LoaderFunctionArgs } from "@remix-run/node";
+import type { LoaderFunctionArgs , ActionFunctionArgs, MetaFunction } from "@remix-run/node";
 import { Form, Link } from "@remix-run/react";
-import type { ActionFunctionArgs, MetaFunction } from '@remix-run/node'
 import { authenticator } from "~/services/auth.server";
 
 export const meta: MetaFunction = () => {
@@ -9,7 +8,6 @@ export const meta: MetaFunction = () => {
         { name: 'description', content: 'This is the login page' }
     ]
 }
-
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
     return await authenticator.isAuthenticated(request, {
@@ -47,7 +45,7 @@ export default function LoginIndex() {
                 </button>
             </div>
 
-            <div role="hidden" className="mt-8 border-t">
+            <div className="mt-8 border-t">
                 <span className="block w-max mx-auto -mt-3 px-4 text-center text-gray-500 bg-white">&</span>
             </div>
 
@@ -74,8 +72,8 @@ export default function LoginIndex() {
                 </div>
 
                 <div>
-                    <button type="submit" className="w-full px-6 py-3 rounded-xl bg-sky-500 transition hover:bg-sky-600 focus:bg-sky-600 active:bg-sky-800">
-                        <span className="font-semibold text-white text-lg">Inicia sesión</span>
+                    <button type="submit" className="w-full px-6 py-3 rounded-xl bg-[#00ebc7] transition hover:bg-sky-600 focus:bg-sky-600 active:bg-sky-800">
+                        <span className="font-semibold text-[#00214d] text-lg">Inicia sesión</span>
                     </button>
                     <Link to="/login/signup" className="w-max p-3 -ml-3">
                         <span className="text-sm tracking-wide text-blue-600">No tienes cuenta? Registrate</span>

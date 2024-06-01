@@ -117,8 +117,8 @@ export default function ColumnChart() {
       <></>
     )
     : (
-      <div className="max-w-sm w-full bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
-        <div className="flex justify-between pb-4 mb-4 border-b border-gray-200 dark:border-gray-700">
+      <div className="max-w-sm bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+        <div className="flex content-center justify-between pb-4 mb-4 border-b border-gray-200 dark:border-gray-700">
           <div className="flex items-center">
             <div className="w-12 h-12 rounded-lg bg-gray-100 dark:bg-gray-700 flex items-center justify-center me-3">
               <svg className="w-6 h-6 text-gray-500 dark:text-gray-400" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 19">
@@ -128,7 +128,7 @@ export default function ColumnChart() {
             </div>
             <div>
               <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-1">3.4k</h5>
-              <p className="text-sm font-normal text-gray-500 dark:text-gray-400">Leads generated per week</p>
+              <p className="text-sm font-normal text-gray-500 dark:text-gray-400">Ventas realizadas por semana</p>
             </div>
           </div>
           <div>
@@ -143,11 +143,11 @@ export default function ColumnChart() {
 
         <div className="grid grid-cols-2">
           <dl className="flex items-center">
-            <dt className="text-gray-500 dark:text-gray-400 text-sm font-normal me-1">Money spent:</dt>
+            <dt className="text-gray-500 dark:text-gray-400 text-sm font-normal me-1">Dinero invertido:</dt>
             <dd className="text-gray-900 text-sm dark:text-white font-semibold">$3,232</dd>
           </dl>
           <dl className="flex items-center justify-end">
-            <dt className="text-gray-500 dark:text-gray-400 text-sm font-normal me-1">Conversion rate:</dt>
+            <dt className="text-gray-500 dark:text-gray-400 text-sm font-normal me-1">Ratio:</dt>
             <dd className="text-gray-900 text-sm dark:text-white font-semibold">1.2%</dd>
           </dl>
         </div>
@@ -164,7 +164,7 @@ export default function ColumnChart() {
               data-dropdown-placement="bottom"
               className="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
               type="button">
-              Last 7 days
+              Ultimos 7 dias
               <svg className="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
               </svg>
@@ -178,7 +178,7 @@ export default function ColumnChart() {
                   <a href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Today</a>
                 </li>
                 <li>
-                  <a href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 7 days</a>
+                  <a href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ultimos 7 dias</a>
                 </li>
                 <li>
                   <a href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 30 days</a>
@@ -191,7 +191,7 @@ export default function ColumnChart() {
             <a
               href="/"
               className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2">
-              Leads Report
+              Reporte de ventas
               <svg className="w-2.5 h-2.5 ms-1.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
               </svg>

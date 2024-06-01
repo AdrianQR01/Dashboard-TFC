@@ -1,10 +1,18 @@
-import type { LoaderFunction } from '@remix-run/node';
-import { redirect } from '@remix-run/node';
+import type { MetaFunction } from "@remix-run/node";
 
-export const loader: LoaderFunction = async () => {
-  return redirect('/login');
-}
+export const meta: MetaFunction = () => {
+  return [
+    { title: "Dashboard TFC" },
+    { name: "description", content: "Bienvenido al mejor dashboard para eventos de 2024!" },
+  ];
+};
 
 export default function Index() {
-  return null;
+  return (
+    // <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
+
+    // </div>
+    <>
+    </>
+  );
 }

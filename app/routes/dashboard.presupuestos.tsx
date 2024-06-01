@@ -1,37 +1,40 @@
-// app/routes/presupuestos.tsx
-import Tabla from '~/components/tabla';
-import { Tabs } from 'flowbite-react';
-import LineChart from '~/components/linechart';
+import TableResponsive from "./components/TableResponsive";
+import AreaChart from "./components/charts/areachart";
+import ColumnChart from "./components/charts/columnchart";
+import PieChart from "./components/charts/piechart";
+import { MetaFunction, Outlet } from '@remix-run/react'
+
+export const meta: MetaFunction = () => {
+    return [
+        { title: 'Presupuestos' },
+        { name: 'description', content: 'This is the login page' }
+    ]
+}
 
 export default function Presupuestos() {
-  return (
-    <div className="container mx-auto px-4">
-      <h1 className="text-2xl font-bold mt-4">EventCo Summit 2023</h1>
-      <Tabs aria-label="Presupuesto Tabs" style="underline">
-        <Tabs.Item title="Gastos">
-          <div className="font-medium text-gray-800 dark:text-white">
-            Contenido asociado a la pestaña de Gastos.
-          </div>
-        </Tabs.Item>
-        <Tabs.Item title="Ingresos">
-          <div className="font-medium text-gray-800 dark:text-white">
-            Contenido asociado a la pestaña de Ingresos.
-          </div>
-        </Tabs.Item>
-      </Tabs>
-      <div className="mt-6">
-        <h2 className="text-xl font-semibold">Revenue</h2>
-        <div className="bg-white shadow-md rounded-lg p-6 mt-4">
-          <div className="text-lg font-semibold">Revenue</div>
-          <div className="text-2xl">$5,000</div>
-          <div>Sep 20, 2023 - Sep 20, 2023</div>
-          <LineChart />
+    return (
+        <div className="flex flex-col h-fit sm:h-screen w-auto p-4">
+            <Outlet />
+            {/* Top row */}
+            <div className="flex justify-center bg-[#222E3A]/[4%] rounded-lg">
+                <div className="flex flex-col items-center sm:items-start sm:h-fit sm:flex-row overflow-scroll mb-2">
+                    <div className="w-auto sm:w-full">
+                        <div className="m-2 w-[300px]"><PieChart /></div>
+                    </div>
+                    <div className="w-auto sm:w-full">
+                        <div className="m-2 w-[320px]"><AreaChart /></div>
+                    </div>
+                    <div className="w-auto sm:w-full">
+                        <div className="m-2 w-[300px]"><ColumnChart /></div>
+                    </div>
+                </div>
+            </div>
+
+
+            {/* Bottom row */}
+            <div className="flex flex-wrap flex-1">
+                <div className="w-full h-fit"><TableResponsive /></div>
+            </div>
         </div>
-      </div>
-      <div className="mt-6">
-        <h2 className="text-xl font-semibold">Expenses</h2>
-        <Tabla />
-      </div>
-    </div>
-  );
+    )
 }

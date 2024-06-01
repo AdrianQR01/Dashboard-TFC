@@ -1,10 +1,5 @@
-import { Outlet } from '@remix-run/react'
-
-export default function Configuracion() {
+export default function Config() {
     return (
-        <div>
-            <Outlet/>
-            Estas en Configuracion
-        </div>
+        <></>
     )
 }
