@@ -2,7 +2,7 @@ import TableResponsive from "./components/TableResponsive";
 import AreaChart from "./components/charts/areachart";
 import ColumnChart from "./components/charts/columnchart";
 import PieChart from "./components/charts/piechart";
-import { MetaFunction, Outlet } from '@remix-run/react'
+import { Link, MetaFunction, Outlet } from '@remix-run/react'
 import { Button, ButtonGroup } from "flowbite-react";
 
 export const meta: MetaFunction = () => {
@@ -19,9 +19,9 @@ export default function Presupuestos() {
             {/* Top row */}
             <div className="flex justify-center">
                 <ButtonGroup>
-                    <Button color="gray" href="/dashboard/presupuestos">General</Button>
-                    <Button color="gray" href="seguimiento">Seguimiento</Button>
-                    <Button color="gray" href="antiguos">Antiguos</Button>
+                <Link to={'../presupuestos'}><Button color="gray">General</Button></Link>
+                    <Button color="gray"><Link to={'seguimiento'}>Seguimiento</Link></Button>
+                    <Button color="gray"><Link to={'antiguos'}>Antiguos</Link></Button>
                 </ButtonGroup>
             </div>
             <Outlet />
