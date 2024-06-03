@@ -44,54 +44,61 @@ export default function SignUp() {
         <>
             <Form method="post" className="space-y-6 py-6">
                 <div>
+                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">Nombre</label>
                     <input
                         type="text"
-                        name='name'
+                        name="name"
+                        id="name"
                         placeholder="Nombre"
                         className="w-full py-3 px-6 ring-1 ring-gray-300 rounded-xl placeholder-gray-600 bg-transparent transition disabled:ring-gray-200 disabled:bg-gray-100 disabled:placeholder-gray-400 invalid:ring-red-400 focus:invalid:outline-none"
                     />
                 </div>
                 <div>
+                    <label htmlFor="surname" className="block text-sm font-medium text-gray-700">Apellido</label>
                     <input
                         type="text"
-                        name='surname'
+                        name="surname"
+                        id="surname"
                         placeholder="Apellido"
                         className="w-full py-3 px-6 ring-1 ring-gray-300 rounded-xl placeholder-gray-600 bg-transparent transition disabled:ring-gray-200 disabled:bg-gray-100 disabled:placeholder-gray-400 invalid:ring-red-400 focus:invalid:outline-none"
                     />
                 </div>
                 <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
                     <input
                         type="email"
-                        name='email'
+                        name="email"
+                        id="email"
                         placeholder="Email"
                         required
                         className="w-full py-3 px-6 ring-1 ring-gray-300 rounded-xl placeholder-gray-600 bg-transparent transition disabled:ring-gray-200 disabled:bg-gray-100 disabled:placeholder-gray-400 invalid:ring-blue-700 focus:invalid:outline-none"
                     />
                 </div>
-
                 <div className="flex flex-col items-end">
+                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">Contraseña</label>
                     <input
                         type="password"
-                        name='password'
+                        name="password"
+                        id="password"
                         placeholder="Contraseña"
                         required
-                        autoComplete='current-password'
+                        autoComplete="current-password"
                         className="w-full py-3 px-6 ring-1 ring-gray-300 rounded-xl placeholder-gray-600 bg-transparent transition disabled:ring-gray-200 disabled:bg-gray-100 disabled:placeholder-gray-400 invalid:ring-blue-700 focus:invalid:outline-none"
                     />
                     <button type="reset" className="w-max p-3 -mr-3">
-                        <span className="text-sm tracking-wide text-blue-600">Olvidaste tu contraseña ?</span>
+                        <span className="text-sm tracking-wide text-blue-600">Olvidaste tu contraseña?</span>
                     </button>
                 </div>
-
                 <div>
-                    <button type='submit' className="w-full px-6 py-3 rounded-xl bg-sky-500 transition hover:bg-sky-600 focus:bg-sky-600 active:bg-sky-800">
+                    <button type="submit" className="w-full px-6 py-3 rounded-xl bg-sky-500 transition hover:bg-sky-600 focus:bg-sky-600 active:bg-sky-800">
                         <span className="font-semibold text-white text-lg">Registro</span>
                     </button>
                     <Link to="/login" className="w-max p-3 -ml-3">
-                        <span className="text-sm tracking-wide text-blue-600">Ya tienes cuenta? Inicia sesion</span>
+                        <span className="text-sm tracking-wide text-blue-600">Ya tienes cuenta? Inicia sesión</span>
                     </Link>
                 </div>
             </Form>
+
         </>
     )
 }

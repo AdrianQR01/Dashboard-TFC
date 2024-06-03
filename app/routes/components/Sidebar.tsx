@@ -76,21 +76,7 @@ export default function Sidebar() {
     return (
         <div className="h-10 w-full rounded-3xl border border-solid relative sm:h-full sm:w-[12.5rem]">
             <div className="flex flex-row h-full w-auto sm:flex-col duration-200">
-                <div className='h-30 hidden items-center justify-center border border-x-0 border-t-0 border-b-slate-200 drop-shadow shadow-m rounded-t-md sm:flex  '>
-                    <a href='#home' className='flex-none'>
-                        <div className="sm:hidden block">
-                            <button
-                                className="flex items-center gap-x-3 text-gray-600 p-2 rounded-lg hover:bg-gray-50 active:bg-gray-100 duration-150"
-                                key="Menu"
-                            >
-                                <div className="text-gray-500">
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                                        <path stroke="currentColor" strokeLinecap="round" strokeWidth="2" d="M5 7h14M5 12h14M5 17h14" />
-                                    </svg>
-                                </div>
-                            </button>
-                        </div>
-                        <div className="sm:block hidden">
+                <div className='h-30 hidden items-center justify-center border border-x-0 border-t-0 border-b-slate-200 drop-shadow shadow-m rounded-t-md sm:flex  '>                        <div className="sm:block hidden">
                             <img src="../logo_principal.jpg" alt="Logo de DashboardTFC" width={140} className="mx-auto"
                                 style={{
                                     filter: 'drop-shadow(0 0 5px rgba(0, 0, 0, .5))',
@@ -98,7 +84,6 @@ export default function Sidebar() {
                                 }}
                             />
                         </div>
-                    </a>
                 </div>
                 <div className="flex-1 flex flex-row h-full overflow-hidden sm:flex-col">
                     <ul className="text-sm font-medium flex-1 px-1.5 py-1 flex flex-wrap sm:flex-col">
@@ -137,23 +122,25 @@ export default function Sidebar() {
                                     </Link>
                                 </li>
                             ))}
-                            <Form method="post">
-                                <button
-                                    type="submit"
-                                    name="action"
-                                    value="logout"
-                                    className="flex items-center gap-x-4 text-gray-600 p-2 rounded-lg  hover:bg-gray-50 active:bg-gray-100 duration-150"
-                                >
-                                    <div className="text-gray-500">
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
-                                        </svg>
-                                    </div>
-                                    <span className="hidden sm:block">Salir</span>
-                                </button>
-                            </Form>
+                            <li>
+                                <Form method="post">
+                                    <button
+                                        type="submit"
+                                        name="action"
+                                        value="logout"
+                                        className="flex items-center gap-x-4 text-gray-600 p-2 rounded-lg  hover:bg-gray-50 active:bg-gray-100 duration-150"
+                                    >
+                                        <div className="text-gray-500">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                                                <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
+                                            </svg>
+                                        </div>
+                                        <span className="hidden sm:block">Salir</span>
+                                    </button>
+                                </Form>
+                            </li>
                         </ul>
-                        
+
                         <div className="py-4 px-4 border-t hidden sm:block">
                             <div className="flex items-center gap-x-4">
                                 <img src="https://randomuser.me/api/portraits/women/79.jpg" className="w-12 h-12 rounded-full" alt="Profile Pic" />

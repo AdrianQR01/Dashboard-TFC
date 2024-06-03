@@ -1,4 +1,4 @@
-import type { LoaderFunctionArgs , ActionFunctionArgs, MetaFunction } from "@remix-run/node";
+import type { LoaderFunctionArgs, ActionFunctionArgs, MetaFunction } from "@remix-run/node";
 import { Form, Link } from "@remix-run/react";
 import { authenticator } from "~/services/auth.server";
 
@@ -51,18 +51,22 @@ export default function LoginIndex() {
 
             <Form method="post" className="space-y-6 py-6">
                 <div>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
                     <input
                         type="email"
                         name="email"
+                        id="email"
                         placeholder="Email"
                         className="w-full py-3 px-6 ring-1 ring-gray-300 rounded-xl placeholder-gray-600 bg-transparent transition disabled:ring-gray-200 disabled:bg-gray-100 disabled:placeholder-gray-400 invalid:ring-red-400 focus:invalid:outline-none"
                     />
                 </div>
 
-                <div className="flex flex-col items-end">
+                <div className="flex flex-col items-start">
+                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">Contraseña</label>
                     <input
                         type="password"
                         name="password"
+                        id="password"
                         placeholder="Contraseña"
                         className="w-full py-3 px-6 ring-1 ring-gray-300 rounded-xl placeholder-gray-600 bg-transparent transition disabled:ring-gray-200 disabled:bg-gray-100 disabled:placeholder-gray-400 invalid:ring-red-400 focus:invalid:outline-none"
                     />
@@ -80,6 +84,7 @@ export default function LoginIndex() {
                     </Link>
                 </div>
             </Form>
+
         </>
     )
 

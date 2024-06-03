@@ -1,5 +1,6 @@
-import { Modal, Dropdown, Checkbox, Button } from "flowbite-react";
+import { Dropdown, Checkbox, Button } from "flowbite-react";
 import { useState } from "react";
+import { ModalEditForm } from "./ModalEditForm";
 
 interface Product {
     id: number;
@@ -10,24 +11,11 @@ interface Product {
     Price: number;
 }
 
-const labels = ['Category', 'Company', 'Product', 'Description', 'Price'];
-const labelToPropMap: { [key: string]: keyof Product } = {
-    'Category': 'Category',
-    'Company': 'Company',
-    'Product': 'Product',
-    'Description': 'Description',
-    'Price': 'Price',
-};
 
 export default function TableResponsive() {
-
     const [selectAll, setSelectAll] = useState(false);
-    const [modalPlacement] = useState('center');
     const [selectedProducts, setSelectedProducts] = useState<number[]>([]);
-    const [openModal, setOpenModal] = useState(false);
-    const [isEditMode, setIsEditMode] = useState(false);
-    const [selectedItem, setSelectedItem] = useState<Product | null>(null);
-
+    const [editProduct, setEditProduct] = useState<Product | null>(null);
     const [data, setData] = useState<Product[]>([
         {
             id: 1,
@@ -59,7 +47,7 @@ export default function TableResponsive() {
             Company: "Samsung",
             Product: "Smart Refrigerator",
             Description: "Refrigerator with smart features and spacious design",
-            Price: 14,
+            Price: 1400,
         },
     ]);
 
@@ -72,37 +60,50 @@ export default function TableResponsive() {
         }
     };
 
-    const handleProductSelect = (id: number) => {
-        if (!selectedProducts.includes(id)) {
-            setSelectedProducts([...selectedProducts, id]);
-        } else {
+    const handleCheckboxChange = (id: number) => {
+        if (selectedProducts.includes(id)) {
             setSelectedProducts(selectedProducts.filter(productId => productId !== id));
+        } else {
+            setSelectedProducts([...selectedProducts, id]);
         }
     };
 
-    const closeModal = () => setOpenModal(false);
-
-    const openAddUserModal = () => {
-        setIsEditMode(false);
-        setSelectedItem({} as Product); // Reset selected item
-        setOpenModal(true);
+    const handleEditClick = (product: Product) => {
+        setEditProduct(product);
     };
 
-    const openEditUserModal = (item: Product) => {
-        setIsEditMode(true);
-        setSelectedItem(item);
-        setOpenModal(true);
+    const handleNewProductClick = () => {
+        const newProduct: Product = {
+            id: data.length + 1,
+            Category: "",
+            Company: "",
+            Product: "",
+            Description: "",
+            Price: 0,
+        };
+        setEditProduct(newProduct);
     };
 
-    const handleSave = () => {
-        if (selectedItem) {
-            if (isEditMode) {
-                setData(prevData => prevData.map(item => item.id === selectedItem.id ? selectedItem : item));
-            } else {
-                setData(prevData => [...prevData, selectedItem]);
-            }
-            closeModal();
+    const handleModalClose = () => {
+        setEditProduct(null);
+    };
+
+    const handleProductSave = (updatedProduct: Product) => {
+        if (data.some(product => product.id === updatedProduct.id)) {
+            setData(prevData =>
+                prevData.map(product =>
+                    product.id === updatedProduct.id ? updatedProduct : product
+                )
+            );
+        } else {
+            setData(prevData => [...prevData, updatedProduct]);
         }
+        setEditProduct(null);
+    };
+
+    const handleProductDelete = (id: number) => {
+        setData(prevData => prevData.filter(product => product.id !== id));
+        setEditProduct(null);
     };
 
     return (
@@ -114,118 +115,89 @@ export default function TableResponsive() {
                         <Dropdown.Item>Borrar todos</Dropdown.Item>
                         <Dropdown.Item className="visible sm:hidden md:hidden">Marcar todos</Dropdown.Item>
                     </Dropdown>
-                    <Button onClick={openAddUserModal} className="ml-2">Añadir Cliente</Button>
+                    <Button onClick={handleNewProductClick}>
+                        Añadir producto
+                    </Button>
+                    {editProduct && (
+                        <ModalEditForm
+                            product={editProduct}
+                            onClose={handleModalClose}
+                            onSave={handleProductSave}
+                            onDelete={handleProductDelete} // Añade esta línea
+                        />
+                    )}
                 </div>
                 <div className="w-full">
                     <div className="overflow-x-auto">
                         <table className="sm:inline-table w-full flex flex-row sm:bg-white overflow-hidden">
-                            <thead className="text-black ">
+                            <thead className="text-black">
                                 {data.map((product, index) => (
                                     <tr
-                                        className={`bg-none sm:bg-[#222E3A]/[6%]  flex flex-col sm:table-row rounded-l-lg sm:rounded-none mb-2 sm:mb-0 ${index == 0 ? "sm:flex" : "sm:hidden"}`}
+                                        className={`border sm:bg-[#222E3A]/[6%] flex flex-col sm:table-row rounded-l-lg mb-2 sm:rounded-none ${index == 0 ? "sm:flex" : "sm:hidden"}`}
                                         key={index}
                                     >
-                                        <th className="py-3 px-5 text-left border border-b rounded-tl-lg sm:rounded-none hidden sm:table-cell">
-                                            <Checkbox checked={selectAll} onChange={handleSelectAll} />
+                                        <th className="py-3 px-5 text-left rounded-tl-lg sm:rounded-none hidden sm:table-cell">
+                                            <h1 className="hidden">Seleccionar todos</h1>
+                                            <Checkbox
+                                                checked={selectAll}
+                                                onChange={handleSelectAll}
+                                            />
                                         </th>
 
-                                        <th className="py-3 px-5 text-left border border-b rounded-tl-lg sm:rounded-none">
+                                        <th className="py-3 px-5 text-left rounded-tl-lg sm:rounded-none border-b sm:border-none">
                                             ID
                                         </th>
-                                        <th className="py-3 px-5 text-left border border-b">
+                                        <th className="py-3 px-5 text-left border-b sm:border-none">
                                             Category
                                         </th>
-                                        <th className="py-3 px-5 text-left border border-b">
+                                        <th className="py-3 px-5 text-left border-b sm:border-none">
                                             Company
                                         </th>
-                                        <th className="py-3 px-5 text-left border border-t">
+                                        <th className="py-3 px-5 text-left border-b sm:border-none">
                                             Price
                                         </th>
-                                        <th className={`${index === data.length - 1 ? 'bg-red-500' : 'bg-red-500'} py-3 px-5 text-left border border-t rounded-bl-lg sm:rounded-none invisible sm:table-cell`}>
+                                        <th className={`${index === data.length - 1 ? 'bg-red-500' : 'bg-red-500'} py-3 px-5 text-left  -t rounded-bl-lg sm:rounded-none invisible sm:table-cell`}>
                                             Edit
                                         </th>
                                     </tr>
                                 ))}
                             </thead>
-                            <tbody className="">
+                            <tbody>
                                 {data.map((product, index) => (
-                                    <tr key={index} className="hover:bg-[#222E3A]/[6%] flex flex-col sm:table-row mb-2 sm:mb-0">
-                                        <td className="border hover:bg-[#222E3A]/[6%] hover:sm:bg-transparent py-3 px-5 hidden sm:table-cell">
+                                    <tr key={index} className="hover:bg-[#222E3A]/[6%] flex flex-col sm:table-row sm:border border-y border-r rounded-r-lg mb-2">
+
+                                        <td className="hover:bg-[#222E3A]/[6%] hover:sm:bg-transparent py-3 px-5 hidden sm:table-cell">
                                             <Checkbox
                                                 checked={selectedProducts.includes(product.id)}
-                                                onChange={() => handleProductSelect(product.id)}
-                                                disabled={index !== 0 && selectAll}
+                                                onChange={() => handleCheckboxChange(product.id)}
                                             />
                                         </td>
-                                        <td className="flex flex-row hover:bg-[#222E3A]/[6%] hover:sm:bg-transparent sm:border-x-0 border-y-0.5 border sm:rounded-none rounded-tr-lg py-3 px-5">
-                                            <div className="visible pr-3 sm:hidden">
-                                                <Checkbox
-                                                    checked={selectedProducts.includes(product.id)}
-                                                    onChange={() => handleProductSelect(product.id)}
-                                                    disabled={index !== 0 && selectAll}
-                                                    className="mb-0.5 cursor-pointer"
-                                                />
-                                            </div>
+                                        <td className="py-3 px-5 border-b sm:border-none">
                                             {product.id}
                                         </td>
-                                        <td className="border py-3 px-5">
+                                        <td className="py-3 px-5 border-b sm:border-none">
                                             {product.Category}
                                         </td>
-                                        <td className="border py-3 px-5">
+                                        <td className="py-3 px-5 border-b sm:border-none">
                                             {product.Company}
                                         </td>
-                                        <td className="border py-3 px-5">
+                                        <td className="py-3 px-5 border-b sm:border-none">
                                             {"$" + product.Price}
                                         </td>
-                                        <td className="border py-3 px-5 cursor-pointer">
-                                            <button onClick={() => openEditUserModal(product)}>Edit</button>
+                                        <td className="py-3 px-5 cursor-pointer">
+                                            <button onClick={() => handleEditClick(product)}>
+                                                Edit
+                                            </button>
                                         </td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                     </div>
-                    <Modal show={openModal} position={modalPlacement} onClose={closeModal}>
-                        <Modal.Header>{isEditMode ? 'Editar Usuario' : 'Añadir Usuario'}</Modal.Header>
-                        <Modal.Body>
-                            <div className="bg-gray-100 rounded-md shadow-md p-8 space-y-6">
-                                <form>
-                                    {isEditMode && selectedItem && (
-                                        <div className="mb-4">
-                                            <p className="text-gray-700"><strong>ID:</strong> {selectedItem.id}</p>
-                                        </div>
-                                    )}
-                                    <div className="grid grid-cols-2 gap-4">
-                                        {labels.map((label) => (
-                                            <div key={label} className="flex flex-col">
-                                                <label htmlFor={label.toLowerCase()} className="text-gray-700 capitalize">{label}:</label>
-                                                <input
-                                                    type={label.toLowerCase() === 'contraseña' ? 'password' : 'text'}
-                                                    id={label.toLowerCase()}
-                                                    name={label.toLowerCase()}
-                                                    required
-                                                    className="mt-1 p-2 rounded-md border border-gray-300 focus:outline-none focus:border-blue-500"
-                                                    placeholder={label}
-                                                    value={selectedItem ? selectedItem[labelToPropMap[label]] || '' : ''}
-                                                    onChange={(e) => {
-                                                        if (selectedItem) {
-                                                            setSelectedItem({ ...selectedItem, [labelToPropMap[label]]: e.target.value });
-                                                        }
-                                                    }}
-                                                />
-                                            </div>
-                                        ))}
-                                    </div>
-                                </form>
-                            </div>
-                        </Modal.Body>
-                        <Modal.Footer>
-                            <Button onClick={closeModal}>Cancelar</Button>
-                            <Button onClick={handleSave}>Guardar</Button>
-                        </Modal.Footer>
-                    </Modal>
+
                 </div>
             </div>
         </div>
     );
+
 }

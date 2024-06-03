@@ -3,6 +3,8 @@ import TableResponsive from "./components/TableResponsive";
 import AreaChart from "./components/charts/areachart";
 import ColumnChart from "./components/charts/columnchart";
 import PieChart from "./components/charts/piechart";
+import RadialChart from "./components/charts/radialchart";
+import DonutChart from "./components/charts/donutchart";
 
 export const meta: MetaFunction = () => {
     return [
@@ -20,18 +22,7 @@ export default function Estadisticas() {
                     <div className="w-auto sm:w-full">
                     <div className="m-2 w-[300px]"><PieChart /></div>
                     </div>
-                    <div className="w-auto sm:w-full">
-                        <div className="m-2 w-[320px]"><AreaChart /></div>
-                    </div>
-                    <div className="w-auto sm:w-full">
-                        <div className="m-2 w-[300px]"><PieChart /></div>
-                    </div>
-                    <div className="w-auto sm:w-full">
-                        <div className="m-2 w-[320px]"><AreaChart /></div>
-                    </div>
-                    <div className="w-auto sm:w-full">
-                        <div className="m-2 w-[300px]"><PieChart /></div>
-                    </div>
+
                 </div>
             </div>
 
@@ -46,13 +37,13 @@ export default function Estadisticas() {
                         <div className="m-2 w-[320px]"><AreaChart /></div>
                     </div>
                     <div className="w-auto sm:w-full">
-                        <div className="m-2 w-[300px]"><PieChart /></div>
+                        <div className="m-2 w-[300px]"><DonutChart /></div>
                     </div>
                     <div className="w-auto sm:w-full">
                         <div className="m-2 w-[320px]"><AreaChart /></div>
                     </div>
                     <div className="w-auto sm:w-full">
-                        <div className="m-2 w-[300px]"><PieChart /></div>
+                        <div className="m-2 w-[300px]"><RadialChart /></div>
                     </div>
                 </div>
             </div>

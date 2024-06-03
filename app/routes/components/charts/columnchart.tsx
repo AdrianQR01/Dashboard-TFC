@@ -127,7 +127,7 @@ export default function ColumnChart() {
               </svg>
             </div>
             <div>
-              <h5 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-1">3.4k</h5>
+              <h1 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-1">3.4k</h1>
               <p className="text-sm font-normal text-gray-500 dark:text-gray-400">Ventas realizadas por semana</p>
             </div>
           </div>

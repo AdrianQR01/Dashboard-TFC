@@ -82,11 +82,11 @@ export default function AreaChart () {
       <div className="max-w-sm bg-[#fffffe] rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
         <div className="flex justify-between">
           <div>
-            <h5 className="leading-none text-3xl font-bold text-[#00214d] dark:text-[#00214d] pb-2">34.4k</h5>
+            <h1 className="leading-none text-3xl font-bold text-[#00214d] dark:text-[#00214d] pb-2">34.4k</h1>
             <p className="text-base font-normal text-[#1b2d45] dark:text-[#1b2d45]">Clientes este mes</p>
           </div>
           <div
-            className="flex items-center px-2.5 py-0.5 text-base font-semibold text-[#00ebc7] dark:text-green-500 text-center">
+            className="flex items-center px-2.5 py-0.5 text-base font-semibold text-[#0D8763] dark:text-green-500 text-center">
             15%
             <svg className="w-3 h-3 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13V1m0 0L1 5m4-4 4 4"/>

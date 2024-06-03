@@ -3,6 +3,7 @@ import AreaChart from "./components/charts/areachart";
 import ColumnChart from "./components/charts/columnchart";
 import PieChart from "./components/charts/piechart";
 import { MetaFunction, Outlet } from '@remix-run/react'
+import { Button, ButtonGroup } from "flowbite-react";
 
 export const meta: MetaFunction = () => {
     return [
@@ -14,9 +15,18 @@ export const meta: MetaFunction = () => {
 export default function Presupuestos() {
     return (
         <div className="flex flex-col h-fit sm:h-screen w-auto p-4">
-            <Outlet />
+
             {/* Top row */}
-            <div className="flex justify-center bg-[#222E3A]/[4%] rounded-lg">
+            <div className="flex justify-center">
+                <ButtonGroup>
+                    <Button color="gray" href="/dashboard/presupuestos">General</Button>
+                    <Button color="gray" href="seguimiento">Seguimiento</Button>
+                    <Button color="gray" href="antiguos">Antiguos</Button>
+                </ButtonGroup>
+            </div>
+            <Outlet />
+
+            {/* <div className="flex justify-center bg-[#222E3A]/[4%] rounded-lg">
                 <div className="flex flex-col items-center sm:items-start sm:h-fit sm:flex-row overflow-scroll mb-2">
                     <div className="w-auto sm:w-full">
                         <div className="m-2 w-[300px]"><PieChart /></div>
@@ -30,11 +40,12 @@ export default function Presupuestos() {
                 </div>
             </div>
 
+            <div className="flex flex-wrap">
+                <div className="w-full h-fit"><TableResponsive /></div>
+            </div> */}
 
             {/* Bottom row */}
-            <div className="flex flex-wrap flex-1">
-                <div className="w-full h-fit"><TableResponsive /></div>
-            </div>
+
         </div>
     )
 }

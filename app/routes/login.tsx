@@ -17,14 +17,14 @@ export default function Login() {
                             <img
                                 src="../logo_principal.jpg"
                                 className="w-40"
-                                alt="logo"
+                                alt="logoLogin"
                                 style={{
                                     filter: 'drop-shadow(0 0 5px rgba(0, 0, 0, .5))',
                                     maskImage: 'radial-gradient(circle at center, black 20%, transparent 99%)'
                                 }}
                             />
                         </a>
-                        <p className="font-medium text-lg text-gray-600">Bienvenido! {isSignUpPage ? 'Completa tu registro con este formulario' : 'Inicia con...'}</p>
+                        <h1 className="font-medium text-lg text-gray-600">Bienvenido! {isSignUpPage ? 'Completa tu registro con este formulario' : 'Inicia con...'}</h1>
                     </div>
                     <Outlet/>
                 </div>
