@@ -7,8 +7,8 @@ interface Product {
     Price: number;
 }
 interface ModalEditFormProps {
-    product: Product;
+    product: any;
     onClose: () => void;
-    onSave: (updatedProduct: Product) => void;
+    onSave: (updatedProduct: any) => void;
     onDelete: (id: number) => void; // Añade esta línea
   }

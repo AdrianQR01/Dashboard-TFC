@@ -49,8 +49,11 @@ model Servicio {
 
 model Presupuesto {
   id              String         @id @default(auto()) @map("_id") @db.ObjectId
-  cantidad        Float
-  moneda          String
+  total        String
+  nombrePresupuesto String
+  estado  String
+  fechaInicio DateTime
+  fechaFin  DateTime
   eventoId        String         @db.ObjectId @unique
   evento          Evento         @relation(fields: [eventoId], references: [id])
 }
