@@ -5,9 +5,9 @@ import TablaTest from "./components/TablaTest";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const data = [
-    { id: 1, name: 'John', age: 25 },
-    { id: 2, name: 'Jane', age: 30 },
-    { id: 3, name: 'Bob', age: 35 },
+    { id: 1, name: 'John', age: 25, dash: '50'},
+    { id: 2, name: 'Jane', age: 30, dash: '50'},
+    { id: 3, name: 'Bob', age: 35, dash: '50'},
   ];
 
   return json(data);
