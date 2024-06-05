@@ -1,5 +1,5 @@
 import { Form } from "@remix-run/react";
-import TableResponsive from "./components/TableResponsive";
+import TableResponsiveSeguimiento from "./components/TableResponsiveSeguimiento";
 
 interface InputProps {
     label: string;
@@ -33,10 +33,10 @@ export default function Seguimiento() {
                         <InputField label="Budgeted Amount" name="amount" id="amount" />
                         <InputField label="Description" name="description" id="description" />
                         <InputField label="Allocation" name="allocation" id="allocation" />
-                        <div className="flex justify-start">
+                        <div className="flex justify-start items-center">
                             <button
                                 type="submit"
-                                className="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                className="inline-flex items-center w-full px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                             >
                                 Buscar
                             </button>
@@ -51,7 +51,7 @@ export default function Seguimiento() {
             </div>
 
             <div className="flex flex-col flex-wrap flex-1  ">
-                <div className="w-full h-fit p-4"><TableResponsive /></div>
+                <div className="w-full h-fit p-4"><TableResponsiveSeguimiento /></div>
             </div>
         </div>
     );
