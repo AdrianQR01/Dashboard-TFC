@@ -36,10 +36,11 @@ const TableComponent = ({ data }: any) => {
                   const isFirst = index === 0;
                   const isLast = index === headers.length - 1;
                   const className = `
-                border-e border-l border-t 
-                ${isFirst ? 'rounded-tl' : ''} 
-                ${isLast ? 'border-b rounded-bl' : ''}`;
-                  return <th className={className.trim()} key={header}>{header}</th>;
+                      border-e border-l border-t 
+                      ${isFirst ? 'rounded-tl-lg' : ''} 
+                      ${isLast ? 'border-b rounded-bl-lg' : ''}
+                  `;
+                  return <th className={`${className.trim()} p-4`} key={header}>{header}</th>;
                 })}
               </tr>
             </thead>
