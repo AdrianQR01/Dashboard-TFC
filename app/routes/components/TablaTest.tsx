@@ -23,7 +23,7 @@ const TableComponent = ({ data }: any) => {
     <div className="flex justify-center h-fit">
       <div className="w-fit sm:w-full md:w-full">
         <div className='overflow-x-auto'>
-          <table className="w-full flex flex-col sm:inline-table sm:bg-white overflow-hidden  ">
+          <table className="w-full flex flex-col sm:inline-table sm:bg-white overflow-hidden">
             <thead>
               <tr className="sm:bg-[#222E3A]/[6%] flex flex-col sm:table-row mb-2 sm:rounded-none">
                 <th className="py-3 px-0.5 hidden sm:table-cell">
@@ -35,8 +35,11 @@ const TableComponent = ({ data }: any) => {
                 {headers.map((header, index) => {
                   const isFirst = index === 0;
                   const isLast = index === headers.length - 1;
-                  const className = `border-e border-l border-t ${isLast ? 'border-b' : ''}`;
-                  return <th className={className} key={header}>{header}</th>;
+                  const className = `
+                border-e border-l border-t 
+                ${isFirst ? 'rounded-tl' : ''} 
+                ${isLast ? 'border-b rounded-bl' : ''}`;
+                  return <th className={className.trim()} key={header}>{header}</th>;
                 })}
               </tr>
             </thead>
@@ -44,6 +47,7 @@ const TableComponent = ({ data }: any) => {
         </div>
       </div>
     </div>
+
 
   );
 };
