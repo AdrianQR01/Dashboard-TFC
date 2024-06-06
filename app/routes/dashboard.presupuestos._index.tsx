@@ -2,6 +2,7 @@ import { LoaderFunctionArgs, json } from "@remix-run/node";
 import TableResponsive from "./components/TableResponsive";
 import { useLoaderData } from "@remix-run/react";
 import TablaTest from "./components/TablaTest";
+import TableResponsiveSeguimiento from "./components/TableResponsiveSeguimiento";
 
 export async function loader({ request }: LoaderFunctionArgs) {
   const data = [

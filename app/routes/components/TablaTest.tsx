@@ -1,45 +1,68 @@
 import { Checkbox } from 'flowbite-react';
-import React from 'react';
 
-type TableComponentProps = {
-  data: Record<string, any>[];
-};
-
-const TableComponent: React.FC<TableComponentProps> = ({ data }) => {
+export default function TablaTest({ data }: any) {
   const headers = Object.keys(data[0]);
-  const rows = data.map(item => Object.values(item));
+  const rows = data.map((item: any) => Object.values(item));
 
   return (
     <div className="flex justify-center h-fit">
       <div className="w-fit sm:w-full md:w-full">
         <div className="overflow-x-auto">
-          <table className="w-full flex flex-col sm:inline-table sm:bg-white overflow-hidden">
-            <thead>
-              <tr className="sm:bg-[#222E3A]/[6%] flex flex-col sm:table-row mb-2 sm:rounded-none">
-                <th className="py-3 px-0.5 hidden sm:table-cell text-center">
+          <table className="w-full sm:inline-table sm:bg-white overflow-hidden">
+            {/* Thead for desktop */}
+            <thead className="hidden sm:table-header-group">
+              <tr className="sm:bg-[#222E3A]/[6%] sm:table-row mb-2 sm:rounded-none">
+                <th className="py-3 px-0.5 text-center">
                   <Checkbox />
                 </th>
-                {headers.map((header, index) => {
-                  const isFirst = index === 0;
-                  const isLast = index === headers.length - 1;
-                  const className = `
-                    border-e border-l border-t 
-                    ${isFirst ? 'rounded-tl-lg' : ''} 
-                    ${isLast ? 'border-b rounded-bl-lg' : ''}
-                  `;
-                  return <th className={`${className.trim()} p-4 text-center`} key={header}>{header}</th>;
-                })}
+                {headers.map((header, index) => (
+                  <th
+                    key={header}
+                    className={`p-4 text-center border 
+                    ${index === 0 ? 'rounded-tl-lg' : ''} 
+                    ${index === headers.length - 1 ? 'border-b rounded-bl-lg' : ''}`}
+                  >
+                    {header}
+                  </th>
+                ))}
               </tr>
             </thead>
-            <tbody>
-              {rows.map((row, rowIndex) => (
-                <tr key={rowIndex} className="sm:table-row flex flex-col sm:flex-row">
+            <tbody className="flex flex-col sm:table-row-group">
+              {rows.map((row: any, rowIndex: any) => (
+                <tr key={rowIndex} className="flex flex-col sm:table-row">
+                  {/* Thead for mobile */}
+
+                  <thead className="sm:hidden grid">
+                    <tr className="flex flex-col mb-2">
+                      <th className="py-3 px-0.5 text-center">
+                        <Checkbox />
+                      </th>
+                      {headers.map((header, index) => (
+                        <th
+                          key={header}
+                          className={`p-4 text-center border 
+                          ${index === 0 ? 'rounded-tl-lg' : ''} 
+                          ${index === headers.length - 1 ? 'border-b rounded-bl-lg' : ''}`}
+                        >
+                          {header}
+
+                        </th>
+                      ))}
+                      {row.map((cell: string, cellIndex: any) => (
+
+                        <td key={cellIndex} className="p-4 border border-gray-200 text-center">{cell}</td>
+                      ))}
+                    </tr>
+                  </thead>
                   <td className="py-3 px-0.5 hidden sm:table-cell text-center">
                     <Checkbox />
                   </td>
-                  {row.map((cell, cellIndex) => (
-                    <td key={cellIndex} className="p-4 border border-gray-200 text-center">{cell}</td>
-                  ))}
+
+
+
+
+
+
                 </tr>
               ))}
             </tbody>
@@ -49,5 +72,3 @@ const TableComponent: React.FC<TableComponentProps> = ({ data }) => {
     </div>
   );
 };
-
-export default TableComponent;
