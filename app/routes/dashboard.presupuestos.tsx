@@ -16,10 +16,10 @@ export const meta: MetaFunction = () => {
 export default function Presupuestos() {
     const navigate = useNavigate();
     return (
-        <div className="flex flex-col h-fit sm:h-screen w-auto p-4">
+        <div className="flex flex-col h-fit w-auto p-4">
 
             {/* Top row */}
-            <div className="flex justify-center">
+            <div className="flex justify-center p-4">
                 <ButtonGroup>
                     <Button color="gray" onClick={() => navigate('../presupuestos')}>General</Button>
                     <Button color="gray" onClick={() => navigate('seguimiento')}>Seguimiento</Button>

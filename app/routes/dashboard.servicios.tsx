@@ -24,7 +24,7 @@ export default function Servicios() {
 
             {/* Bottom row */}
             <div className="flex w-full flex-row flex-wrap flex-1">
-                <div className="flex flex-wrap flex-row justify-between w-fit h-fit">
+                <div className="flex flex-wrap p-4 flex-row justify-center w-fit h-fit">
                     <Cards />
                     <Cards />
                     <Cards />
