@@ -6,9 +6,12 @@ export default {
     './node_modules/flowbite/**/*.js',
     content()
   ],
-  darkMode: 'class',
+
   theme: {
-    extend: {}
+    extend: {},
+    fontFamily: {
+      medium: ["Poppins", "sans-serif"],
+    }
   },
   plugins: [
     require('flowbite/plugin'), {

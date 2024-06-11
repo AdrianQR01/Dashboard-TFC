@@ -13,6 +13,9 @@
     "typecheck": "tsc",
     "postinstall": "prisma generate"
   },
+  "prisma": {
+    "seed": "node prisma\/seed.js"
+  },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
     "@prisma/client": "^5.14.0",

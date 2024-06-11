@@ -121,9 +121,9 @@ export default function Sidebar(user:any) {
                             <div className="flex items-center gap-x-4">
                                 <img src={profilePic} className="w-12 h-12 rounded-full" alt="Profile Pic" />
                                 <div>
-                                    <span className="block text-gray-700 text-sm font-semibold">{name.charAt(0).toUpperCase() + name.slice(1)} {surname}</span>
+                                    <span className="block text-gray-700 text-sm font-semibold">{name.charAt(0).toUpperCase() + name.slice(1)} {surname.charAt(0).toUpperCase() + surname.slice(1)}</span>
                                     <Link to={{ pathname: "perfil", search: "", hash: "" }} className="block mt-px text-gray-600 hover:text-indigo-600 text-xs">
-                                        View profile
+                                        Ver perfil
                                     </Link>
                                 </div>
                             </div>

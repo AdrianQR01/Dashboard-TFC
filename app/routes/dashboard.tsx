@@ -34,7 +34,7 @@ export default function Dashboard() {
         <Sidebar user={user} />
       </div>
       <div className="flex-1 w-full h-full overflow-x-auto rounded-3xl border relative">
-        <h1 className="text-3xl font-bold pl-8 pt-5">{isIndexPage ? 'Vista General' : actual_url.charAt(0).toUpperCase() + actual_url.slice(1)}</h1>
+        <h1 className="text-3xl font-bold pl-8 pt-5 font-test">{isIndexPage ? 'Vista General' : actual_url.charAt(0).toUpperCase() + actual_url.slice(1)}</h1>
         <Outlet />
       </div>
     </div>
