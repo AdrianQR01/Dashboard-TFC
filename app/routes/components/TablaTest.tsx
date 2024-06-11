@@ -28,9 +28,9 @@ export default function TablaTest({ data, setData }: TablaTestProps) {
   const [editProduct, setEditProduct] = useState<DataItem | null>(null);
   
 
-  const headers = Object.keys(data[0]);
-  const rows = data.map((item: { [s: string]: unknown; }) => Object.values(item));
-
+  const headers = Object.keys(data[0]).filter(header => header != 'id');
+  const rows = data.map((item) => Object.values(item).filter((value, index) => headers.indexOf(Object.keys(item)[index]) !== -1));
+  
   const handleSelectAll = () => {
     const newSelectAll = !selectAll;
     setSelectAll(newSelectAll);
