@@ -29,7 +29,6 @@ export default function General() {
   const updateData = (newData: DataItem) => {
     setData(Array.from(newData as DataItem[]));
     const formData = new FormData();
-    const { key, value } = newData[newData.length - 1] // Extract key and value from newData
     // console.log(newData[newData.length - 1])
     for (const key in newData[newData.length - 1]) {
       // Update the last key and value in each iteration

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 
 export default function LineChart() {
+  // const visitors = data.map((row: { precio: number }) => row.total);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [Chart, setApexchart]: any = useState()
   useEffect(() => {
