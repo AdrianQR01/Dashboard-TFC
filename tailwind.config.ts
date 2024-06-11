@@ -6,6 +6,7 @@ export default {
     './node_modules/flowbite/**/*.js',
     content()
   ],
+  darkMode: 'class',
   theme: {
     extend: {}
   },

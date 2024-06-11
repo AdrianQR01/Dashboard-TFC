@@ -4,89 +4,110 @@ import { faker } from '@faker-js/faker';
 const prisma = new PrismaClient();
 
 async function main() {
-  // Create Clients
-  const clients = await Promise.all(
-    Array.from({ length: 10 }).map(async () => {
-      return prisma.cliente.create({
+  // Create Users
+  const users = await Promise.all(
+    Array.from({ length: 1 }).map(async () => {
+      return prisma.usuario.create({
         data: {
-          nombre: faker.person.firstName(),
-          apellido: faker.person.lastName(),
+          name: faker.person.firstName(),
+          surname: faker.person.lastName(),
           email: faker.internet.email(),
-          telefono: faker.phone.number(),
+          password: faker.internet.password(),
         },
       });
     })
   );
 
-  // Create Events, Services, Budgets and ClientEvent relations
-  const eventsData = await Promise.all(
-    clients.map(async (client) => {
-      const evento = await prisma.evento.create({
-        data: {
-          nombre: faker.lorem.words(3),
-          fecha: faker.date.future(),
-          ubicacion: faker.address.city(),
-          descripcion: faker.lorem.sentence(),
-        },
-      });
+  // Create Clients for each User
+  const clients = await Promise.all(
+    users.flatMap((user) => 
+      Array.from({ length: 2 }).map(async () => {
+        return prisma.cliente.create({
+          data: {
+            nombre: faker.person.firstName(),
+            apellido: faker.person.lastName(),
+            email: faker.internet.email(),
+            telefono: faker.phone.number(),
+            usuarioId: user.id,
+          },
+        });
+      })
+    )
+  );
 
-      await prisma.clienteEvento.create({
-        data: {
-          clienteId: client.id,
-          eventoId: evento.id,
-        },
-      });
-
-      const servicios = await Promise.all(
-        Array.from({ length: 3 }).map(async () => {
-          return prisma.servicio.create({
-            data: {
-              nombre: faker.commerce.productName(),
-              descripcion: faker.commerce.productDescription(),
-              costo: parseFloat(faker.commerce.price()),
-              eventoId: evento.id,
-            },
-          });
-        })
-      );
-
-      const presupuesto = await prisma.presupuesto.create({
-        data: {
-          cantidad: parseFloat(faker.finance.amount({ min: 1000, max: 10000 })),
-          moneda: "USD",
-          eventoId: evento.id,
-        },
-      });
-
-      const ordenesDeEntrada = await Promise.all(
+  // Create Events, Services, Budgets, and ClientEvent relations for each User
+  await Promise.all(
+    users.map(async (user) => {
+      const events = await Promise.all(
         Array.from({ length: 2 }).map(async () => {
-          const ordenDeEntrada = await prisma.ordenDeEntrada.create({
+          const evento = await prisma.evento.create({
             data: {
-              cantidad: faker.number.int({ min: 1, max: 5 }),
-              precio: parseFloat(faker.commerce.price()),
-              clienteId: client.id,
-              eventoId: evento.id,
+              nombre: faker.lorem.words(3),
+              fecha: faker.date.future(),
+              ubicacion: faker.address.city(),
+              descripcion: faker.lorem.sentence(),
+              usuarioId: user.id,
             },
           });
 
-          const entradas = await Promise.all(
-            Array.from({ length: ordenDeEntrada.cantidad }).map(async () => {
-              return prisma.entrada.create({
+          const servicios = await Promise.all(
+            Array.from({ length: 3 }).map(async () => {
+              return prisma.servicio.create({
                 data: {
-                  numero: faker.datatype.uuid(),
-                  precio: ordenDeEntrada.precio,
-                  ordenDeEntradaId: ordenDeEntrada.id,
+                  nombre: faker.commerce.productName(),
+                  descripcion: faker.commerce.productDescription(),
+                  costo: parseFloat(faker.commerce.price()),
                   eventoId: evento.id,
+                  usuarioId: user.id,
                 },
               });
             })
           );
 
-          return { ordenDeEntrada, entradas };
+          const presupuesto = await prisma.presupuesto.create({
+            data: {
+              total: parseFloat(faker.finance.amount({ min: 1000, max: 10000 })).toString(),
+              nombrePresupuesto: faker.commerce.productName(),
+              estado: "Pendiente",
+              fechaInicio: faker.date.past(),
+              fechaFin: faker.date.future(),
+              eventoId: evento.id,
+              usuarioId: user.id,
+            },
+          });
+
+          await Promise.all(
+            Array.from({ length: 2 }).map(async () => {
+              const client = clients.find(client => client.usuarioId === user.id);
+              const ordenDeEntrada = await prisma.ordenDeEntrada.create({
+                data: {
+                  cantidad: faker.number.int({ min: 1, max: 5 }),
+                  precio: parseFloat(faker.commerce.price()),
+                  clienteId: client.id,
+                  eventoId: evento.id,
+                  usuarioId: user.id,
+                },
+              });
+
+              await Promise.all(
+                Array.from({ length: ordenDeEntrada.cantidad }).map(async () => {
+                  return prisma.entrada.create({
+                    data: {
+                      numero: faker.datatype.uuid(),
+                      precio: ordenDeEntrada.precio,
+                      ordenDeEntradaId: ordenDeEntrada.id,
+                      eventoId: evento.id,
+                      usuarioId: user.id,
+                    },
+                  });
+                })
+              );
+            })
+          );
+
+          return { evento, servicios, presupuesto };
         })
       );
-
-      return { evento, servicios, presupuesto, ordenesDeEntrada };
     })
   );
 

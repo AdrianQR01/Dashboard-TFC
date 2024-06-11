@@ -1,16 +1,35 @@
 import { useState } from 'react';
-import { Checkbox } from 'flowbite-react';
+import { Dropdown, Checkbox, Button } from "flowbite-react";
+import { ModalEditForm } from "./ModalEditForm";
+import { ActionFunctionArgs } from '@remix-run/node';
+import { Form } from '@remix-run/react';
 
-export default function TablaTest({ data }: any) {
+interface DataItem {
+  [key: string]: any;
+}
+
+interface TablaTestProps {
+  data: DataItem[];
+  setData: React.Dispatch<React.SetStateAction<DataItem[]>>;
+}
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const form = await request.formData();
+  console.log(form.get("total"))
+}
+
+export default function TablaTest({ data, setData }: TablaTestProps) {
   if (!data || data.length === 0) {
     return <div>No data available</div>;
   }
 
-  const headers = Object.keys(data[0]);
-  const rows = data.map((item: any) => Object.values(item));
-
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState(new Array(data.length).fill(false));
+  const [editProduct, setEditProduct] = useState<DataItem | null>(null);
+  
+
+  const headers = Object.keys(data[0]);
+  const rows = data.map((item: { [s: string]: unknown; }) => Object.values(item));
 
   const handleSelectAll = () => {
     const newSelectAll = !selectAll;
@@ -29,9 +48,55 @@ export default function TablaTest({ data }: any) {
       setSelectAll(false);
     }
   };
+  const createEmptyDataItem = (): DataItem => {
+    const emptyItem: DataItem = {};
+    headers.forEach(header => {
+      emptyItem[header] = "";
+    });
+    return emptyItem;
+  };
+  const handleNewClick = () => {
+    setEditProduct(createEmptyDataItem());
+  };
+
+  const handleModalClose = () => {
+    setEditProduct(null);
+  };
+
+  const handleProductSave = (updatedData: DataItem) => {
+    const newData = [...data, updatedData];
+    setData(newData);
+
+    setEditProduct(null);
+  };
+
+  const handleProductDelete = (id: string | number) => {
+    // Implement delete logic here
+    setEditProduct(null);
+  };
 
   return (
     <div className="w-full">
+      <div className="flex items-center justify-left m-4">
+        <Dropdown label="Acciones" dismissOnClick={false}>
+          <Dropdown.Item>Borrar todos</Dropdown.Item>
+          <Dropdown.Item className="visible sm:hidden md:hidden">Marcar todos</Dropdown.Item>
+        </Dropdown>
+        <Button onClick={handleNewClick}>
+          Añadir op
+        </Button>
+        {editProduct && (
+          <Form method="post">
+          <ModalEditForm
+            data={editProduct}
+            onClose={handleModalClose}
+            onSave={handleProductSave}
+            onDelete={handleProductDelete}
+          />
+          </Form>
+
+        )}
+      </div>
       <div className="overflow-x-auto">
         <table className="w-full bg-white overflow-hidden">
           {/* Encabezado visible solo en PC */}
@@ -40,7 +105,7 @@ export default function TablaTest({ data }: any) {
               <th className="py-3 px-0.5 text-center">
                 <Checkbox checked={selectAll} onChange={handleSelectAll} />
               </th>
-              {headers.map((header: any, index: any) => (
+              {headers.map((header, index) => (
                 <th
                   key={header}
                   className={`p-4 text-center border 

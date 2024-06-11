@@ -13,6 +13,14 @@ model Usuario {
   surname      String
   email        String        @unique
   password     String        
+  profilePicture String?
+  eventos      Evento[]
+  clientes     Cliente[]
+  servicios    Servicio[]
+  presupuestos Presupuesto[]
+  ordenesDeEntrada OrdenDeEntrada[]
+  entradas     Entrada[]
+  clientesEventos ClienteEvento[]
 }
 
 model Evento {
@@ -21,6 +29,8 @@ model Evento {
   fecha           DateTime
   ubicacion       String
   descripcion     String?
+  usuarioId       String         @db.ObjectId
+  usuario         Usuario        @relation(fields: [usuarioId], references: [id])
   servicios       Servicio[]
   presupuesto     Presupuesto?
   ordenesDeEntrada OrdenDeEntrada[]
@@ -34,6 +44,8 @@ model Cliente {
   apellido        String
   email           String         @unique
   telefono        String?
+  usuarioId       String         @db.ObjectId
+  usuario         Usuario        @relation(fields: [usuarioId], references: [id])
   clienteEventos  ClienteEvento[]
   ordenesDeEntrada OrdenDeEntrada[]
 }
@@ -45,17 +57,21 @@ model Servicio {
   costo           Float
   eventoId        String         @db.ObjectId
   evento          Evento         @relation(fields: [eventoId], references: [id])
+  usuarioId       String         @db.ObjectId
+  usuario         Usuario        @relation(fields: [usuarioId], references: [id])
 }
 
 model Presupuesto {
   id              String         @id @default(auto()) @map("_id") @db.ObjectId
-  total        String
+  total           String
   nombrePresupuesto String
-  estado  String
-  fechaInicio DateTime
-  fechaFin  DateTime
+  estado          String
+  fechaInicio     DateTime
+  fechaFin        DateTime
   eventoId        String         @db.ObjectId @unique
   evento          Evento         @relation(fields: [eventoId], references: [id])
+  usuarioId       String         @db.ObjectId
+  usuario         Usuario        @relation(fields: [usuarioId], references: [id])
 }
 
 model OrdenDeEntrada {
@@ -66,6 +82,8 @@ model OrdenDeEntrada {
   cliente         Cliente        @relation(fields: [clienteId], references: [id])
   eventoId        String         @db.ObjectId
   evento          Evento         @relation(fields: [eventoId], references: [id])
+  usuarioId       String         @db.ObjectId
+  usuario         Usuario        @relation(fields: [usuarioId], references: [id])
   entradas        Entrada[]
 }
 
@@ -77,6 +95,8 @@ model Entrada {
   ordenDeEntrada OrdenDeEntrada  @relation(fields: [ordenDeEntradaId], references: [id])
   eventoId        String         @db.ObjectId
   evento          Evento         @relation(fields: [eventoId], references: [id])
+  usuarioId       String         @db.ObjectId
+  usuario         Usuario        @relation(fields: [usuarioId], references: [id])
 }
 
 model ClienteEvento {
@@ -85,6 +105,8 @@ model ClienteEvento {
   eventoId        String         @db.ObjectId
   cliente         Cliente        @relation(fields: [clienteId], references: [id])
   evento          Evento         @relation(fields: [eventoId], references: [id])
+  usuarioId       String         @db.ObjectId
+  usuario         Usuario        @relation(fields: [usuarioId], references: [id])
 
   @@index([clienteId, eventoId], name: "cliente_evento_idx")
 }

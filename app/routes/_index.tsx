@@ -12,7 +12,6 @@ export const meta: MetaFunction = () => {
 export default function Index() {
   const matches = useMatches();
   const actual_url = matches
-  console.log(actual_url)
   return (
     // <div style={{ fontFamily: "system-ui, sans-serif", lineHeight: "1.8" }}>
 
