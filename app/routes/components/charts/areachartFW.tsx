@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 
-export default function AreaChartFW () {
+export default function AreaChartFW ({data}: any) {
+  const visitors = data.map((row: { total: number }) => row.total);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [Chart, setApexchart]:any = useState()
   useEffect(() => {
@@ -8,6 +9,7 @@ export default function AreaChartFW () {
       setApexchart(() => d.default)
     )
   }, [])
+  console.log(visitors)
   const options = {
     chart: {
       height: '100%',
@@ -54,7 +56,7 @@ export default function AreaChartFW () {
     series: [
       {
         name: 'New users',
-        data: [6500, 6418, 6456, 6526, 6356, 6456],
+        data: visitors,
         color: '#1A56DB'
       }
     ],
