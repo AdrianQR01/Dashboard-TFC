@@ -1,6 +1,5 @@
-import type { MetaFunction } from "@remix-run/node";
-import { useMatches } from "@remix-run/react";
-import { act } from "react";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import { redirect, useMatches } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
   return [
@@ -8,7 +7,9 @@ export const meta: MetaFunction = () => {
     { name: "description", content: "Bienvenido al mejor dashboard para eventos de 2024!" },
   ];
 };
-
+export async function loader({ request }: LoaderFunctionArgs) {
+  return redirect("/home");
+}
 export default function Index() {
   const matches = useMatches();
   const actual_url = matches
@@ -17,6 +18,7 @@ export default function Index() {
 
     // </div>
     <>
+
     </>
   );
 }

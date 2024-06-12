@@ -1,6 +1,7 @@
-import { MetaFunction } from "@remix-run/node"
-import AreaChart from "./components/charts/areachartFW"
+import { LoaderFunctionArgs, MetaFunction, json } from "@remix-run/node"
+import AreaChart from "./components/charts/areachart"
 import TableResponsive from "./components/TableResponsive"
+import db from "~/services/db"
 
 export const meta: MetaFunction = () => {
     return [
@@ -8,7 +9,15 @@ export const meta: MetaFunction = () => {
         { name: 'description', content: 'This is the login page' }
     ]
 }
-
+interface DataItem {
+    [key: string]: any;
+}
+export async function loader({ request }: LoaderFunctionArgs) {
+    const data = await db.cliente.findMany({
+        where: {},
+    });
+    return json(data);
+}
 export default function Pedidos() {
     return (
         <div className="flex flex-col h-fit sm:h-screen w-auto p-4">

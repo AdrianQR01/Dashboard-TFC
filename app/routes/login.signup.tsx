@@ -27,17 +27,17 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
 export const action = async ({ request }: ActionFunctionArgs) => {
 
     const uploadHandler: UploadHandler = composeUploadHandlers(
-      async ({ name, data }) => {
-        if (name !== "img") {
-          return undefined;
-        }
-  
-        const uploadedImage:any = await uploadImage(data);
-        return uploadedImage.secure_url;
-      },
-      createMemoryUploadHandler(),
+        async ({ name, data }) => {
+            if (name !== "img") {
+                return undefined;
+            }
+
+            const uploadedImage: any = await uploadImage(data);
+            return uploadedImage.secure_url;
+        },
+        createMemoryUploadHandler(),
     );
-  
+
     const formData = await parseMultipartFormData(request, uploadHandler);
     const name = formData.get('name') as string;
     const surname = formData.get('surname') as string;
@@ -59,7 +59,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
         failureRedirect: '/login',
         context: { formData: formData }
     });
-  };
+};
 // export async function action({ request }: ActionFunctionArgs) {
 //     const form = await request.formData();
 //     const name = form.get('name') as string;
@@ -95,7 +95,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 //     if (!imgSrc) {
 //       return json({ error: "something wrong", imgDesc: null, imgSrc: null });
 //     }
-  
+
 //     return json({ error: null, imgDesc, imgSrc });
 //     // await db.usuario.create({ data: user });
 //     // return await authenticator.authenticate('form', request, {
@@ -111,7 +111,16 @@ export default function SignUp() {
         <>
             <Form method="post" className="space-y-6 py-6" encType="multipart/form-data">
                 <div>
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">Nombre</label>
+                    <input
+                        id="img-field"
+                        type="file"
+                        name="img"
+                        accept="image/*"
+                        placeholder='Imagen de perfil'
+                        className="w-full py-3 px-6 ring-1 ring-gray-300 rounded-xl placeholder-gray-600 bg-transparent transition disabled:ring-gray-200 disabled:bg-gray-100 disabled:placeholder-gray-400 invalid:ring-red-400 focus:invalid:outline-none"
+                    />
+                </div>
+                <div>
                     <input
                         type="text"
                         name="name"
@@ -121,7 +130,6 @@ export default function SignUp() {
                     />
                 </div>
                 <div>
-                    <label htmlFor="surname" className="block text-sm font-medium text-gray-700">Apellido</label>
                     <input
                         type="text"
                         name="surname"
@@ -131,7 +139,6 @@ export default function SignUp() {
                     />
                 </div>
                 <div>
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
                     <input
                         type="email"
                         name="email"
@@ -141,9 +148,8 @@ export default function SignUp() {
                         className="w-full py-3 px-6 ring-1 ring-gray-300 rounded-xl placeholder-gray-600 bg-transparent transition disabled:ring-gray-200 disabled:bg-gray-100 disabled:placeholder-gray-400 invalid:ring-blue-700 focus:invalid:outline-none"
                     />
                 </div>
-                <input id="img-field" type="file" name="img" accept="image/*" />
+
                 <div className="flex flex-col items-end">
-                    <label htmlFor="password" className="block text-sm font-medium text-gray-700">Contraseña</label>
                     <input
                         type="password"
                         name="password"

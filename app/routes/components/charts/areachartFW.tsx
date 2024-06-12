@@ -5,11 +5,11 @@ interface AreaChartFWProps {
   totalSales: number;
 
 }
-export default function AreaChartFW ({ dataNumber, dataDate, totalSales}: AreaChartFWProps) {
+export default function AreaChartFW({ dataNumber, dataDate, totalSales }: AreaChartFWProps) {
   // const visitors = Array.from(dataNumber)
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   // console.log(totalSales)
-  const [Chart, setApexchart]:any = useState()
+  const [Chart, setApexchart]: any = useState()
   useEffect(() => {
     import('react-apexcharts').then((d) =>
       setApexchart(() => d.default)
@@ -83,20 +83,25 @@ export default function AreaChartFW ({ dataNumber, dataDate, totalSales}: AreaCh
   }
   return !Chart
     ? (
-    <></>
-      )
+      <></>
+    )
     : (
       <div className="w-full bg-[#fffffe] rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
         <div className="flex justify-between">
           <div>
-            <h1 className="leading-none text-3xl font-bold text-[#00214d] dark:text-white pb-2">{totalSales + " €"}</h1>
-            <p className="text-base font-normal text-gray-500 dark:text-gray-400">Generado en ventas</p>
+            <h1 className="leading-none text-3xl font-bold text-[#00214d] dark:text-white pb-2">{
+              (totalSales).toLocaleString('es-ES', {
+                style: 'currency',
+                currency: 'EUR',
+              })}
+            </h1>
+            <p className="text-base font-normal text-gray-500 dark:text-gray-400">Ingresos totales</p>
           </div>
           <div
             className="flex items-center px-2.5 py-0.5 text-base font-semibold text-[#0D8763] dark:text-green-500 text-center">
             {30 + "%"}
             <svg className="w-3 h-3 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13V1m0 0L1 5m4-4 4 4"/>
+              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13V1m0 0L1 5m4-4 4 4" />
             </svg>
           </div>
         </div>
@@ -108,5 +113,5 @@ export default function AreaChartFW ({ dataNumber, dataDate, totalSales}: AreaCh
           width="100%"
         />
       </div>
-      )
+    )
 }

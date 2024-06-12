@@ -14,7 +14,7 @@
     "postinstall": "prisma generate"
   },
   "prisma": {
-    "seed": "node prisma\/seed.js"
+    "seed": "node prisma/seed.js"
   },
   "dependencies": {
     "@faker-js/faker": "^8.4.1",
@@ -23,6 +23,8 @@
     "@remix-run/node": "^2.9.1",
     "@remix-run/react": "^2.9.1",
     "@remix-run/serve": "^2.9.1",
+    "@splinetool/react-spline": "^3.1.0",
+    "@splinetool/runtime": "^1.6.0",
     "@vercel/remix": "^2.9.1",
     "apexcharts": "^3.49.0",
     "argon2": "^0.40.3",
