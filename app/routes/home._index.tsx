@@ -2,7 +2,7 @@ import Spline from "@splinetool/react-spline";
 
 export default function HomeIndex() {
     return (
-        <div className="flex aspect-w-16 aspect-h-9 h-fit">
+        <div className="flex aspect-w-16 aspect-h-9 h-screen">
         <div className="absolute w-full h-screen opacity-35 bg-black">
             <Spline
                 scene="https://prod.spline.design/8YjP4eXvkjacqKNX/scene.splinecode"

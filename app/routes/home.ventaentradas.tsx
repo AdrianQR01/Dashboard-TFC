@@ -10,7 +10,7 @@ const eventos = [
 export default function VentaEntradas() {
     return (
         <>
-        <div className="absolute w-full h-screen opacity-35 bg-black">
+        <div className="absolute w-full h-full opacity-35 bg-black">
             <Spline
                 scene="https://prod.spline.design/8YjP4eXvkjacqKNX/scene.splinecode"
             />
