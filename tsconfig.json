@@ -17,6 +17,7 @@
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
     "target": "ES2022",
+    "customConditions": ["workerd"], // or "node"
     "strict": true,
     "allowJs": true,
     "skipLibCheck": true,

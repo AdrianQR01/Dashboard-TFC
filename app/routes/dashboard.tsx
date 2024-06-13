@@ -2,6 +2,7 @@ import { Outlet, json, useLoaderData, useMatches } from "@remix-run/react";
 import Sidebar from "./components/Sidebar";
 import type { LoaderFunctionArgs, ActionFunctionArgs, MetaFunction } from "@remix-run/node";
 import { authenticator } from "~/services/auth.server";
+import db from "~/services/db";
 
 export const meta: MetaFunction = () => {
   return [
@@ -14,6 +15,11 @@ export const loader = async ({ request }: LoaderFunctionArgs) => {
   const user = await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   })
+  // const subscription = await db.usuario.subscribe()
+
+  // for await (const event of subscription) {
+  //   console.log('New event:', event)
+  // }
   return { email: user.email, name: user.name, surname: user.surname, profilePic: user.profilePicture }
 };
 
