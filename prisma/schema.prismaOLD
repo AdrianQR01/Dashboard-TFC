@@ -1,0 +1,112 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Usuario {
+  id           String        @id @default(auto()) @map("_id") @db.ObjectId
+  name         String
+  surname      String
+  email        String        @unique
+  password     String        
+  profilePicture String?
+  eventos      Evento[]
+  clientes     Cliente[]
+  servicios    Servicio[]
+  presupuestos Presupuesto[]
+  ordenesDeEntrada OrdenDeEntrada[]
+  entradas     Entrada[]
+  clientesEventos ClienteEvento[]
+}
+
+model Evento {
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  nombre          String
+  fecha           DateTime
+  ubicacion       String
+  descripcion     String?
+  usuarioId       String         @db.ObjectId
+  usuario         Usuario        @relation(fields: [usuarioId], references: [id])
+  servicios       Servicio[]
+  presupuesto     Presupuesto?
+  ordenesDeEntrada OrdenDeEntrada[]
+  clientesEventos ClienteEvento[]
+  entradas        Entrada[]
+}
+
+model Cliente {
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  nombre          String
+  apellido        String
+  email           String         @unique
+  telefono        String?
+  usuarioId       String         @db.ObjectId
+  usuario         Usuario        @relation(fields: [usuarioId], references: [id])
+  clienteEventos  ClienteEvento[]
+  ordenesDeEntrada OrdenDeEntrada[]
+}
+
+model Servicio {
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  nombre          String
+  descripcion     String?
+  costo           Float
+  eventoId        String         @db.ObjectId
+  evento          Evento         @relation(fields: [eventoId], references: [id])
+  usuarioId       String         @db.ObjectId
+  usuario         Usuario        @relation(fields: [usuarioId], references: [id])
+}
+
+model Presupuesto {
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  total           String
+  nombrePresupuesto String
+  estado          String
+  fechaInicio     DateTime
+  fechaFin        DateTime
+  eventoId        String         @db.ObjectId @unique
+  evento          Evento         @relation(fields: [eventoId], references: [id])
+  usuarioId       String         @db.ObjectId
+  usuario         Usuario        @relation(fields: [usuarioId], references: [id])
+}
+
+model OrdenDeEntrada {
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  cantidad        Int
+  precio          Float
+  clienteId       String         @db.ObjectId
+  cliente         Cliente        @relation(fields: [clienteId], references: [id])
+  eventoId        String         @db.ObjectId
+  evento          Evento         @relation(fields: [eventoId], references: [id])
+  usuarioId       String         @db.ObjectId
+  usuario         Usuario        @relation(fields: [usuarioId], references: [id])
+  entradas        Entrada[]
+}
+
+model Entrada {
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  numero          String
+  precio          Float
+  ordenDeEntradaId String         @db.ObjectId
+  ordenDeEntrada OrdenDeEntrada  @relation(fields: [ordenDeEntradaId], references: [id])
+  eventoId        String         @db.ObjectId
+  evento          Evento         @relation(fields: [eventoId], references: [id])
+  usuarioId       String         @db.ObjectId
+  usuario         Usuario        @relation(fields: [usuarioId], references: [id])
+}
+
+model ClienteEvento {
+  id              String         @id @default(auto()) @map("_id") @db.ObjectId
+  clienteId       String         @db.ObjectId
+  eventoId        String         @db.ObjectId
+  cliente         Cliente        @relation(fields: [clienteId], references: [id])
+  evento          Evento         @relation(fields: [eventoId], references: [id])
+  usuarioId       String         @db.ObjectId
+  usuario         Usuario        @relation(fields: [usuarioId], references: [id])
+
+  @@index([clienteId, eventoId], name: "cliente_evento_idx")
+}

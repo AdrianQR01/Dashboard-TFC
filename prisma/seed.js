@@ -44,7 +44,7 @@ async function main() {
             data: {
               nombre: faker.lorem.words(3),
               fecha: faker.date.future(),
-              ubicacion: faker.address.city(),
+              ubicacion: faker.location.city(),
               descripcion: faker.lorem.sentence(),
               usuarioId: user.id,
             },
@@ -66,7 +66,7 @@ async function main() {
 
           const presupuesto = await prisma.presupuesto.create({
             data: {
-              total: parseFloat(faker.finance.amount({ min: 1000, max: 10000 })).toString(),
+              total: parseFloat(faker.finance.amount({ min: 1000, max: 10000 })),
               nombrePresupuesto: faker.commerce.productName(),
               estado: "Pendiente",
               fechaInicio: faker.date.past(),
@@ -93,7 +93,7 @@ async function main() {
                 Array.from({ length: ordenDeEntrada.cantidad }).map(async () => {
                   return prisma.entrada.create({
                     data: {
-                      numero: faker.datatype.uuid(),
+                      numero: faker.string.uuid(),
                       precio: ordenDeEntrada.precio,
                       ordenDeEntradaId: ordenDeEntrada.id,
                       eventoId: evento.id,
@@ -102,6 +102,15 @@ async function main() {
                   });
                 })
               );
+
+              // Create ClientEvento relation
+              await prisma.clienteEvento.create({
+                data: {
+                  clienteId: client.id,
+                  eventoId: evento.id,
+                  usuarioId: user.id,
+                },
+              });
             })
           );
 

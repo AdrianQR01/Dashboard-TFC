@@ -12,7 +12,7 @@ export async function loader({ params }: LoaderFunctionArgs) {
   }
 
   const entrada = await db.entrada.findUnique({
-    where: { id: entradaId },
+    where: { id: Number(entradaId) }, // Convert entradaId to string if needed
     include: {
       ordenDeEntrada: true,
       evento: true,

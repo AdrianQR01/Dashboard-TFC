@@ -15,24 +15,28 @@ export async function loader({ request }: LoaderFunctionArgs) {
         failureRedirect: "/login",
     });
     const presupuesto = await db.presupuesto.findMany({
-        where: {
-            usuarioId: user.id,
-        },
+        // where: {
+        //     usuarioId: user.id,
+        // },
+        cacheStrategy: { ttl: 60 },
     });
     const evento = await db.evento.findMany({
         where: {
         },
+        cacheStrategy: { ttl: 60 },
     });
     const entrada = await db.entrada.findMany({
-        where: {
-            usuarioId: user.id,
-        },
+        // where: {
+        //     usuarioId: user.id,
+        // },
         orderBy: {
             evento: {
                 fecha: "asc",
             },
         },
+        cacheStrategy: { ttl: 60 },
     });
+
     return json({ presupuesto, entrada, evento });
 }
 
