@@ -17,6 +17,7 @@ CREATE TABLE "Evento" (
     "fecha" TIMESTAMP(3) NOT NULL,
     "ubicacion" TEXT NOT NULL,
     "descripcion" TEXT,
+    "estadoEvento" TEXT NOT NULL,
     "usuarioId" INTEGER NOT NULL,
 
     CONSTRAINT "Evento_pkey" PRIMARY KEY ("id")
@@ -27,7 +28,9 @@ CREATE TABLE "Cliente" (
     "id" SERIAL NOT NULL,
     "nombre" TEXT NOT NULL,
     "apellido" TEXT NOT NULL,
+    "sexo" TEXT NOT NULL,
     "email" TEXT NOT NULL,
+    "password" TEXT NOT NULL,
     "telefono" TEXT,
     "usuarioId" INTEGER NOT NULL,
 
@@ -75,9 +78,9 @@ CREATE TABLE "OrdenDeEntrada" (
 -- CreateTable
 CREATE TABLE "Entrada" (
     "id" SERIAL NOT NULL,
-    "numero" TEXT NOT NULL,
     "precio" DOUBLE PRECISION NOT NULL,
     "ordenDeEntradaId" INTEGER NOT NULL,
+    "estadoEntrada" TEXT NOT NULL,
     "eventoId" INTEGER NOT NULL,
     "usuarioId" INTEGER NOT NULL,
 
@@ -99,9 +102,6 @@ CREATE UNIQUE INDEX "Usuario_email_key" ON "Usuario"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Cliente_email_key" ON "Cliente"("email");
-
--- CreateIndex
-CREATE UNIQUE INDEX "Presupuesto_eventoId_key" ON "Presupuesto"("eventoId");
 
 -- CreateIndex
 CREATE INDEX "cliente_evento_idx" ON "ClienteEvento"("clienteId", "eventoId");

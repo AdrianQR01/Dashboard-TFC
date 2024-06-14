@@ -1,14 +1,42 @@
 import { useState, useEffect } from 'react'
-interface AreaChartFWProps {
-  dataNumber: string[];
-  dataDate: Date[];
-  totalSales: number;
-
+interface DataItem {
+  [key: string]: any;
 }
-export default function AreaChartFW({ dataNumber, dataDate, totalSales }: AreaChartFWProps) {
-  // const visitors = Array.from(dataNumber)
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  // console.log(totalSales)
+
+interface TablaTestProps {
+  data: DataItem[];
+  setData: React.Dispatch<React.SetStateAction<DataItem[]>>;
+}
+export default function AreaChartFW({ data, setData }: TablaTestProps) {
+  const dataNumber: any = {};
+  const dataDate: any = {};
+  const dataDateLine: any = {};
+
+  data[0].presupuesto.forEach(function (value: { total: any; }, key: string | number) {
+      dataNumber[key] = value.total;
+  });
+  data[0].presupuesto.forEach(function (value: { fechaInicio: any; }, key: string | number) {
+      dataDate[key] = value.fechaInicio;
+  });
+  data[0].evento.forEach(function (value: { fecha: any; }, key: string | number) {
+      dataDateLine[key] = value.fecha;
+  });
+  let totalSales = data[0].entrada.reduce((accumulator: any, currentValue: { precio: any; }) => {
+    return accumulator + currentValue.precio;
+  }, 0);
+  let firstHalf = data[0].entrada.slice(0, Math.floor(data[0].entrada.length / 2));
+  let secondHalf = data[0].entrada.slice(Math.floor(data[0].entrada.length / 2));
+
+  let totalSalesFirstHalf = firstHalf.reduce((accumulator: any, currentValue: { precio: any; }) => {
+    return accumulator + currentValue.precio;
+  }, 0);
+
+  let totalSalesSecondHalf = secondHalf.reduce((accumulator: any, currentValue: { precio: any; }) => {
+    return accumulator + currentValue.precio;
+  }, 0);
+
+  let percentageChange = ((totalSalesSecondHalf - totalSalesFirstHalf) / totalSalesFirstHalf) * 100;
+
   const [Chart, setApexchart]: any = useState()
   useEffect(() => {
     import('react-apexcharts').then((d) =>
@@ -60,7 +88,7 @@ export default function AreaChartFW({ dataNumber, dataDate, totalSales }: AreaCh
     },
     series: [
       {
-        name: 'New users',
+        name: 'Ingresos totales',
         data: Object.values(dataNumber),
         color: '#1A56DB'
       }
@@ -99,7 +127,7 @@ export default function AreaChartFW({ dataNumber, dataDate, totalSales }: AreaCh
           </div>
           <div
             className="flex items-center px-2.5 py-0.5 text-base font-semibold text-[#0D8763] dark:text-green-500 text-center">
-            {30 + "%"}
+            {percentageChange.toFixed() + "%"}
             <svg className="w-3 h-3 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
               <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13V1m0 0L1 5m4-4 4 4" />
             </svg>

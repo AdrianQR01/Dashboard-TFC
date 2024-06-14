@@ -4,13 +4,13 @@ import { ModalEditForm } from "./ModalEditForm";
 import { ActionFunctionArgs } from '@remix-run/node';
 import { Form } from '@remix-run/react';
 
-interface DataItem {
+interface dataItem {
   [key: string]: any;
 }
 
 interface TablaTestProps {
-  data: DataItem[];
-  setData: React.Dispatch<React.SetStateAction<DataItem[]>>;
+  data: dataItem[];
+  setData: React.Dispatch<React.SetStateAction<dataItem[]>>;
 }
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -19,22 +19,23 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 }
 
 export default function TablaTest({ data, setData }: TablaTestProps) {
-  if (!data || data.length === 0) {
-    return <div>No data available</div>;
+  const dataGetted = data[0].data
+  if (!dataGetted || dataGetted.length === 0) {
+    return <div>No dataGetted available</div>;
   }
 
   const [selectAll, setSelectAll] = useState(false);
-  const [selectedRows, setSelectedRows] = useState(new Array(data.length).fill(false));
-  const [editProduct, setEditProduct] = useState<DataItem | null>(null);
+  const [selectedRows, setSelectedRows] = useState(new Array(dataGetted.length).fill(false));
+  const [editProduct, setEditProduct] = useState<dataItem | null>(null);
   
 
-  const headers = Object.keys(data[0]).filter(header => header != 'id');
-  const rows = data.map((item) => Object.values(item).filter((value, index) => headers.indexOf(Object.keys(item)[index]) !== -1));
+  const headers = Object.keys(dataGetted[0]).filter(header => header != 'id');
+  const rows = dataGetted.map((item: ArrayLike<unknown> | { [s: string]: unknown; }) => Object.values(item).filter((value, index) => headers.indexOf(Object.keys(item)[index]) !== -1));
   
   const handleSelectAll = () => {
     const newSelectAll = !selectAll;
     setSelectAll(newSelectAll);
-    setSelectedRows(new Array(data.length).fill(newSelectAll));
+    setSelectedRows(new Array(dataGetted.length).fill(newSelectAll));
   };
 
   const handleRowSelect = (index: number) => {
@@ -48,24 +49,24 @@ export default function TablaTest({ data, setData }: TablaTestProps) {
       setSelectAll(false);
     }
   };
-  const createEmptyDataItem = (): DataItem => {
-    const emptyItem: DataItem = {};
+  const createEmptydataGettedItem = (): dataItem => {
+    const emptyItem: dataItem = {};
     headers.forEach(header => {
       emptyItem[header] = "";
     });
     return emptyItem;
   };
   const handleNewClick = () => {
-    setEditProduct(createEmptyDataItem());
+    setEditProduct(createEmptydataGettedItem());
   };
 
   const handleModalClose = () => {
     setEditProduct(null);
   };
 
-  const handleProductSave = (updatedData: DataItem) => {
-    const newData = [...data, updatedData];
-    setData(newData);
+  const handleProductSave = (updateddataGetted: dataItem) => {
+    const newdataGetted = [...dataGetted, updateddataGetted];
+    setData(newdataGetted);
 
     setEditProduct(null);
   };

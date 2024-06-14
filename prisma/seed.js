@@ -27,8 +27,10 @@ async function main() {
             nombre: faker.person.firstName(),
             apellido: faker.person.lastName(),
             email: faker.internet.email(),
+            password: faker.internet.password(),
             telefono: faker.phone.number(),
             usuarioId: user.id,
+            sexo: faker.person.sex()
           },
         });
       })
@@ -46,6 +48,7 @@ async function main() {
               fecha: faker.date.future(),
               ubicacion: faker.location.city(),
               descripcion: faker.lorem.sentence(),
+              estadoEvento: "En progreso",
               usuarioId: user.id,
             },
           });
@@ -93,8 +96,8 @@ async function main() {
                 Array.from({ length: ordenDeEntrada.cantidad }).map(async () => {
                   return prisma.entrada.create({
                     data: {
-                      numero: faker.string.uuid(),
                       precio: ordenDeEntrada.precio,
+                      estadoEntrada: "En progreso",
                       ordenDeEntradaId: ordenDeEntrada.id,
                       eventoId: evento.id,
                       usuarioId: user.id,

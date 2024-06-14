@@ -11,7 +11,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   const data = await db.presupuesto.findMany({
     where: {},
   });
-  return json(data);
+  return json({data});
 }
 
 export const action = async ({ request }: ActionFunctionArgs) => {
@@ -24,7 +24,7 @@ export default function General() {
   const fetchedData = useLoaderData<typeof loader>();
   const submit = useSubmit();
 
-  const [data, setData] = useState<DataItem[]>(fetchedData); // State to hold fetched data
+  const [data, setData] = useState<DataItem[]>([fetchedData]); // State to hold fetched data
 
   const updateData = (newData: DataItem) => {
     setData(Array.from(newData as DataItem[]));

@@ -30,10 +30,11 @@ model Evento {
   fecha             DateTime
   ubicacion         String
   descripcion       String?
+  estadoEvento      String
   usuarioId         Int
   usuario           Usuario         @relation(fields: [usuarioId], references: [id])
   servicios         Servicio[]
-  presupuesto       Presupuesto?
+  presupuesto       Presupuesto[]
   ordenesDeEntrada  OrdenDeEntrada[]
   clientesEventos   ClienteEvento[]
   entradas          Entrada[]
@@ -43,7 +44,9 @@ model Cliente {
   id                Int             @id @default(autoincrement())
   nombre            String
   apellido          String
+  sexo              String
   email             String          @unique
+  password          String
   telefono          String?
   usuarioId         Int
   usuario           Usuario         @relation(fields: [usuarioId], references: [id])
@@ -69,7 +72,7 @@ model Presupuesto {
   estado            String
   fechaInicio       DateTime
   fechaFin          DateTime
-  eventoId          Int             @unique
+  eventoId          Int             
   evento            Evento          @relation(fields: [eventoId], references: [id])
   usuarioId         Int
   usuario           Usuario         @relation(fields: [usuarioId], references: [id])
@@ -90,9 +93,9 @@ model OrdenDeEntrada {
 
 model Entrada {
   id                Int             @id @default(autoincrement())
-  numero            String
   precio            Float
   ordenDeEntradaId  Int
+  estadoEntrada     String
   ordenDeEntrada    OrdenDeEntrada  @relation(fields: [ordenDeEntradaId], references: [id])
   eventoId          Int
   evento            Evento          @relation(fields: [eventoId], references: [id])

@@ -1,6 +1,14 @@
 import { useState, useEffect } from 'react'
 
-export default function AreaChart () {
+interface DataItem {
+  [key: string]: any;
+}
+
+interface TablaTestProps {
+  data: DataItem[];
+  setData: React.Dispatch<React.SetStateAction<DataItem[]>>;
+}
+export default function AreaChart ({ data, setData }: TablaTestProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [Chart, setApexchart]:any = useState()
   useEffect(() => {
@@ -8,6 +16,8 @@ export default function AreaChart () {
       setApexchart(() => d.default)
     )
   }, [])
+
+  const totalClientes = data.map((item: { [s: string]: unknown; } | ArrayLike<unknown>) => Object.values(item)).length
   const options = {
     chart: {
       height: '100%',
@@ -54,7 +64,7 @@ export default function AreaChart () {
     series: [
       {
         name: 'New users',
-        data: [6500, 6418, 6456, 6526, 6356, 6456],
+        data: [0, totalClientes],
         color: '#1A56DB'
       }
     ],
@@ -82,15 +92,8 @@ export default function AreaChart () {
       <div className="max-w-sm bg-[#fffffe] rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
         <div className="flex justify-between">
           <div>
-            <h1 className="leading-none text-3xl font-bold text-[#00214d] dark:text-[#00214d] pb-2">34.4k</h1>
-            <p className="text-base font-normal text-[#1b2d45] dark:text-[#1b2d45]">Clientes este mes</p>
-          </div>
-          <div
-            className="flex items-center px-2.5 py-0.5 text-base font-semibold text-[#0D8763] dark:text-green-500 text-center">
-            15%
-            <svg className="w-3 h-3 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
-              <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13V1m0 0L1 5m4-4 4 4"/>
-            </svg>
+            <h1 className="leading-none text-3xl font-bold text-[#00214d] dark:text-[#00214d] pb-2">{totalClientes}</h1>
+            <p className="text-base font-normal text-[#1b2d45] dark:text-[#1b2d45]">Clientes totales</p>
           </div>
         </div>
         <Chart
@@ -100,40 +103,10 @@ export default function AreaChart () {
         />
         <div className="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
           <div className="flex justify-between items-center pt-5">
-            <button
-              id="dropdownDefaultButton"
-              data-dropdown-toggle="lastDaysdropdown"
-              data-dropdown-placement="bottom"
-              className="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
-              type="button">
-              Ultimos 7 dias
-              <svg className="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4"/>
-              </svg>
-            </button>
-            <div id="lastDaysdropdown" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                  <li>
-                    <a href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Yesterday</a>
-                  </li>
-                  <li>
-                    <a href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Today</a>
-                  </li>
-                  <li>
-                    <a href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 7 days</a>
-                  </li>
-                  <li>
-                    <a href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 30 days</a>
-                  </li>
-                  <li>
-                    <a href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 90 days</a>
-                  </li>
-                </ul>
-            </div>
             <a
               href="/"
               className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2">
-              Reporte de usuarios
+              Exportacion de clientes
               <svg className="w-2.5 h-2.5 ms-1.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
                 <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4"/>
               </svg>

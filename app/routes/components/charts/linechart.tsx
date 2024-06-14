@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
-interface LineChartFWProps {
-  dataDateLine: Date[];
-}
-export default function LineChart({dataDateLine}: LineChartFWProps) {
+
+export default function LineChart() {
   // const visitors = data.map((row: { precio: number }) => row.total);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [Chart, setApexchart]: any = useState()
@@ -63,7 +61,7 @@ export default function LineChart({dataDateLine}: LineChartFWProps) {
       show: false
     },
     xaxis: {
-      categories: dataDateLine,
+      categories: [1,2,3,4,5],
       labels: {
         show: true,
         style: {

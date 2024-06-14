@@ -9,7 +9,7 @@ export default function HomeIndex() {
             />
         </div>
 
-        <img src="https://res.cloudinary.com/dv0aioztj/image/upload/v1718191533/remix/v0y3qellf5zcutl3u5qr.jpg" alt="Primer Bloque Landing Page" className="w-full h-full object-cover" />
+        <img src="https://res.cloudinary.com/dv0aioztj/image/upload/v1718318015/remix/wptgycj7rfasnnuvxqnw.jpg" alt="Primer Bloque Landing Page" className="w-full h-full object-cover" />
         <div className="absolute w-full h-full">
             <Spline scene="https://prod.spline.design/E6kJBt6E7GDBrPCf/scene.splinecode" />
 

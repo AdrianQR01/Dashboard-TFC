@@ -21,13 +21,13 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const data = await db.cliente.findMany({
         where: {},
     });
-    return json(data);
+    return json({data});
 }
 
 export default function Clientes() {
     const fetchedData = useLoaderData<typeof loader>();
     const submit = useSubmit();
-    const [data, setData] = useState<DataItem[]>(fetchedData); // State to hold fetched data
+    const [data, setData] = useState<DataItem[]>([fetchedData]); // State to hold fetched data
 
     const updateData = (newData: DataItem) => {
         setData(Array.from(newData as DataItem[]));
@@ -48,10 +48,10 @@ export default function Clientes() {
             <div className="flex justify-center bg-[#222E3A]/[4%] rounded-lg">
                 <div className="flex flex-col items-center sm:items-start sm:h-fit sm:flex-row overflow-hidden sm:overflow-auto mb-2">
                     <div className="w-auto sm:w-full">
-                        <div className="m-2 w-[300px]"><PieChart /></div>
+                        {/* <div className="m-2 w-[300px]"><PieChart data={data} setData={updateData} /></div> */}
                     </div>
                     <div className="w-auto sm:w-full">
-                        <div className="m-2 w-[320px]"><AreaChart /></div>
+                        {/* <div className="m-2 w-[320px]"><AreaChart data={data} setData={updateData} /></div> */}
                     </div>
                     <div className="w-auto sm:w-full">
                         <div className="m-2 w-[300px]"><ColumnChart /></div>
