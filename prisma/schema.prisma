@@ -45,6 +45,7 @@ model Cliente {
   nombre            String
   apellido          String
   sexo              String
+  edad              DateTime
   email             String          @unique
   password          String
   telefono          String?

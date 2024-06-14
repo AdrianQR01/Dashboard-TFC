@@ -36,8 +36,13 @@ export async function loader({ request }: LoaderFunctionArgs) {
                 fecha: "asc",
             },
         },
+        include: {
+            ordenDeEntrada: true,
+        },
         cacheStrategy: { ttl: 60 },
     });
+
+    console.log(entrada)
     const cliente = await db.cliente.findMany({
         where: {
             usuarioId: user.id,
@@ -67,7 +72,7 @@ export default function DashboardIndex() {
         submit(formData, { method: "post" }); // Submit FormData
         // console.log(newData); // Log updated data
     };
-    console.log()
+
     return (
         <div className="p-8">
             {/* Resumen Financiero - independiente */}
@@ -85,7 +90,7 @@ export default function DashboardIndex() {
                 {/* Actividad de Eventos */}
                 <div className="h-fit flex flex-col items-center justify-center space-y-4 ">
                     <h2 className="text-xl font-semibold mb-4">Actividad de Eventos</h2>
-                    <LineChart  />
+                    <LineChart data={data[0].evento} setData={updateData} />
                     <ColumnChart />
                 </div>
 
@@ -100,7 +105,7 @@ export default function DashboardIndex() {
                 <div className="h-fit flex flex-col items-center justify-center space-y-4">
                     <h2 className="text-xl font-semibold mb-4">Servicios y Utilización</h2>
                     <RadialChart />
-                    <AreaChart data={data} setData={updateData}  />
+                    <AreaChart data={data} setData={updateData} />
                 </div>
             </div>
         </div>

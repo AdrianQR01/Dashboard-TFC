@@ -17,7 +17,14 @@ export default function AreaChart ({ data, setData }: TablaTestProps) {
     )
   }, [])
 
-  const totalClientes = data.map((item: { [s: string]: unknown; } | ArrayLike<unknown>) => Object.values(item)).length
+  const datosEntradas = data[0].entrada
+  const totalPedidos = datosEntradas.reduce((acc: any, item: any) => {
+    const { id, cantidad, usuarioId } = item.ordenDeEntrada;
+
+    // console.log(usuarioId)
+    return acc + cantidad;
+  }, 0);
+  
   const options = {
     chart: {
       height: '100%',
@@ -63,8 +70,8 @@ export default function AreaChart ({ data, setData }: TablaTestProps) {
     },
     series: [
       {
-        name: 'New users',
-        data: [0, totalClientes],
+        name: 'Pedidos totales',
+        data: [0, totalPedidos],
         color: '#1A56DB'
       }
     ],
@@ -92,8 +99,8 @@ export default function AreaChart ({ data, setData }: TablaTestProps) {
       <div className="max-w-sm bg-[#fffffe] rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
         <div className="flex justify-between">
           <div>
-            <h1 className="leading-none text-3xl font-bold text-[#00214d] dark:text-[#00214d] pb-2">{totalClientes}</h1>
-            <p className="text-base font-normal text-[#1b2d45] dark:text-[#1b2d45]">Clientes totales</p>
+            <h1 className="leading-none text-3xl font-bold text-[#00214d] dark:text-[#00214d] pb-2">{totalPedidos}</h1>
+            <p className="text-base font-normal text-[#1b2d45] dark:text-[#1b2d45]">Pedidos totales</p>
           </div>
         </div>
         <Chart

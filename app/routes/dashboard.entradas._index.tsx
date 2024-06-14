@@ -6,14 +6,35 @@ import PieChart from "./components/charts/piechart";
 import CardTicket from "./components/tickets/CardTicket";
 import { useLoaderData, useSubmit } from "@remix-run/react";
 import { useState } from "react";
+import { authenticator } from "~/services/auth.server";
 interface DataItem {
     [key: string]: any;
 }
 export async function loader({ request }: LoaderFunctionArgs) {
-    const data = await db.cliente.findMany({
-        where: {},
+    const user = await authenticator.isAuthenticated(request, {
+        failureRedirect: "/login",
     });
-    return json({data});
+    const data = await db.cliente.findMany({
+        where: {
+            usuarioId: user.id,
+        },
+    });
+    const eventos = await db.evento.findMany({
+        where: {
+            usuarioId: user.id,
+        },
+        include: {
+            entradas: {
+                orderBy: {
+                    id: 'asc',
+                },
+            },
+        },
+        orderBy: {
+            id: 'asc',
+        },
+    });
+    return json({ data, eventos });
 }
 export default function EntradasIndex() {
     const fetchedData = useLoaderData<typeof loader>();
@@ -22,18 +43,21 @@ export default function EntradasIndex() {
     const [data, setData] = useState<DataItem[]>([fetchedData]); // State to hold fetched data
 
     const updateData = (newData: DataItem) => {
-      setData(Array.from(newData as DataItem[]));
-      const formData = new FormData();
-      // console.log(newData[newData.length - 1])
-      for (const key in newData[newData.length - 1]) {
-        // Update the last key and value in each iteration
-        // console.log(newData[newData.length - 1][key])
-        formData.append(key, newData[newData.length - 1][key]);
-    }
-       // Populate FormData with key and value from newData
-      submit(formData, { method: "post" }); // Submit FormData
-      // console.log(newData); // Log updated data
+        setData(Array.from(newData as DataItem[]));
+        const formData = new FormData();
+        // console.log(newData[newData.length - 1])
+        for (const key in newData[newData.length - 1]) {
+            // Update the last key and value in each iteration
+            // console.log(newData[newData.length - 1][key])
+            formData.append(key, newData[newData.length - 1][key]);
+        }
+        // Populate FormData with key and value from newData
+        submit(formData, { method: "post" }); // Submit FormData
+        // console.log(newData); // Log updated data
     };
+    // console.log(fetchedData.eventos[0])
+
+    
     return (
         <div className="flex flex-col h-fit sm:h-screen w-auto p-4">
             {/* Top row */}
@@ -60,14 +84,10 @@ export default function EntradasIndex() {
                     </h2>
                 </div>
                 <div className="flex flex-col md:flex-row gap-4 w-full h-fit overflow-auto">
-                    <CardTicket />
-                    <CardTicket />
-                    <CardTicket />
-                    <CardTicket />
-                    <CardTicket />
-                    <CardTicket />
-                    <CardTicket />
-                    <CardTicket />
+                    {/* <CardTicket data={fetchedData.entradas} /> */}
+                    {fetchedData.eventos.map((eventos) => (
+                        <CardTicket data={eventos} />
+                    ))}
                 </div>
                 <div className="w-full h-fit ml-4 text-3xl">
                     <h2>
@@ -75,14 +95,9 @@ export default function EntradasIndex() {
                     </h2>
                 </div>
                 <div className="flex flex-col md:flex-row gap-4 w-full h-fit overflow-auto">
-                    <CardTicket />
-                    <CardTicket />
-                    <CardTicket />
-                    <CardTicket />
-                    <CardTicket />
-                    <CardTicket />
-                    <CardTicket />
-                    <CardTicket />
+                    {fetchedData.eventos.map((eventos) => (
+                        <CardTicket data={eventos} />
+                    ))}
                 </div>
             </div>
         </div>

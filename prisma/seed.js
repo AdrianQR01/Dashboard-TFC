@@ -20,7 +20,7 @@ async function main() {
 
   // Create Clients for each User
   const clients = await Promise.all(
-    users.flatMap((user) => 
+    users.flatMap((user) =>
       Array.from({ length: 2 }).map(async () => {
         return prisma.cliente.create({
           data: {
@@ -30,7 +30,8 @@ async function main() {
             password: faker.internet.password(),
             telefono: faker.phone.number(),
             usuarioId: user.id,
-            sexo: faker.person.sex()
+            sexo: faker.person.sex(),
+            edad: faker.date.birthdate({ min: 18, max: 65 })
           },
         });
       })
@@ -100,7 +101,7 @@ async function main() {
                       estadoEntrada: "En progreso",
                       ordenDeEntradaId: ordenDeEntrada.id,
                       eventoId: evento.id,
-                      usuarioId: user.id,
+                      usuarioId: ordenDeEntrada.usuarioId,  // Use the usuarioId from OrdenDeEntrada
                     },
                   });
                 })

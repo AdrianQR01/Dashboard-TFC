@@ -1,6 +1,19 @@
 import { useState, useEffect } from 'react'
 
-export default function LineChart() {
+interface DataItem {
+  [key: string]: any;
+}
+
+interface TablaTestProps {
+  data: DataItem[];
+  setData: React.Dispatch<React.SetStateAction<DataItem[]>>;
+}
+
+export default function LineChart({ data, setData }: TablaTestProps) {
+
+  const totalEnProgreso = data.reduce((acc, item) => item.estadoEvento === 'En progreso' ? acc + 1 : acc, 0);
+  const totalTerminados = data.reduce((acc, item) => item.estadoEvento === 'Terminado' ? acc + 1 : acc, 0);
+  
   // const visitors = data.map((row: { precio: number }) => row.total);
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [Chart, setApexchart]: any = useState()
@@ -47,13 +60,13 @@ export default function LineChart() {
     },
     series: [
       {
-        name: 'Clicks',
-        data: [6500, 6418, 6456, 6526, 6356, 6456],
+        name: 'En progreso',
+        data: [0, totalEnProgreso],
         color: '#1A56DB'
       },
       {
-        name: 'CPC',
-        data: [6456, 6356, 6526, 6332, 6418, 6500],
+        name: 'Finalizado',
+        data: [0, totalTerminados],
         color: '#7E3AF2'
       }
     ],
@@ -90,7 +103,7 @@ export default function LineChart() {
         <div className="flex justify-between mb-5">
           <div className="grid gap-4 grid-cols-2">
             <div>
-              <h1 className="inline-flex content-center items-center text-[#00214d] dark:text-[#00214d] leading-none font-normal mb-2">Clicks
+              <h1 className="inline-flex content-center items-center text-[#00214d] dark:text-[#00214d] leading-none font-normal mb-2">En progreso
                 <svg data-popover-target="clicks-info" data-popover-placement="bottom" className="w-3 h-3 text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
                 </svg>
@@ -107,10 +120,10 @@ export default function LineChart() {
                   <div data-popper-arrow></div>
                 </div>
               </h1>
-              <h2 className="text-gray-900 dark:text-white text-2xl leading-none font-bold">42,3k</h2>
+              <h2 className="text-gray-900 dark:text-white text-2xl leading-none font-bold">{totalEnProgreso}</h2>
             </div>
             <div>
-              <h1 className="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">CPC
+              <h1 className="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">Finalizados
                 <svg data-popover-target="cpc-info" data-popover-placement="bottom" className="w-3 h-3 text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
                   <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
                 </svg>
@@ -127,33 +140,7 @@ export default function LineChart() {
                   <div data-popper-arrow></div>
                 </div>
               </h1>
-              <h2 className="text-gray-900 dark:text-white text-2xl leading-none font-bold">$5.40</h2>
-            </div>
-          </div>
-          <div>
-            <button id="dropdownDefaultButton"
-              data-dropdown-toggle="lastDaysdropdown"
-              data-dropdown-placement="bottom" type="button" className="px-3 py-2 inline-flex items-center text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700">Ultima semana <svg className="w-2.5 h-2.5 ms-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
-              </svg></button>
-            <div id="lastDaysdropdown" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-              <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                <li>
-                  <a href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ayer</a>
-                </li>
-                <li>
-                  <a href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Hoy</a>
-                </li>
-                <li>
-                  <a href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ultimos 7 dias</a>
-                </li>
-                <li>
-                  <a href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ultimos 30 dias</a>
-                </li>
-                <li>
-                  <a href="/" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Ultimos 90 dias</a>
-                </li>
-              </ul>
+              <h2 className="text-gray-900 dark:text-white text-2xl leading-none font-bold">{totalTerminados}</h2>
             </div>
           </div>
         </div>
@@ -169,7 +156,7 @@ export default function LineChart() {
                 <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2Zm-3 15H4.828a1 1 0 0 1 0-2h6.238a1 1 0 0 1 0 2Zm0-4H4.828a1 1 0 0 1 0-2h6.238a1 1 0 1 1 0 2Z" />
                 <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z" />
               </svg>
-              Mirar reporte
+              Exportar eventos
             </a>
           </div>
         </div>

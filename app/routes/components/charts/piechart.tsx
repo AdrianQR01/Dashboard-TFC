@@ -11,7 +11,6 @@ interface TablaTestProps {
 }
 export default function PieChart({ data, setData }: TablaTestProps) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    console.log()
     const totalMujeres = data.filter((cliente) => cliente.sexo === 'female').length;
     const totalHombres = data.filter((cliente) => cliente.sexo === 'male').length;
     const [Chart, setApexchart]: any = useState()
