@@ -17,13 +17,7 @@ export default function AreaChart ({ data, setData }: TablaTestProps) {
     )
   }, [])
 
-  const datosEntradas = data[0].entrada
-  const totalPedidos = datosEntradas.reduce((acc: any, item: any) => {
-    const { id, cantidad, usuarioId } = item.ordenDeEntrada;
-
-    // console.log(usuarioId)
-    return acc + cantidad;
-  }, 0);
+  const totalPedidos = data.flatMap((element: any) => element).reduce((acc: any, item: any) => acc + item.cantidad, 0);
   
   const options = {
     chart: {

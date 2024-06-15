@@ -1,7 +1,24 @@
 import { useState, useEffect } from 'react'
 
-export default function ColumnChart() {
+interface DataItem {
+  [key: string]: any;
+}
+
+interface TablaTestProps {
+  data: DataItem[];
+  setData: React.Dispatch<React.SetStateAction<DataItem[]>>;
+}
+
+export default function ColumnChart({ data, setData }: TablaTestProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
+
+
+  console.log("datos column", data)
+  const totalGanancias = data[0].ordenDeEntrada.reduce((acc:any, current:any) => {
+    return acc + (current.cantidad * current.precio);
+  }, 0);
+  console.log(totalGanancias)
+
   const [Chart, setApexchart]: any = useState()
   useEffect(() => {
     import('react-apexcharts').then((d) =>
@@ -127,29 +144,10 @@ export default function ColumnChart() {
               </svg>
             </div>
             <div>
-              <h1 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-1">3.4k</h1>
-              <p className="text-sm font-normal text-gray-500 dark:text-gray-400">Ventas realizadas por semana</p>
+              <h1 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-1">{totalGanancias + " €"}</h1>
+              <p className="text-sm font-normal text-gray-500 dark:text-gray-400">Ventas realizadas</p>
             </div>
           </div>
-          <div>
-            <span className="bg-green-100 text-green-800 text-xs font-medium inline-flex items-center px-2.5 py-1 rounded-md dark:bg-green-900 dark:text-green-300">
-              <svg className="w-2.5 h-2.5 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13V1m0 0L1 5m4-4 4 4" />
-              </svg>
-              42.5%
-            </span>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-2">
-          <dl className="flex items-center">
-            <dt className="text-gray-500 dark:text-gray-400 text-sm font-normal me-1">Dinero invertido:</dt>
-            <dd className="text-gray-900 text-sm dark:text-white font-semibold">$3,232</dd>
-          </dl>
-          <dl className="flex items-center justify-end">
-            <dt className="text-gray-500 dark:text-gray-400 text-sm font-normal me-1">Ratio:</dt>
-            <dd className="text-gray-900 text-sm dark:text-white font-semibold">1.2%</dd>
-          </dl>
         </div>
         <Chart
           type={options.chart.type}

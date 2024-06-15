@@ -24,18 +24,20 @@ export default function AreaChartFW({ data, setData }: TablaTestProps) {
   let totalSales = data[0].entrada.reduce((accumulator: any, currentValue: { precio: any; }) => {
     return accumulator + currentValue.precio;
   }, 0);
+
   let firstHalf = data[0].entrada.slice(0, Math.floor(data[0].entrada.length / 2));
   let secondHalf = data[0].entrada.slice(Math.floor(data[0].entrada.length / 2));
-
   let totalSalesFirstHalf = firstHalf.reduce((accumulator: any, currentValue: { precio: any; }) => {
     return accumulator + currentValue.precio;
   }, 0);
+
 
   let totalSalesSecondHalf = secondHalf.reduce((accumulator: any, currentValue: { precio: any; }) => {
     return accumulator + currentValue.precio;
   }, 0);
 
   let percentageChange = ((totalSalesSecondHalf - totalSalesFirstHalf) / totalSalesFirstHalf) * 100;
+
 
   const [Chart, setApexchart]: any = useState()
   useEffect(() => {
@@ -89,7 +91,7 @@ export default function AreaChartFW({ data, setData }: TablaTestProps) {
     series: [
       {
         name: 'Ingresos totales',
-        data: Object.values(dataNumber),
+        data: [0, Object.values(dataNumber)],
         color: '#1A56DB'
       }
     ],

@@ -48,8 +48,11 @@ export async function loader({ request }: LoaderFunctionArgs) {
             usuarioId: user.id,
         },
     })
+    const ordenDeEntrada = await db.ordenDeEntrada.findMany({
+        where: {},
+    });
 
-    return json({ presupuesto, entrada, evento, cliente });
+    return json({ presupuesto, entrada, evento, cliente, ordenDeEntrada });
 }
 interface DataItem {
     [key: string]: any;
@@ -58,6 +61,7 @@ export default function DashboardIndex() {
     const fetchedData = useLoaderData<typeof loader>();
     const submit = useSubmit();
     const [data, setData] = useState<DataItem[]>([fetchedData]); // State to hold fetched data
+
 
     const updateData = (newData: DataItem) => {
         setData(Array.from(newData as DataItem[]));
@@ -72,6 +76,7 @@ export default function DashboardIndex() {
         submit(formData, { method: "post" }); // Submit FormData
         // console.log(newData); // Log updated data
     };
+    console.log("Estos son los datos de la base de datos: ", data)
 
     return (
         <div className="p-8">
@@ -81,7 +86,7 @@ export default function DashboardIndex() {
                 <div className="flex flex-row items-center h-fit w-auto gap-8">
                     {/* <AreaChartFW dataNumber={dataNumber} dataDate={dataDate} totalSales={totalSales} /> */}
                     <AreaChartFW data={data} setData={updateData} />
-                    <ColumnChart />
+                    <ColumnChart data={data} setData={updateData} />
                 </div>
             </div>
 
@@ -91,13 +96,13 @@ export default function DashboardIndex() {
                 <div className="h-fit flex flex-col items-center justify-center space-y-4 ">
                     <h2 className="text-xl font-semibold mb-4">Actividad de Eventos</h2>
                     <LineChart data={data[0].evento} setData={updateData} />
-                    <ColumnChart />
+                    <ColumnChart data={data} setData={updateData}/>
                 </div>
 
                 {/* Clientes y Participación */}
                 <div className="h-fit flex flex-col items-center justify-center space-y-4">
                     <h2 className="text-xl font-semibold mb-4">Clientes y Participación</h2>
-                    <DonutChart />
+                    <DonutChart data={data} setData={updateData}/>
                     <PieChart data={data[0].cliente} setData={updateData}/>
                 </div>
 
@@ -105,7 +110,7 @@ export default function DashboardIndex() {
                 <div className="h-fit flex flex-col items-center justify-center space-y-4">
                     <h2 className="text-xl font-semibold mb-4">Servicios y Utilización</h2>
                     <RadialChart />
-                    <AreaChart data={data} setData={updateData} />
+                    <AreaChart data={data[0].ordenDeEntrada} setData={updateData} />
                 </div>
             </div>
         </div>

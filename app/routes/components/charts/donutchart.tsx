@@ -1,7 +1,20 @@
 import { useState, useEffect } from 'react'
 
-export default function DonutChart() {
+interface DataItem {
+    [key: string]: any;
+  }
+  
+  interface TablaTestProps {
+    data: DataItem[];
+    setData: React.Dispatch<React.SetStateAction<DataItem[]>>;
+  }
+  
+
+export default function DonutChart({ data, setData }: TablaTestProps) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    console.log("datos donnut", data)
+    const totalClientes = data[0].cliente.length
+    console.log("datos donnut", totalClientes)
     const [Chart, setApexchart]: any = useState()
     useEffect(() => {
         import('react-apexcharts').then((d) =>
@@ -10,7 +23,7 @@ export default function DonutChart() {
     }, [])
 
     const options = {
-        series: [35.1, 23.5, 2.4, 5.4],
+        series: [35.1, totalClientes],
         colors: ["#1C64F2", "#16BDCA", "#FDBA8C", "#E74694"],
         chart: {
             height: "100%",
@@ -36,20 +49,11 @@ export default function DonutChart() {
                             show: true,
                             label: "Visitas",
                             fontFamily: "Inter, sans-serif",
-                            formatter: function (w: { globals: { seriesTotals: any[] } }) {
-                                const sum = w.globals.seriesTotals.reduce((a, b) => {
-                                    return a + b
-                                }, 0)
-                                return '$' + sum + 'k'
-                            },
                         },
                         value: {
                             show: true,
                             fontFamily: "Inter, sans-serif",
                             offsetY: -20,
-                            formatter: function (value: string) {
-                                return value + "k"
-                            },
                         },
                     },
                     size: "80%",
@@ -61,7 +65,7 @@ export default function DonutChart() {
                 top: -2,
             },
         },
-        labels: ["Directo", "Sponsor", "Afiliado", "Email marketing"],
+        labels: ["Usuarios", "Clientes"],
         dataLabels: {
             enabled: false,
         },
@@ -71,16 +75,10 @@ export default function DonutChart() {
         },
         yaxis: {
             labels: {
-                formatter: function (value: string) {
-                    return value + "k"
-                },
             },
         },
         xaxis: {
             labels: {
-                formatter: function (value: string) {
-                    return value + "k"
-                },
             },
             axisTicks: {
                 show: false,

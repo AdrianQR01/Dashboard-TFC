@@ -29,7 +29,6 @@ export default function Pedidos() {
     const submit = useSubmit();
 
     const [data, setData] = useState<DataItem[]>([fetchedData]);
-    console.log(data) // State to hold fetched data
     const updateData = (newData: DataItem) => {
       setData(Array.from(newData as DataItem[]));
       const formData = new FormData();
