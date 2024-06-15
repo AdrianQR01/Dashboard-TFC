@@ -1,152 +1,174 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 
 interface DataItem {
-    [key: string]: any;
-  }
-  
-  interface TablaTestProps {
-    data: DataItem[];
-    setData: React.Dispatch<React.SetStateAction<DataItem[]>>;
-  }
+  [key: string]: any;
+}
+
+interface TablaTestProps {
+  data: DataItem[];
+  setData: React.Dispatch<React.SetStateAction<DataItem[]>>;
+}
 
 export default function RadialChart({ data, setData }: TablaTestProps) {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    console.log("data: " + data)
-    const totalPendientes = data.reduce((acc, item) => item.estado === 'Pendiente' ? acc + 1 : acc, 0);
-    const totalCancelados = data.reduce((acc, item) => item.estado === 'Cancelado' ? acc + 1 : acc, 0);
-    const totalCompletado = data.reduce((acc, item) => item.estado === 'Completado' ? acc + 1 : acc, 0);
-    console.log(totalCancelados)
-    console.log(totalPendientes)
-    const [Chart, setApexchart]: any = useState()
-    useEffect(() => {
-        import('react-apexcharts').then((d) =>
-            setApexchart(() => d.default)
-        )
-    }, [])
+  console.log('data: ' + data);
+  const totalPendientes = data.reduce((acc, item) => item.estado === 'Pendiente' ? acc + 1 : acc, 0);
+  const totalCancelados = data.reduce((acc, item) => item.estado === 'Cancelado' ? acc + 1 : acc, 0);
+  const totalCompletado = data.reduce((acc, item) => item.estado === 'Completado' ? acc + 1 : acc, 0);
+  console.log(totalCancelados);
+  console.log(totalPendientes);
+  const [Chart, setApexchart]: any = useState();
+  useEffect(() => {
+    import('react-apexcharts').then((d) =>
+      setApexchart(() => d.default)
+    );
+  }, []);
 
-    const options = {
-        series: [totalPendientes, totalCompletado, totalCancelados],
-        colors: ["#1C64F2", "#16BDCA", "#FDBA8C"],
-        chart: {
-            height: "100%",
-            width: "100%",
-            type: "radialBar",
-            sparkline: {
-                enabled: true,
-            },
+  const options = {
+    series: [totalPendientes, totalCompletado, totalCancelados],
+    colors: ["#1C64F2", "#16BDCA", "#FDBA8C"],
+    chart: {
+      height: "100%",
+      width: "100%",
+      type: "radialBar",
+      sparkline: {
+        enabled: true,
+      },
+    },
+    plotOptions: {
+      radialBar: {
+        track: {
+          background: '#E5E7EB',
         },
-        plotOptions: {
-            radialBar: {
-                track: {
-                    background: '#E5E7EB',
-                },
-                dataLabels: {
-                    show: false,
-                },
-                hollow: {
-                    margin: 0,
-                    size: "32%",
-                }
-            },
+        dataLabels: {
+          show: false,
         },
-        grid: {
-            show: false,
-            strokeDashArray: 4,
-            padding: {
-                left: 2,
-                right: 2,
-                top: -23,
-                bottom: -20,
-            },
-        },
-        labels: ["Pendiente", "Completado", "Cancelado"],
-        legend: {
-            show: true,
-            position: "bottom",
-            fontFamily: "Inter, sans-serif",
-        },
-        tooltip: {
-            enabled: true,
-            x: {
-                show: false,
-            },
-        },
-        yaxis: {
-            show: false,
-            labels: {
-                formatter: function (value: string) {
-                    return value + '%';
-                }
-            }
+        hollow: {
+          margin: 0,
+          size: "32%",
         }
-
+      },
+    },
+    grid: {
+      show: false,
+      strokeDashArray: 4,
+      padding: {
+        left: 2,
+        right: 2,
+        top: -23,
+        bottom: -20,
+      },
+    },
+    labels: ["Pendiente", "Completado", "Cancelado"],
+    legend: {
+      show: true,
+      position: "bottom",
+      fontFamily: "Inter, sans-serif",
+    },
+    tooltip: {
+      enabled: true,
+      x: {
+        show: false,
+      },
+    },
+    yaxis: {
+      show: false,
+      labels: {
+        formatter: function (value: string) {
+          return value + '%';
+        }
+      }
     }
+  };
 
-    return !Chart
-        ? (
-            <></>
-        )
-        : (
-            <div className="max-w-sm bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
-                <div className="flex align-middle justify-between mb-3">
-                    <div className="flex items-center">
-                        <div className="flex justify-center items-center">
-                            <h1 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">El progreso del team</h1>
-                            <svg data-popover-target="chart-info" data-popover-placement="bottom" className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm0 16a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm1-5.034V12a1 1 0 0 1-2 0v-1.418a1 1 0 0 1 1.038-.999 1.436 1.436 0 0 0 1.488-1.441 1.501 1.501 0 1 0-3-.116.986.986 0 0 1-1.037.961 1 1 0 0 1-.96-1.037A3.5 3.5 0 1 1 11 11.466Z" />
-                            </svg>
-                            <div data-popover id="chart-info" role="tooltip" className="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400">
-                                <div className="p-3 space-y-2">
-                                    <h2 className="font-semibold text-gray-900 dark:text-white">Activity growth - Incremental</h2>
-                                    <p>Report helps navigate cumulative growth of community activities. Ideally, the chart should have a growing trend, as stagnating chart signifies a significant decrease of community activity.</p>
-                                    <h2 className="font-semibold text-gray-900 dark:text-white">Calculation</h2>
-                                    <p>For each date bucket, the all-time volume of activities is calculated. This means that activities in period n contain all activities up to period n, plus the activities generated by your community in period.</p>
-                                    <a href="#" className="flex items-center font-medium text-blue-600 dark:text-blue-500 dark:hover:text-blue-600 hover:text-blue-700 hover:underline">Read more <svg className="w-2 h-2 ms-1.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
-                                    </svg></a>
-                                </div>
-                                <div data-popper-arrow></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  // Función para exportar los datos a un archivo CSV
+  const exportToCSV = () => {
+    // Procesar los datos en un formato CSV adecuado
+    let csvData = 'Estado,Total\n';
+    csvData += `Pendiente,${totalPendientes}\n`;
+    csvData += `Completado,${totalCompletado}\n`;
+    csvData += `Cancelado,${totalCancelados}\n`;
 
-                <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
-                    <div className="grid grid-cols-3 gap-3 mb-2">
-                        <dl className="bg-orange-50 dark:bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[78px]">
-                            <dt className="w-8 h-8 rounded-full bg-orange-100 dark:bg-gray-500 text-orange-700 dark:text-orange-200 text-sm font-medium flex items-center justify-center mb-1">{totalCancelados}</dt>
-                            <dd className="text-orange-700 dark:text-orange-200 text-sm font-medium">Cancelado</dd>
-                        </dl>
-                        <dl className="bg-teal-50 dark:bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[78px]">
-                            <dt className="w-8 h-8 rounded-full bg-teal-100 dark:bg-gray-500 text-teal-700 dark:text-teal-200 text-sm font-medium flex items-center justify-center mb-1">{totalCompletado}</dt>
-                            <dd className="text-teal-700 dark:text-teal-200 text-sm font-medium">Completado</dd>
-                        </dl>
-                        <dl className="bg-blue-50 dark:bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[78px]">
-                            <dt className="w-8 h-8 rounded-full bg-blue-100 dark:bg-gray-500 text-blue-700 dark:text-blue-200 text-sm font-medium flex items-center justify-center mb-1">{totalPendientes}</dt>
-                            <dd className="text-blue-700 dark:text-blue-200 text-sm font-medium">Pendiente</dd>
-                        </dl>
+    // Crear un Blob con los datos CSV
+    const blob = new Blob([csvData], { type: 'text/csv' });
+    const url = window.URL.createObjectURL(blob);
 
-                    </div>
-                </div>
-                <Chart className="py-6"
-                    type={options.chart.type}
-                    options={options}
-                    series={options.series}
-                />
+    // Crear un enlace y hacer clic en él para descargar el archivo
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'estado_eventos.csv';
+    a.click();
+    window.URL.revokeObjectURL(url);
+  };
 
-                <div className="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
-                    <div className="flex justify-between items-center pt-5">
-                        <a
-                            href="#"
-                            className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2">
-                            Reporte de progresos
-                            <svg className="w-2.5 h-2.5 ms-1.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
-                            </svg>
-                        </a>
-                    </div>
-                </div>
+  return !Chart ? (
+    <></>
+  ) : (
+    <div className="max-w-sm bg-white rounded-lg shadow dark:bg-gray-800 p-4 md:p-6">
+      <div className="flex align-middle justify-between mb-3">
+        <div className="flex items-center">
+          <div className="flex justify-center items-center">
+            <h1 className="text-xl font-bold leading-none text-gray-900 dark:text-white pe-1">El progreso del team</h1>
+            <svg data-popover-target="chart-info" data-popover-placement="bottom" className="w-3.5 h-3.5 text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm0 16a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3Zm1-5.034V12a1 1 0 0 1-2 0v-1.418a1 1 0 0 1 1.038-.999 1.436 1.436 0 0 0 1.488-1.441 1.501 1.501 0 1 0-3-.116.986.986 0 0 1-1.037.961 1 1 0 0 1-.96-1.037A3.5 3.5 0 1 1 11 11.466Z" />
+            </svg>
+            <div data-popover id="chart-info" role="tooltip" className="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400">
+              <div className="p-3 space-y-2">
+                <h2 className="font-semibold text-gray-900 dark:text-white">Activity growth - Incremental</h2>
+                <p>Report helps navigate cumulative growth of community activities. Ideally, the chart should have a growing trend, as stagnating chart signifies a significant decrease of community activity.</p>
+                <h2 className="font-semibold text-gray-900 dark:text-white">Calculation</h2>
+                <p>For each date bucket, the all-time volume of activities is calculated. This means that activities in period n contain all activities up to period n, plus the activities generated by your community in period.</p>
+                <a href="#" className="flex items-center font-medium text-blue-600 dark:text-blue-500 dark:hover:text-blue-600 hover:text-blue-700 hover:underline">Read more <svg className="w-2 h-2 ms-1.5 rtl:rotate-180" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 6 10">
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 9 4-4-4-4" />
+                </svg></a>
+              </div>
+              <div data-popper-arrow></div>
             </div>
+          </div>
+        </div>
+      </div>
 
-        )
+      <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
+        <div className="grid grid-cols-3 gap-3 mb-2">
+          <dl className="bg-orange-50 dark:bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[78px]">
+            <dt className="w-8 h-8 rounded-full bg-orange-100 dark:bg-gray-500 text-orange-700 dark:text-orange-200 text-sm font-medium flex items-center justify-center mb-1">{totalCancelados}</dt>
+            <dd className="text-orange-700 dark:text-orange-200 text-sm font-medium">Cancelado</dd>
+          </dl>
+          <dl className="bg-teal-50 dark:bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[78px]">
+            <dt className="w-8 h-8 rounded-full bg-teal-100 dark:bg-gray-500 text-teal-700 dark:text-teal-200 text-sm font-medium flex items-center justify-center mb-1">{totalCompletado}</dt>
+            <dd className="text-teal-700 dark:text-teal-200 text-sm font-medium">Completado</dd>
+          </dl>
+          <dl className="bg-blue-50 dark:bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[78px]">
+            <dt className="w-8 h-8 rounded-full bg-blue-100 dark:bg-gray-500 text-blue-700 dark:text-blue-200 text-sm font-medium flex items-center justify-center mb-1">{totalPendientes}</dt>
+            <dd className="text-blue-700 dark:text-blue-200 text-sm font-medium">Pendiente</dd>
+          </dl>
+        </div>
+      </div>
+      <Chart className="py-6"
+        type={options.chart.type}
+        options={options}
+        series={options.series}
+      />
+
+      <div className="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
+        <div className="flex justify-between items-center pt-5">
+          <button
+            onClick={exportToCSV}
+            className="px-5 py-2.5 text-sm font-medium text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+          >
+            <svg
+              className="w-3.5 h-3.5 text-white me-2 rtl:rotate-180"
+              aria-hidden="true"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="currentColor"
+              viewBox="0 0 16 20"
+            >
+              <path d="M14.066 0H7v5a2 2 0 0 1-2 2H0v11a1.97 1.97 0 0 0 1.934 2h12.132A1.97 1.97 0 0 0 16 18V2a1.97 1.97 0 0 0-1.934-2Zm-3 15H4.828a1 1 0 0 1 0-2h6.238a1 1 0 0 1 0 2Zm0-4H4.828a1 1 0 0 1 0-2h6.238a1 1 0 1 1 0 2Z" />
+              <path d="M5 5V.13a2.96 2.96 0 0 0-1.293.749L.879 3.707A2.98 2.98 0 0 0 .13 5H5Z" />
+            </svg>
+            Exportar eventos
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
