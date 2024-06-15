@@ -3,10 +3,11 @@ import TableResponsive from "./components/TableResponsive";
 import AreaChart from "./components/charts/areachart";
 import ColumnChart from "./components/charts/columnchart";
 import PieChart from "./components/charts/piechart";
-import TablaTest from "./components/TablaTest";
 import { useLoaderData, useSubmit } from "@remix-run/react";
 import { useState } from "react";
 import db from "~/services/db";
+import TablaTest from "./components/TablaTest";
+import { authenticator } from "~/services/auth.server";
 
 export const meta: MetaFunction = () => {
     return [
@@ -18,10 +19,53 @@ interface DataItem {
     [key: string]: any;
 }
 export async function loader({ request }: LoaderFunctionArgs) {
+    const user = await authenticator.isAuthenticated(request, {
+        failureRedirect: "/login",
+    });
     const data = await db.cliente.findMany({
+        where: {
+            usuarioId: user.id,
+        },
+    });
+    const cliente = await db.cliente.findMany({
+        where: {
+            usuarioId: user.id,
+        },
+    })
+    const entrada = await db.entrada.findMany({
+        where: {
+            usuarioId: user.id,
+        },
+        orderBy: {
+            evento: {
+                fecha: "asc",
+            },
+        },
+        include: {
+            ordenDeEntrada: true,
+        },
+        cacheStrategy: { ttl: 60 },
+    });
+    const eventos = await db.evento.findMany({
+        where: {
+            usuarioId: user.id,
+        },
+        include: {
+            entradas: {
+                orderBy: {
+                    id: 'asc',
+                },
+            },
+        },
+        orderBy: {
+            id: 'asc',
+        },
+    });
+
+    const ordenDeEntrada = await db.ordenDeEntrada.findMany({
         where: {},
     });
-    return json({data});
+    return json({ data, cliente, eventos, ordenDeEntrada, entrada });
 }
 
 export default function Clientes() {
@@ -54,7 +98,7 @@ export default function Clientes() {
                         {/* <div className="m-2 w-[320px]"><AreaChart data={data} setData={updateData} /></div> */}
                     </div>
                     <div className="w-auto sm:w-full">
-                        <div className="m-2 w-[300px]"><ColumnChart /></div>
+                        <div className="m-2 w-[300px]"><PieChart data={data[0].cliente} setData={updateData}/></div>
                     </div>
                 </div>
             </div>

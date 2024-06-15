@@ -109,7 +109,7 @@ export default function DashboardIndex() {
                 {/* Servicios y Utilización */}
                 <div className="h-fit flex flex-col items-center justify-center space-y-4">
                     <h2 className="text-xl font-semibold mb-4">Servicios y Utilización</h2>
-                    <RadialChart />
+                    <RadialChart data={data[0].presupuesto} setData={updateData}/>
                     <AreaChart data={data[0].ordenDeEntrada} setData={updateData} />
                 </div>
             </div>

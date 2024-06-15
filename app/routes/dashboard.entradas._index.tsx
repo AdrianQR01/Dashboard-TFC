@@ -19,6 +19,20 @@ export async function loader({ request }: LoaderFunctionArgs) {
             usuarioId: user.id,
         },
     });
+    const entrada = await db.entrada.findMany({
+        where: {
+            usuarioId: user.id,
+        },
+        orderBy: {
+            evento: {
+                fecha: "asc",
+            },
+        },
+        include: {
+            ordenDeEntrada: true,
+        },
+        cacheStrategy: { ttl: 60 },
+    });
     const eventos = await db.evento.findMany({
         where: {
             usuarioId: user.id,
@@ -34,14 +48,18 @@ export async function loader({ request }: LoaderFunctionArgs) {
             id: 'asc',
         },
     });
-    return json({ data, eventos });
+
+    const ordenDeEntrada = await db.ordenDeEntrada.findMany({
+        where: {},
+    });
+    return json({ data, eventos, ordenDeEntrada, entrada });
 }
 export default function EntradasIndex() {
     const fetchedData = useLoaderData<typeof loader>();
     const submit = useSubmit();
 
     const [data, setData] = useState<DataItem[]>([fetchedData]); // State to hold fetched data
-
+    console.log("Datos de la base de datos: ", data)
     const updateData = (newData: DataItem) => {
         setData(Array.from(newData as DataItem[]));
         const formData = new FormData();
@@ -67,10 +85,10 @@ export default function EntradasIndex() {
                         <div className="m-2 w-[300px]"><PieChart data={data[0].data} setData={updateData} /></div>
                     </div>
                     <div className="w-auto sm:w-full">
-                        <div className="m-2 w-[320px]"><AreaChart data={data} setData={updateData} /></div>
+                        <div className="m-2 w-[320px]"><AreaChart data={data[0].ordenDeEntrada} setData={updateData} /></div>
                     </div>
                     <div className="w-auto sm:w-full">
-                        <div className="m-2 w-[300px]"><ColumnChart /></div>
+                        <div className="m-2 w-[300px]"><ColumnChart data={data} setData={updateData} /></div>
                     </div>
                 </div>
             </div>

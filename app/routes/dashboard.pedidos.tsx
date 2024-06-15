@@ -1,9 +1,9 @@
 import { LoaderFunctionArgs, MetaFunction, json } from "@remix-run/node"
 import AreaChart from "./components/charts/areachart"
-import TableResponsive from "./components/TableResponsive"
 import db from "~/services/db"
 import { useLoaderData, useSubmit } from "@remix-run/react"
 import { SetStateAction, useState } from "react"
+import TablaTest from "./components/TablaTest"
 
 export const meta: MetaFunction = () => {
     return [
@@ -25,7 +25,6 @@ interface DataItem {
 
 export default function Pedidos() {
     const fetchedData = useLoaderData<typeof loader>();
-    console.log(fetchedData)
     const submit = useSubmit();
 
     const [data, setData] = useState<DataItem[]>([fetchedData]);
@@ -57,7 +56,7 @@ export default function Pedidos() {
 
             {/* Bottom row */}
             <div className="flex flex-wrap flex-1">
-                <div className="w-full h-fit"><TableResponsive /></div>
+                <div className="w-full h-fit"><TablaTest data={data} setData={updateData} /></div>
             </div>
         </div>
     )

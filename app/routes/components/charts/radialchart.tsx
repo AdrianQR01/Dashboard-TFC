@@ -1,7 +1,22 @@
 import { useState, useEffect } from 'react'
 
-export default function RadialChart() {
+interface DataItem {
+    [key: string]: any;
+  }
+  
+  interface TablaTestProps {
+    data: DataItem[];
+    setData: React.Dispatch<React.SetStateAction<DataItem[]>>;
+  }
+
+export default function RadialChart({ data, setData }: TablaTestProps) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    console.log("data: " + data)
+    const totalPendientes = data.reduce((acc, item) => item.estado === 'Pendiente' ? acc + 1 : acc, 0);
+    const totalCancelados = data.reduce((acc, item) => item.estado === 'Cancelado' ? acc + 1 : acc, 0);
+    const totalCompletado = data.reduce((acc, item) => item.estado === 'Completado' ? acc + 1 : acc, 0);
+    console.log(totalCancelados)
+    console.log(totalPendientes)
     const [Chart, setApexchart]: any = useState()
     useEffect(() => {
         import('react-apexcharts').then((d) =>
@@ -10,7 +25,7 @@ export default function RadialChart() {
     }, [])
 
     const options = {
-        series: [90, 85, 70],
+        series: [totalPendientes, totalCompletado, totalCancelados],
         colors: ["#1C64F2", "#16BDCA", "#FDBA8C"],
         chart: {
             height: "100%",
@@ -44,7 +59,7 @@ export default function RadialChart() {
                 bottom: -20,
             },
         },
-        labels: ["Listo", "En progreso", "To do"],
+        labels: ["Pendiente", "Completado", "Cancelado"],
         legend: {
             show: true,
             position: "bottom",
@@ -99,40 +114,18 @@ export default function RadialChart() {
                 <div className="bg-gray-50 dark:bg-gray-700 p-3 rounded-lg">
                     <div className="grid grid-cols-3 gap-3 mb-2">
                         <dl className="bg-orange-50 dark:bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[78px]">
-                            <dt className="w-8 h-8 rounded-full bg-orange-100 dark:bg-gray-500 text-orange-700 dark:text-orange-200 text-sm font-medium flex items-center justify-center mb-1">12</dt>
-                            <dd className="text-orange-700 dark:text-orange-200 text-sm font-medium">To do</dd>
+                            <dt className="w-8 h-8 rounded-full bg-orange-100 dark:bg-gray-500 text-orange-700 dark:text-orange-200 text-sm font-medium flex items-center justify-center mb-1">{totalCancelados}</dt>
+                            <dd className="text-orange-700 dark:text-orange-200 text-sm font-medium">Cancelado</dd>
                         </dl>
                         <dl className="bg-teal-50 dark:bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[78px]">
-                            <dt className="w-8 h-8 rounded-full bg-teal-100 dark:bg-gray-500 text-teal-700 dark:text-teal-200 text-sm font-medium flex items-center justify-center mb-1">23</dt>
-                            <dd className="text-teal-700 dark:text-teal-200 text-sm font-medium">In progress</dd>
+                            <dt className="w-8 h-8 rounded-full bg-teal-100 dark:bg-gray-500 text-teal-700 dark:text-teal-200 text-sm font-medium flex items-center justify-center mb-1">{totalCompletado}</dt>
+                            <dd className="text-teal-700 dark:text-teal-200 text-sm font-medium">Completado</dd>
                         </dl>
                         <dl className="bg-blue-50 dark:bg-gray-600 rounded-lg flex flex-col items-center justify-center h-[78px]">
-                            <dt className="w-8 h-8 rounded-full bg-blue-100 dark:bg-gray-500 text-blue-700 dark:text-blue-200 text-sm font-medium flex items-center justify-center mb-1">64</dt>
-                            <dd className="text-blue-700 dark:text-blue-200 text-sm font-medium">Done</dd>
+                            <dt className="w-8 h-8 rounded-full bg-blue-100 dark:bg-gray-500 text-blue-700 dark:text-blue-200 text-sm font-medium flex items-center justify-center mb-1">{totalPendientes}</dt>
+                            <dd className="text-blue-700 dark:text-blue-200 text-sm font-medium">Pendiente</dd>
                         </dl>
 
-                    </div>
-                    <button data-collapse-toggle="more-details" type="button" className="hover:underline text-xs text-gray-500 dark:text-gray-400 font-medium inline-flex items-center">Show more details <svg className="w-2 h-2 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                        <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
-                    </svg>
-                    </button>
-                    <div id="more-details" className="border-gray-200 border-t dark:border-gray-600 pt-3 mt-3 space-y-2 hidden">
-                        <dl className="flex items-center justify-between">
-                            <dt className="text-gray-500 dark:text-gray-400 text-sm font-normal">Average task completion rate:</dt>
-                            <dd className="bg-green-100 text-green-800 text-xs font-medium inline-flex items-center px-2.5 py-1 rounded-md dark:bg-green-900 dark:text-green-300">
-                                <svg className="w-2.5 h-2.5 me-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 14">
-                                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13V1m0 0L1 5m4-4 4 4" />
-                                </svg> 57%
-                            </dd>
-                        </dl>
-                        <dl className="flex items-center justify-between">
-                            <dt className="text-gray-500 dark:text-gray-400 text-sm font-normal">Days until sprint ends:</dt>
-                            <dd className="bg-gray-100 text-gray-800 text-xs font-medium inline-flex items-center px-2.5 py-1 rounded-md dark:bg-gray-600 dark:text-gray-300">13 days</dd>
-                        </dl>
-                        <dl className="flex items-center justify-between">
-                            <dt className="text-gray-500 dark:text-gray-400 text-sm font-normal">Next meeting:</dt>
-                            <dd className="bg-gray-100 text-gray-800 text-xs font-medium inline-flex items-center px-2.5 py-1 rounded-md dark:bg-gray-600 dark:text-gray-300">Thursday</dd>
-                        </dl>
                     </div>
                 </div>
                 <Chart className="py-6"
@@ -143,36 +136,6 @@ export default function RadialChart() {
 
                 <div className="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
                     <div className="flex justify-between items-center pt-5">
-                        <button
-                            id="dropdownDefaultButton"
-                            data-dropdown-toggle="lastDaysdropdown"
-                            data-dropdown-placement="bottom"
-                            className="text-sm font-medium text-gray-500 dark:text-gray-400 hover:text-gray-900 text-center inline-flex items-center dark:hover:text-white"
-                            type="button">
-                            Ultimos 7 dias
-                            <svg className="w-2.5 m-2.5 ms-1.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
-                            </svg>
-                        </button>
-                        <div id="lastDaysdropdown" className="z-10 hidden bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700">
-                            <ul className="py-2 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownDefaultButton">
-                                <li>
-                                    <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Yesterday</a>
-                                </li>
-                                <li>
-                                    <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Today</a>
-                                </li>
-                                <li>
-                                    <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 7 days</a>
-                                </li>
-                                <li>
-                                    <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 30 days</a>
-                                </li>
-                                <li>
-                                    <a href="#" className="block px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white">Last 90 days</a>
-                                </li>
-                            </ul>
-                        </div>
                         <a
                             href="#"
                             className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500  hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2">
