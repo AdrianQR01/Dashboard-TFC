@@ -1,5 +1,8 @@
-import { Form } from "@remix-run/react";
-import TableResponsiveSeguimiento from "./components/TableResponsiveSeguimiento";
+import { Form, json, useLoaderData, useSubmit } from "@remix-run/react";
+import TablaTest from "./components/TablaTest";
+import { ActionFunctionArgs, LoaderFunctionArgs } from "@remix-run/node";
+import { useState } from "react";
+import db from "~/services/db";
 
 interface InputProps {
     label: string;
@@ -22,7 +25,44 @@ const InputField: React.FC<InputProps> = ({ label, name, type = "text", id }) =>
     </div>
 );
 
+
+interface DataItem {
+    [key: string]: any;
+}
+
+export async function loader({ request }: LoaderFunctionArgs) {
+    const data = await db.presupuesto.findMany({
+      where: {},
+    });
+    return json({data});
+  }
+  
+  
+  export const action = async ({ request }: ActionFunctionArgs) => {
+    const form = await request.formData();
+    console.log(form.get("total"))
+    return { result: true }
+  }
+
 export default function Seguimiento() {
+    const fetchedData = useLoaderData<typeof loader>();
+  const submit = useSubmit();
+
+  const [data, setData] = useState<DataItem[]>([fetchedData]); // State to hold fetched data
+
+  const updateData = (newData: DataItem) => {
+    setData(Array.from(newData as DataItem[]));
+    const formData = new FormData();
+    // console.log(newData[newData.length - 1])
+    for (const key in newData[newData.length - 1]) {
+      // Update the last key and value in each iteration
+      // console.log(newData[newData.length - 1][key])
+      formData.append(key, newData[newData.length - 1][key]);
+  }
+     // Populate FormData with key and value from newData
+    submit(formData, { method: "post" }); // Submit FormData
+    // console.log(newData); // Log updated data
+  };
     return (
         <div className="flex flex-wrap flex-1">
             <div className="flex flex-col md:flex-row gap-4 w-full h-fit">
@@ -51,7 +91,7 @@ export default function Seguimiento() {
             </div>
 
             <div className="flex flex-col flex-wrap flex-1  ">
-                <div className="w-full h-fit p-4"><TableResponsiveSeguimiento /></div>
+                <div className="w-full h-fit p-4"><TablaTest data={data} setData={updateData} /></div>
             </div>
         </div>
     );

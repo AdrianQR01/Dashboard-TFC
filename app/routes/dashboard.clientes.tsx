@@ -86,6 +86,7 @@ export default function Clientes() {
         submit(formData, { method: "post" }); // Submit FormData
         // console.log(newData); // Log updated data
     };
+    console.log("Datos clientes", data)
     return (
         <div className="flex flex-col h-fit sm:h-screen w-auto p-4">
             {/* Top row */}

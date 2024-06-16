@@ -91,7 +91,7 @@ export default function AreaChartFW({ data, setData }: TablaTestProps) {
     series: [
       {
         name: 'Ingresos totales',
-        data: [0, Object.values(dataNumber)],
+        data: [0, totalSales],
         color: '#1A56DB'
       }
     ],
