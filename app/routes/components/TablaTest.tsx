@@ -20,7 +20,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 export default function TablaTest({ data, setData }: TablaTestProps) {
   const dataGetted = data[0].data
-  console.log("Data lleganding tabla: ", data)
+  // console.log("Data lleganding tabla: ", data)
   if (!dataGetted || dataGetted.length === 0) {
     return <div>No dataGetted available</div>;
   }

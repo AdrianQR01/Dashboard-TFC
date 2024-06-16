@@ -13,10 +13,10 @@ export const meta: MetaFunction = () => {
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
-    const ordenDeEntrada = await db.ordenDeEntrada.findMany({
+    const data = await db.ordenDeEntrada.findMany({
         where: {},
     });
-    return json(ordenDeEntrada);
+    return json({data});
 }
 
 interface DataItem {
@@ -25,9 +25,11 @@ interface DataItem {
 
 export default function Pedidos() {
     const fetchedData = useLoaderData<typeof loader>();
+
     const submit = useSubmit();
 
     const [data, setData] = useState<DataItem[]>([fetchedData]);
+    // console.log(data)
     const updateData = (newData: DataItem) => {
       setData(Array.from(newData as DataItem[]));
       const formData = new FormData();

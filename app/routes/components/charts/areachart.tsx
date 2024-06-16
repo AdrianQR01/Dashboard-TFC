@@ -15,8 +15,7 @@ export default function AreaChart({ data, setData }: TablaTestProps) {
   useEffect(() => {
     import('react-apexcharts').then((d) => setApexchart(() => d.default));
   }, []);
-
-  const totalPedidos = data
+  const totalPedidos = data[0].data
     .flatMap((element: any) => element)
     .reduce((acc: any, item: any) => acc + item.cantidad, 0);
 
