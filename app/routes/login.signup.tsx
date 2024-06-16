@@ -159,9 +159,6 @@ export default function SignUp() {
                         autoComplete="current-password"
                         className="w-full py-3 px-6 ring-1 ring-gray-300 rounded-xl placeholder-gray-600 bg-transparent transition disabled:ring-gray-200 disabled:bg-gray-100 disabled:placeholder-gray-400 invalid:ring-blue-700 focus:invalid:outline-none"
                     />
-                    <button type="reset" className="w-max p-3 -mr-3">
-                        <span className="text-sm tracking-wide text-blue-600">Olvidaste tu contraseña?</span>
-                    </button>
                 </div>
                 <div>
                     <button type="submit" className="w-full px-6 py-3 rounded-xl bg-sky-500 transition hover:bg-sky-600 focus:bg-sky-600 active:bg-sky-800">
