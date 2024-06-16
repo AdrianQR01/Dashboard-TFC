@@ -14,6 +14,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
   return json({data});
 }
 
+
 export const action = async ({ request }: ActionFunctionArgs) => {
   const form = await request.formData();
   console.log(form.get("total"))
