@@ -12,8 +12,7 @@ interface TablaTestProps {
 export default function ColumnChart({ data, setData }: TablaTestProps) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
-  console.log("datos column", data[0].ordenDeEntrada);
-  const totalGanancias = data[0].ordenDeEntrada.reduce((acc: any, current: any) => {
+  const totalGanancias = data[0].data.ordenDeEntrada.reduce((acc: any, current: any) => {
     return acc + (current.cantidad * current.precio);
   }, 0);
 
@@ -25,13 +24,13 @@ export default function ColumnChart({ data, setData }: TablaTestProps) {
   }, []);
 
   // Procesar los datos para las series del gráfico
-  const daysOfWeek = ['Lun', 'Mar', 'Mie', 'Jue', 'Vie', 'Sab', 'Dom'];
-  const organicData = data[0].ordenDeEntrada.map((entry: any, index: number) => ({
+  const daysOfWeek = ['Lun', 'Mar', 'Mie', 'Jue', 'Vie'];
+  const organicData = data[0].data.ordenDeEntrada.map((entry: any, index: number) => ({
     x: daysOfWeek[index % daysOfWeek.length], // Esto asume que los datos se repiten semanalmente
     y: entry.cantidad,
   }));
 
-  const socialMediaData = data[0].ordenDeEntrada.map((entry: any, index: number) => ({
+  const socialMediaData = data[0].data.ordenDeEntrada.map((entry: any, index: number) => ({
     x: daysOfWeek[index % daysOfWeek.length], // Esto asume que los datos se repiten semanalmente
     y: entry.precio,
   }));
@@ -40,12 +39,12 @@ export default function ColumnChart({ data, setData }: TablaTestProps) {
     colors: ['#1A56DB', '#FDBA8C'],
     series: [
       {
-        name: 'Organic',
+        name: 'Cantidad',
         color: '#1A56DB',
         data: organicData,
       },
       {
-        name: 'Social media',
+        name: 'Precio',
         color: '#FDBA8C',
         data: socialMediaData,
       },
@@ -61,7 +60,7 @@ export default function ColumnChart({ data, setData }: TablaTestProps) {
     plotOptions: {
       bar: {
         horizontal: false,
-        columnWidth: '70%',
+        columnWidth: '50%',
         borderRadiusApplication: 'end',
         borderRadius: 8,
       },
@@ -90,9 +89,10 @@ export default function ColumnChart({ data, setData }: TablaTestProps) {
       show: false,
       strokeDashArray: 4,
       padding: {
-        left: 2,
-        right: 2,
-        top: -14,
+        left: 10,
+        right: 10,
+        top: -10,
+        bottom: -10,
       },
     },
     dataLabels: {
@@ -129,7 +129,7 @@ export default function ColumnChart({ data, setData }: TablaTestProps) {
   const exportToCSV = () => {
     // Procesar los datos en un formato CSV adecuado
     let csvData = 'Day,Organic Quantity,Social Media Price\n';
-    data[0].ordenDeEntrada.forEach((entry: any, index: number) => {
+    data[0].data.ordenDeEntrada.forEach((entry: any, index: number) => {
       const day = daysOfWeek[index % daysOfWeek.length];
       csvData += `${day},${entry.cantidad},${entry.precio}\n`;
     });
@@ -168,7 +168,7 @@ export default function ColumnChart({ data, setData }: TablaTestProps) {
             <h1 className="leading-none text-2xl font-bold text-gray-900 dark:text-white pb-1">
               {totalGanancias + ' €'}
             </h1>
-            <p className="text-sm font-normal text-gray-500 dark:text-gray-400">
+            <p className="text-sm text-[#2b2c34] font-normal dark:text-gray-400">
               Ventas realizadas
             </p>
           </div>
@@ -179,7 +179,7 @@ export default function ColumnChart({ data, setData }: TablaTestProps) {
         <div className="flex justify-between items-center pt-5">
           <button
             onClick={exportToCSV}
-            className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2"
+            className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-[#6246ea] hover:text-blue-700 dark:hover:text-blue-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2"
           >
             Exportar datos
           </button>

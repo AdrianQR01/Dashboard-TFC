@@ -126,7 +126,7 @@ export default function EntradaID() {
                     </div>
                     <p className="text-[#fff]">{evento.precio}€</p>
                     <p>
-                      <a href="https://tailwindcss.com/docs" className="text-white/50">
+                      <a href="/home/ventaentradas" className="text-white/50">
                         Learn more →
                       </a>
                     </p>
@@ -138,11 +138,6 @@ export default function EntradaID() {
           </div>
 
         ))}
-        <p><strong>Número:</strong> { }</p>
-        <p><strong>Precio:</strong> ${ }</p>
-        <p><strong>Evento:</strong> { }</p>
-        <p><strong>Orden de Entrada ID:</strong> { }</p>
-        <p><strong>Usuario:</strong> { }</p>
       </div>
     </div>
   )

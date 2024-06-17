@@ -58,7 +58,7 @@ export default function Sidebar(user:any) {
     ]
     
     return (
-        <div className="h-10 w-full rounded-3xl border border-solid relative sm:h-full sm:w-[12.5rem]">
+        <div className="h-10 w-full rounded-3xl border border-solid relative sm:h-full sm:w-[12.5rem] bg-white">
             <div className="flex flex-row h-full w-auto sm:flex-col duration-200">
                 <div className='h-30 hidden items-center justify-center border border-x-0 border-t-0 border-b-slate-200 drop-shadow shadow-m rounded-t-md sm:flex  '>                        <div className="sm:block hidden">
                             <img src="https://res.cloudinary.com/dv0aioztj/image/upload/v1718346459/remix/ykeoxnkfj2w0lprhrp32.jpg" alt="Logo de DashboardTFC" width={140} className="mx-auto"

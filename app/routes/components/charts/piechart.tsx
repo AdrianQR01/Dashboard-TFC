@@ -11,8 +11,8 @@ interface TablaTestProps {
 }
 export default function PieChart({ data, setData }: TablaTestProps) {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const totalMujeres = data.filter((cliente) => cliente.sexo === 'female').length;
-    const totalHombres = data.filter((cliente) => cliente.sexo === 'male').length;
+    const totalMujeres = data[0].data.cliente.filter((cliente: { sexo: string; }) => cliente.sexo === 'female').length;
+    const totalHombres = data[0].data.cliente.filter((cliente: { sexo: string; }) => cliente.sexo === 'male').length;
     const [Chart, setApexchart]: any = useState()
     useEffect(() => {
         import('react-apexcharts').then((d) =>
@@ -85,7 +85,7 @@ export default function PieChart({ data, setData }: TablaTestProps) {
                 <div className="flex justify-between items-start w-full">
                     <div className="flex-col items-center">
                         <div className="flex items-center mb-1">
-                            <h1 className="text-xl font-bold leading-none text-gray-900 dark:text-white me-1">Sexo del cliente  </h1>
+                            <h1 className="text-xl font-bold leading-none text-[#2b2c34] dark:text-white me-1">Sexo del cliente  </h1>
                         </div>
                     </div>
                     <div className="flex justify-end items-center">

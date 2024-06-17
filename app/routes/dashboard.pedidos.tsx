@@ -11,17 +11,18 @@ export const meta: MetaFunction = () => {
         { name: 'description', content: 'This is the login page' }
     ]
 }
-
-export async function loader({ request }: LoaderFunctionArgs) {
-    const data = await db.ordenDeEntrada.findMany({
-        where: {},
-    });
-    return json({data});
-}
-
 interface DataItem {
     [key: string]: any;
 }
+export async function loader({ request }: LoaderFunctionArgs) {
+    const ordenDeEntrada = await db.ordenDeEntrada.findMany({
+        where: {},
+    });
+    const data = { ordenDeEntrada }
+    return json({data});
+}
+
+
 
 export default function Pedidos() {
     const fetchedData = useLoaderData<typeof loader>();
@@ -29,7 +30,7 @@ export default function Pedidos() {
     const submit = useSubmit();
 
     const [data, setData] = useState<DataItem[]>([fetchedData]);
-    // console.log(data)
+    console.log(data)
     const updateData = (newData: DataItem) => {
       setData(Array.from(newData as DataItem[]));
       const formData = new FormData();
@@ -58,7 +59,7 @@ export default function Pedidos() {
 
             {/* Bottom row */}
             <div className="flex flex-wrap flex-1">
-                <div className="w-full h-fit"><TablaTest data={data} setData={updateData} /></div>
+                <div className="w-full h-fit"><TablaTest data={data[0].data.ordenDeEntrada} setData={updateData} /></div>
             </div>
         </div>
     )

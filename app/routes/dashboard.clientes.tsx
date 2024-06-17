@@ -22,11 +22,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const user = await authenticator.isAuthenticated(request, {
         failureRedirect: "/login",
     });
-    const data = await db.cliente.findMany({
-        where: {
-            usuarioId: user.id,
-        },
-    });
+
     const cliente = await db.cliente.findMany({
         where: {
             usuarioId: user.id,
@@ -65,7 +61,9 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const ordenDeEntrada = await db.ordenDeEntrada.findMany({
         where: {},
     });
-    return json({ data, cliente, eventos, ordenDeEntrada, entrada });
+    const data = { cliente, eventos, ordenDeEntrada, entrada }
+    return json({data});
+
 }
 
 export default function Clientes() {
@@ -86,7 +84,7 @@ export default function Clientes() {
         submit(formData, { method: "post" }); // Submit FormData
         // console.log(newData); // Log updated data
     };
-    console.log("Datos clientes", data)
+    // console.log("Datos clientes", data)
     return (
         <div className="flex flex-col h-fit sm:h-screen w-auto p-4">
             {/* Top row */}
@@ -99,7 +97,7 @@ export default function Clientes() {
                         {/* <div className="m-2 w-[320px]"><AreaChart data={data} setData={updateData} /></div> */}
                     </div>
                     <div className="w-auto sm:w-full">
-                        <div className="m-2 w-[300px]"><PieChart data={data[0].cliente} setData={updateData}/></div>
+                        <div className="m-2 w-[300px]"><PieChart data={data} setData={updateData}/></div>
                     </div>
                 </div>
             </div>
@@ -107,7 +105,7 @@ export default function Clientes() {
 
             {/* Bottom row */}
             <div className="flex flex-wrap flex-1">
-                <div className="w-full h-fit"><TablaTest data={data} setData={updateData} /></div>
+                <div className="w-full h-fit"><TablaTest data={data[0].data.cliente} setData={updateData} /></div>
             </div>
         </div>
 

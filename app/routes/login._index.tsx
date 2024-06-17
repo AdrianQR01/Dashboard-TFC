@@ -35,7 +35,7 @@ export default function LoginIndex() {
                         name="email"
                         id="email"
                         placeholder="Email"
-                        className="w-full py-3 px-6 ring-1 ring-gray-300 rounded-xl placeholder-gray-600 bg-transparent transition disabled:ring-gray-200 disabled:bg-gray-100 disabled:placeholder-gray-400 invalid:ring-red-400 focus:invalid:outline-none"
+                        className="w-full py-3 px-6 ring-1 ring-gray-300 rounded-xl placeholder-[#2b2c34] bg-[#fffffe] transition disabled:ring-gray-200 disabled:bg-[#fffffe] disabled:placeholder-[#2b2c34] invalid:ring-red-400 focus:invalid:outline-none"
                     />
                 </div>
 
@@ -45,19 +45,19 @@ export default function LoginIndex() {
                         name="password"
                         id="password"
                         placeholder="Contraseña"
-                        className="w-full py-3 px-6 ring-1 ring-gray-300 rounded-xl placeholder-gray-600 bg-transparent transition disabled:ring-gray-200 disabled:bg-gray-100 disabled:placeholder-gray-400 invalid:ring-red-400 focus:invalid:outline-none"
+                        className="w-full py-3 px-6 ring-1 ring-gray-300 rounded-xl  placeholder-[#2b2c34] bg-[#fffffe] transition disabled:ring-gray-200 disabled:bg-[#fffffe] disabled:placeholder-[#2b2c34] invalid:ring-red-400 focus:invalid:outline-none"
                     />
                     <button type="reset" className="w-max p-3 -mr-3">
-                        <span className="text-sm tracking-wide text-blue-600">Olvidaste tu contraseña?</span>
+                        <span className="text-sm tracking-wide text-[#6246ea]">Olvidaste tu contraseña?</span>
                     </button>
                 </div>
 
                 <div>
-                    <button type="submit" className="w-full px-6 py-3 rounded-xl bg-[#00ebc7] transition hover:bg-sky-600 focus:bg-sky-600 active:bg-sky-800">
-                        <span className="font-semibold text-[#00214d] text-lg">Inicia sesión</span>
+                    <button type="submit" className="w-full px-6 py-3 rounded-xl bg-[#6246ea] transition hover:bg-sky-600 focus:bg-sky-600 active:bg-sky-800">
+                        <span className="font-semibold text-[#fffffe] text-lg">Inicia sesión</span>
                     </button>
                     <Link to="/login/signup" className="w-max p-3 -ml-3">
-                        <span className="text-sm tracking-wide text-blue-600">No tienes cuenta? Registrate</span>
+                        <span className="text-sm tracking-wide text-[#6246ea]">No tienes cuenta? Registrate</span>
                     </Link>
                 </div>
             </Form>

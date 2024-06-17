@@ -10,8 +10,8 @@ interface TablaTestProps {
 }
 
 export default function LineChart({ data, setData }: TablaTestProps) {
-  const totalEnProgreso = data.reduce((acc, item) => item.estadoEvento === 'En progreso' ? acc + 1 : acc, 0);
-  const totalTerminados = data.reduce((acc, item) => item.estadoEvento === 'Terminado' ? acc + 1 : acc, 0);
+  const totalEnProgreso = data[0].data.evento.reduce((acc:any, item:any) => item.estadoEvento === 'En progreso' ? acc + 1 : acc, 0);
+  const totalTerminados = data[0].data.evento.reduce((acc:any, item:any) => item.estadoEvento === 'Terminado' ? acc + 1 : acc, 0);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [Chart, setApexchart]: any = useState();
@@ -116,136 +116,16 @@ export default function LineChart({ data, setData }: TablaTestProps) {
       <div className="flex justify-between mb-5">
         <div className="grid gap-4 grid-cols-2">
           <div>
-            <h1 className="inline-flex content-center items-center text-[#00214d] dark:text-[#00214d] leading-none font-normal mb-2">
+            <h1 className="inline-flex content-center items-center text-[#2b2c34] dark:text-[#00214d] leading-none font-normal mb-2">
               En progreso
-              <svg
-                data-popover-target="clicks-info"
-                data-popover-placement="bottom"
-                className="w-3 h-3 text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer ms-1"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-              </svg>
-              <div
-                data-popover
-                id="clicks-info"
-                role="tooltip"
-                className="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400"
-              >
-                <div className="p-3 space-y-2">
-                  <h2 className="font-semibold text-gray-900 dark:text-white">
-                    Clicks growth - Incremental
-                  </h2>
-                  <p>
-                    Report helps navigate cumulative growth of community
-                    activities. Ideally, the chart should have a growing trend,
-                    as stagnating chart signifies a significant decrease of
-                    community activity.
-                  </p>
-                  <h2 className="font-semibold text-gray-900 dark:text-white">
-                    Calculation
-                  </h2>
-                  <p>
-                    For each date bucket, the all-time volume of activities is
-                    calculated. This means that activities in period n contain
-                    all activities up to period n, plus the activities generated
-                    by your community in period.
-                  </p>
-                  <a
-                    href="/"
-                    className="flex items-center font-medium text-blue-600 dark:text-blue-500 dark:hover:text-blue-600 hover:text-blue-700 hover:underline"
-                  >
-                    Read more
-                    <svg
-                      className="w-2 h-2 ms-1.5 rtl:rotate-180"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 6 10"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="m1 9 4-4-4-4"
-                      />
-                    </svg>
-                  </a>
-                </div>
-                <div data-popper-arrow></div>
-              </div>
             </h1>
             <h2 className="text-gray-900 dark:text-white text-2xl leading-none font-bold">
               {totalEnProgreso}
             </h2>
           </div>
           <div>
-            <h1 className="inline-flex items-center text-gray-500 dark:text-gray-400 leading-none font-normal mb-2">
+            <h1 className="inline-flex items-center text-[#2b2c34] dark:text-gray-400 leading-none font-normal mb-2">
               Finalizados
-              <svg
-                data-popover-target="cpc-info"
-                data-popover-placement="bottom"
-                className="w-3 h-3 text-gray-400 hover:text-gray-900 dark:hover:text-white cursor-pointer ms-1"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-              >
-                <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM9.5 4a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM12 15H8a1 1 0 0 1 0-2h1v-3H8a1 1 0 0 1 0-2h2a1 1 0 0 1 1 1v4h1a1 1 0 0 1 0 2Z" />
-              </svg>
-              <div
-                data-popover
-                id="cpc-info"
-                role="tooltip"
-                className="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 w-72 dark:bg-gray-800 dark:border-gray-600 dark:text-gray-400"
-              >
-                <div className="p-3 space-y-2">
-                  <h2 className="font-semibold text-gray-900 dark:text-white">
-                    CPC growth - Incremental
-                  </h2>
-                  <p>
-                    Report helps navigate cumulative growth of community
-                    activities. Ideally, the chart should have a growing trend,
-                    as stagnating chart signifies a significant decrease of
-                    community activity.
-                  </p>
-                  <h2 className="font-semibold text-gray-900 dark:text-white">
-                    Calculation
-                  </h2>
-                  <p>
-                    For each date bucket, the all-time volume of activities is
-                    calculated. This means that activities in period n contain
-                    all activities up to period n, plus the activities generated
-                    by your community in period.
-                  </p>
-                  <a
-                    href="/"
-                    className="flex items-center font-medium text-blue-600 dark:text-blue-500 dark:hover:text-blue-600 hover:text-blue-700 hover:underline"
-                  >
-                    Read more
-                    <svg
-                      className="w-2 h-2 ms-1.5 rtl:rotate-180"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 6 10"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="m1 9 4-4-4-4"
-                      />
-                    </svg>
-                  </a>
-                </div>
-                <div data-popper-arrow></div>
-              </div>
             </h1>
             <h2 className="text-gray-900 dark:text-white text-2xl leading-none font-bold">
               {totalTerminados}
@@ -258,7 +138,7 @@ export default function LineChart({ data, setData }: TablaTestProps) {
         <div className="pt-5">
           <button
             onClick={exportToCSV}
-            className="px-5 py-2.5 text-sm font-medium text-white inline-flex items-center bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+            className="px-5 py-2.5 text-sm font-medium text-[#fffffe] inline-flex items-center bg-[#6246ea] hover:bg-[#6246ea] focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg text-center dark:bg-[#6246ea] dark:hover:[#6246ea] dark:focus:ring-blue-800"
           >
             <svg
               className="w-3.5 h-3.5 text-white me-2 rtl:rotate-180"

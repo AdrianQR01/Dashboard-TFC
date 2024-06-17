@@ -15,7 +15,8 @@ export default function AreaChart({ data, setData }: TablaTestProps) {
   useEffect(() => {
     import('react-apexcharts').then((d) => setApexchart(() => d.default));
   }, []);
-  const totalPedidos = data[0].data
+  console.log(data)
+  const totalPedidos = data[0].data.ordenDeEntrada
     .flatMap((element: any) => element)
     .reduce((acc: any, item: any) => acc + item.cantidad, 0);
 
@@ -133,7 +134,7 @@ export default function AreaChart({ data, setData }: TablaTestProps) {
         <div className="flex justify-between items-center pt-5">
           <button
             onClick={exportToCSV}
-            className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-blue-600 hover:text-blue-700 dark:hover:text-blue-500 hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2"
+            className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-[#6246ea] hover:text-[#6246ea] dark:hover:text-[#6246ea] hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2"
           >
             Exportar a CSV
             <svg

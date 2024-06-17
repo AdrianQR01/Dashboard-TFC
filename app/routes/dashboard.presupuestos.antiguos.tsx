@@ -43,9 +43,6 @@ export default function Antiguos() {
                                     <div className="text-base font-semibold">{item.nombrePresupuesto}</div>
                                     <div className="font-normal text-gray-500">{item.estado}</div>
                                 </div>
-                                <div className="ml-auto">
-                                    <a href="#" className="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                </div>
                             </div>
                         ))}
                     </div>

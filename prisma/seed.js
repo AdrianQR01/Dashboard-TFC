@@ -28,10 +28,10 @@ async function main() {
             apellido: faker.person.lastName(),
             email: faker.internet.email(),
             password: faker.internet.password(),
-            telefono: faker.phone.number(),
+            telefono: '+34' + faker.number.int({ min: 611111111, max: 699999999}),
             usuarioId: user.id,
             sexo: faker.person.sex(),
-            edad: faker.date.birthdate({ min: 18, max: 65 })
+            fechaNacimiento: faker.date.birthdate({ min: 18, max: 65, mode: 'age' })
           },
         });
       })

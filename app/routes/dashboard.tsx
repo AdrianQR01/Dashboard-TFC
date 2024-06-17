@@ -34,13 +34,13 @@ export default function Dashboard() {
   const user = useLoaderData<typeof loader>();
 
   return (
-    <div className="w-full h-dvh flex flex-col-reverse items-center p-4 overflow-hidden sm:flex-row sm:h-screen">
+    <div className="w-full h-dvh bg-[#d1d1e9] flex flex-col-reverse items-center p-4 overflow-hidden sm:flex-row sm:h-screen">
 
       <div className="relative pr-3.5 z-auto top-2 sm:static sm:h-full">
         <Sidebar user={user} />
       </div>
-      <div className="flex-1 w-full h-full overflow-x-auto rounded-3xl border relative">
-        <h1 className="text-3xl font-bold pl-8 pt-5 font-test">{isIndexPage ? 'Vista General' : actual_url.charAt(0).toUpperCase() + actual_url.slice(1)}</h1>
+      <div className="flex-1 w-full h-full overflow-x-auto rounded-3xl bg-[#fffffe] border relative">
+        <h1 className="text-3xl text-[#2b2c34] font-bold pl-8 pt-5 font-test">{isIndexPage ? 'Vista General' : actual_url.charAt(0).toUpperCase() + actual_url.slice(1)}</h1>
         <Outlet />
       </div>
     </div>

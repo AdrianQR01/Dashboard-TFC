@@ -14,7 +14,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const user = await authenticator.isAuthenticated(request, {
         failureRedirect: "/login",
     });
-    const data = await db.cliente.findMany({
+    const cliente = await db.cliente.findMany({
         where: {
             usuarioId: user.id,
         },
@@ -52,14 +52,16 @@ export async function loader({ request }: LoaderFunctionArgs) {
     const ordenDeEntrada = await db.ordenDeEntrada.findMany({
         where: {},
     });
-    return json({ data, eventos, ordenDeEntrada, entrada });
+
+    const data = { entrada, cliente, ordenDeEntrada, eventos }
+    return json({data});
 }
 export default function EntradasIndex() {
     const fetchedData = useLoaderData<typeof loader>();
     const submit = useSubmit();
 
     const [data, setData] = useState<DataItem[]>([fetchedData]); // State to hold fetched data
-    console.log("Datos de la base de datos: ", data)
+    // console.log("Datos de la base de datos: ", data)
     const updateData = (newData: DataItem) => {
         setData(Array.from(newData as DataItem[]));
         const formData = new FormData();
@@ -73,7 +75,7 @@ export default function EntradasIndex() {
         submit(formData, { method: "post" }); // Submit FormData
         // console.log(newData); // Log updated data
     };
-    // console.log(fetchedData.eventos[0])
+    // console.log(data)
 
     
     return (
@@ -82,10 +84,10 @@ export default function EntradasIndex() {
             <div className="flex justify-center bg-[#222E3A]/[2%] rounded-2xl">
                 <div className="flex flex-col items-center sm:items-start sm:h-fit sm:flex-row overflow-hidden sm:overflow-auto mb-2">
                     <div className="w-auto sm:w-full">
-                        <div className="m-2 w-[300px]"><PieChart data={data[0].data} setData={updateData} /></div>
+                        <div className="m-2 w-[300px]"><PieChart data={data} setData={updateData} /></div>
                     </div>
                     <div className="w-auto sm:w-full">
-                        <div className="m-2 w-[320px]"><AreaChart data={data[0].ordenDeEntrada} setData={updateData} /></div>
+                        <div className="m-2 w-[320px]"><AreaChart data={data} setData={updateData} /></div>
                     </div>
                     <div className="w-auto sm:w-full">
                         <div className="m-2 w-[300px]"><ColumnChart data={data} setData={updateData} /></div>
@@ -103,7 +105,7 @@ export default function EntradasIndex() {
                 </div>
                 <div className="flex flex-col md:flex-row gap-4 w-full h-fit overflow-auto">
                     {/* <CardTicket data={fetchedData.entradas} /> */}
-                    {fetchedData.eventos.map((eventos) => (
+                    {data[0].data.eventos.map((eventos: any) => (
                         <CardTicket data={eventos} />
                     ))}
                 </div>
@@ -113,7 +115,7 @@ export default function EntradasIndex() {
                     </h2>
                 </div>
                 <div className="flex flex-col md:flex-row gap-4 w-full h-fit overflow-auto">
-                    {fetchedData.eventos.map((eventos) => (
+                    {data[0].data.eventos.map((eventos: any) => (
                         <CardTicket data={eventos} />
                     ))}
                 </div>

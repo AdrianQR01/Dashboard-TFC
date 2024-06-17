@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
+import dynamic from 'next/dynamic';
+
 interface DataItem {
   [key: string]: any;
 }
@@ -7,44 +9,51 @@ interface TablaTestProps {
   data: DataItem[];
   setData: React.Dispatch<React.SetStateAction<DataItem[]>>;
 }
+
 export default function AreaChartFW({ data, setData }: TablaTestProps) {
-  const dataNumber: any = {};
-  const dataDate: any = {};
-  const dataDateLine: any = {};
+  const dataNumber: { [key: string]: number } = {};
+  const dataDate: { [key: string]: string } = {};
+  const dataDateLine: { [key: string]: string } = {};
 
-  data[0].presupuesto.forEach(function (value: { total: any; }, key: string | number) {
-      dataNumber[key] = value.total;
+  data[0].data.presupuesto.forEach((value: { total: number; fechaInicio: string }, key: string | number) => {
+    dataNumber[key] = value.total;
+    dataDate[key] = value.fechaInicio;
   });
-  data[0].presupuesto.forEach(function (value: { fechaInicio: any; }, key: string | number) {
-      dataDate[key] = value.fechaInicio;
+
+  data[0].data.evento.forEach((value: { fecha: string }, key: string | number) => {
+    dataDateLine[key] = value.fecha;
   });
-  data[0].evento.forEach(function (value: { fecha: any; }, key: string | number) {
-      dataDateLine[key] = value.fecha;
-  });
-  let totalSales = data[0].entrada.reduce((accumulator: any, currentValue: { precio: any; }) => {
-    return accumulator + currentValue.precio;
-  }, 0);
 
-  let firstHalf = data[0].entrada.slice(0, Math.floor(data[0].entrada.length / 2));
-  let secondHalf = data[0].entrada.slice(Math.floor(data[0].entrada.length / 2));
-  let totalSalesFirstHalf = firstHalf.reduce((accumulator: any, currentValue: { precio: any; }) => {
-    return accumulator + currentValue.precio;
-  }, 0);
+  const totalSales = data[0].data.entrada.reduce((acc: number, curr: { precio: number }) => acc + curr.precio, 0);
 
+  console.log("Data 0: ", data[0].data.entrada);
 
-  let totalSalesSecondHalf = secondHalf.reduce((accumulator: any, currentValue: { precio: any; }) => {
-    return accumulator + currentValue.precio;
-  }, 0);
+  let firstHalf = data[0].data.entrada.slice(0, Math.floor(data[0].data.entrada.length / 2));
+  console.log("Data first: ", firstHalf);
+  let secondHalf = data[0].data.entrada.slice(Math.floor(data[0].data.entrada.length / 2));
+  console.log("Data second: ", secondHalf);
 
-  let percentageChange = ((totalSalesSecondHalf - totalSalesFirstHalf) / totalSalesFirstHalf) * 100;
+  let totalSalesFirstHalf = firstHalf.reduce((acc: number, curr: { precio: number }) => acc + curr.precio, 0);
+  console.log("Data totalfirst: ", totalSalesFirstHalf);
 
+  let totalSalesSecondHalf = secondHalf.reduce((acc: number, curr: { precio: number }) => acc + curr.precio, 0);
+  console.log("Data totalfsecond: ", totalSalesSecondHalf);
 
-  const [Chart, setApexchart]: any = useState()
+  let percentageChange;
+  if (totalSalesFirstHalf === 0) {
+    percentageChange = totalSalesSecondHalf !== 0 ? 100 : 0;
+  } else {
+    percentageChange = ((totalSalesSecondHalf - totalSalesFirstHalf) / totalSalesFirstHalf) * 100;
+  }
+  console.log("percentage: ", percentageChange);
+
+  const [Chart, setApexchart]: any = useState();
   useEffect(() => {
     import('react-apexcharts').then((d) =>
       setApexchart(() => d.default)
-    )
-  }, [])
+    );
+  }, []);
+
   const options = {
     chart: {
       height: '100%',
@@ -110,7 +119,8 @@ export default function AreaChartFW({ data, setData }: TablaTestProps) {
     yaxis: {
       show: false
     }
-  }
+  };
+
   return !Chart
     ? (
       <></>
@@ -125,7 +135,7 @@ export default function AreaChartFW({ data, setData }: TablaTestProps) {
                 currency: 'EUR',
               })}
             </h1>
-            <p className="text-base font-normal text-gray-500 dark:text-gray-400">Ingresos totales</p>
+            <p className="text-base font-normal text-[#2b2c34] dark:text-gray-400">Ingresos totales</p>
           </div>
           <div
             className="flex items-center px-2.5 py-0.5 text-base font-semibold text-[#0D8763] dark:text-green-500 text-center">
@@ -143,5 +153,5 @@ export default function AreaChartFW({ data, setData }: TablaTestProps) {
           width="100%"
         />
       </div>
-    )
+    );
 }

@@ -1,8 +1,8 @@
 import { useState } from 'react';
-import { Dropdown, Checkbox, Button } from "flowbite-react";
+import { Dropdown, Checkbox, Button, Datepicker, Badge } from "flowbite-react";
 import { ModalEditForm } from "./ModalEditForm";
 import { ActionFunctionArgs } from '@remix-run/node';
-import { Form } from '@remix-run/react';
+import { Form, Link } from '@remix-run/react';
 
 interface dataItem {
   [key: string]: any;
@@ -13,30 +13,52 @@ interface TablaTestProps {
   setData: React.Dispatch<React.SetStateAction<dataItem[]>>;
 }
 
-export const action = async ({ request }: ActionFunctionArgs) => {
-  const form = await request.formData();
-  console.log(form.get("total"))
-}
+// export const action = async ({ request }: ActionFunctionArgs) => {
+//   const form = await request.formData();
+//   console.log(form.get("total"))
+// }
+function calculateAge(birthDate: Date): number {
+  const today = new Date();
+  const birthYear = birthDate.getFullYear();
+  const birthMonth = birthDate.getMonth();
+  const birthDay = birthDate.getDate();
 
+  let age = today.getFullYear() - birthYear;
+  if (today.getMonth() < birthMonth || (today.getMonth() === birthMonth && today.getDate() < birthDay)) {
+    age--;
+  }
+
+  return age;
+}
 export default function TablaTest({ data, setData }: TablaTestProps) {
-  const dataGetted = data[0].data
   // console.log("Data lleganding tabla: ", data)
-  if (!dataGetted || dataGetted.length === 0) {
+  if (!data || data.length === 0) {
     return <div>No dataGetted available</div>;
   }
-  
-  const [selectAll, setSelectAll] = useState(false);
-  const [selectedRows, setSelectedRows] = useState(new Array(dataGetted.length).fill(false));
-  const [editProduct, setEditProduct] = useState<dataItem | null>(null);
-  
 
-  const headers = Object.keys(dataGetted[0]).filter(header => header != 'id');
-  const rows = dataGetted.map((item: ArrayLike<unknown> | { [s: string]: unknown; }) => Object.values(item).filter((value, index) => headers.indexOf(Object.keys(item)[index]) !== -1));
-  
+  const [selectAll, setSelectAll] = useState(false);
+  const [selectedRows, setSelectedRows] = useState(new Array(data.length).fill(false));
+  const [editProduct, setEditProduct] = useState<dataItem | null>(null);
+
+
+  const headers = Object.keys(data[0]).filter(header =>
+    !header.toLowerCase().includes('usuario') &&
+
+    !header.toLowerCase().includes('password')
+  );
+
+  const rows = data.map(item => {
+    return Object.keys(item).filter(key =>
+      !key.toLowerCase().includes('usuario') &&
+
+      !key.toLowerCase().includes('password')
+    ).map(key => item[key]);
+  });
+
   const handleSelectAll = () => {
     const newSelectAll = !selectAll;
     setSelectAll(newSelectAll);
-    setSelectedRows(new Array(dataGetted.length).fill(newSelectAll));
+    setSelectedRows(new Array(data.length).fill(newSelectAll));
   };
 
   const handleRowSelect = (index: number) => {
@@ -64,11 +86,25 @@ export default function TablaTest({ data, setData }: TablaTestProps) {
   const handleModalClose = () => {
     setEditProduct(null);
   };
-
-  const handleProductSave = (updateddataGetted: dataItem) => {
-    const newdataGetted = [...dataGetted, updateddataGetted];
-    setData(newdataGetted);
-
+  const handleEditClick = (item: dataItem) => {
+    // Filtrar solo las claves relevantes para editProduct
+    const filteredItem: dataItem = {};
+    headers.forEach((header, index) => {
+      filteredItem[header] = item[index];
+    });
+    setEditProduct(filteredItem);
+  };
+  const handleProductSave = (updatedData: dataItem) => {
+    const index = data.findIndex(item => item.id === updatedData.id);
+    if (index !== -1) {
+        // Update existing data
+        const newData = [...data];
+        newData[index] = updatedData;
+        setData(newData);
+    } else {
+        // Add new data
+        setData([...data, updatedData]);
+    }
     setEditProduct(null);
   };
 
@@ -79,7 +115,7 @@ export default function TablaTest({ data, setData }: TablaTestProps) {
 
   return (
     <div className="w-full">
-      <div className="flex items-center justify-left m-4">
+      <div className="flex items-center justify-left mb-4 gap-2">
         <Dropdown label="Acciones" dismissOnClick={false}>
           <Dropdown.Item>Borrar todos</Dropdown.Item>
           <Dropdown.Item className="visible sm:hidden md:hidden">Marcar todos</Dropdown.Item>
@@ -89,34 +125,38 @@ export default function TablaTest({ data, setData }: TablaTestProps) {
         </Button>
         {editProduct && (
           <Form method="post">
-          <ModalEditForm
-            data={editProduct}
-            onClose={handleModalClose}
-            onSave={handleProductSave}
-            onDelete={handleProductDelete}
-          />
+            <ModalEditForm
+              data={editProduct}
+              onClose={handleModalClose}
+              onSave={handleProductSave}
+              onDelete={handleProductDelete}
+            />
           </Form>
 
         )}
       </div>
       <div className="overflow-x-auto">
-        <table className="w-full bg-white overflow-hidden">
+        <table className="w-full bg-white min-w-[500px]">
           {/* Encabezado visible solo en PC */}
           <thead className="hidden sm:table-header-group">
             <tr className="bg-gray-100">
               <th className="py-3 px-0.5 text-center">
                 <Checkbox checked={selectAll} onChange={handleSelectAll} />
               </th>
-              {headers.map((header, index) => (
-                <th
-                  key={header}
-                  className={`p-4 text-center border 
+              {headers.map((header, index) => {
+                if (header.toLowerCase() === "id") return null;
+                return (
+                  <th
+                    key={header}
+                    className={`p-4 text-center border 
                   ${index === 0 ? 'rounded-tl-lg' : ''} 
                   ${index === headers.length - 1 ? 'rounded-tr-lg' : ''}`}
-                >
-                  {header}
-                </th>
-              ))}
+                  >
+                    {header.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase()).replace(/\bid\b/gi, '').trim()}
+                  </th>
+                )
+
+              })}
             </tr>
           </thead>
 
@@ -127,20 +167,126 @@ export default function TablaTest({ data, setData }: TablaTestProps) {
                 <td className="p-4 border text-left sm:table-cell sm:text-center">
                   <Checkbox checked={selectedRows[rowIndex]} onChange={() => handleRowSelect(rowIndex)} />
                 </td>
-                {row.map((cell: any, cellIndex: any) => (
-                  <td key={cellIndex} className="p-4 border text-left sm:table-cell">
-                    <div className="flex sm:hidden">
-                      <div className="font-bold w-1/2">{headers[cellIndex]}</div>
-                      <div className="w-1/2">{cell}</div>
-                    </div>
-                    <div className="hidden sm:block">{cell}</div>
-                  </td>
-                ))}
+                {row.map((cell: any, cellIndex: any) => {
+                  if (headers[cellIndex].toLowerCase() === "id") return null;
+                  const showButton = headers[cellIndex].includes('Id');
+                  const dateView = headers[cellIndex].includes('fecha') && !headers[cellIndex].includes('fechaNacimiento');
+                  const birthdayView = headers[cellIndex].includes('fechaNacimiento');
+                  const statusView = headers[cellIndex].includes('estado');
+                  const totalView = headers[cellIndex].includes('total');
+                  return (
+                    <td key={cellIndex} className="p-4 border text-left sm:table-cell">
+                      <div className="flex sm:hidden">
+                        <div className="font-bold w-1/2">{headers[cellIndex].replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase()).replace(/\bid\b/gi, '').trim()}</div>
+
+                        {showButton ? (
+                          <div className='flex items-center justify-center'>
+                            <Link to={`../${headers[cellIndex].replace('Id', '')}s/${cell}`}>
+                              <Button className="bg-blue-500 text-white rounded">
+                                {headers[cellIndex].replace('Id', '').replace(/^./, (str) => str.toUpperCase())}
+                              </Button>
+                            </Link>
+                          </div>
+                        ) : dateView ? (
+                          <div className='min-w-52'>
+                            <Datepicker
+                              language="es-ES"
+                              labelTodayButton="Fecha actual"
+                              className="pointer-events-none"
+                              minDate={new Date(cell)}
+                              maxDate={new Date(cell)}
+                            />
+                          </div>
+                        ) : statusView ? (
+                          <div>
+                            {cell === "Cancelado" && (
+                              <Badge color="failure">Cancelado</Badge>
+                            )}
+                            {cell === "En progreso" && (
+                              <Badge color="warning">En progreso</Badge>
+                            )}
+                            {cell === "Finalizado" && (
+                              <Badge color="success">Finalizado</Badge>
+                            )}
+                          </div>
+                        ) : totalView ? (
+                          <div className="w-1/2">{cell} €</div>
+                        ) : birthdayView ? (
+                          <div className="flex flex-col items-start gap-2">
+                            <div className='text-center'>{calculateAge(new Date(cell))} años</div>
+                            <Datepicker
+                              language="es-ES"
+                              labelTodayButton="Fecha actual"
+                              className="pointer-events-none"
+                              minDate={new Date(cell)}
+                              maxDate={new Date(cell)}
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-1/2">{cell}</div>
+                        )}
+
+                      </div>
+                      <div className="hidden sm:block">
+                        {showButton ? (
+                          <div className='flex items-center justify-center'>
+                            <Link to={`../${headers[cellIndex].replace('Id', '')}s/${cell}`}>
+                              <Button className="bg-blue-500 text-white rounded">{headers[cellIndex].replace('Id', '').replace(/^./, (str) => str.toUpperCase())}</Button>
+
+                            </Link>
+                          </div>
+                        ) : dateView ? (
+                          <div className='min-w-52'>
+                            <Datepicker
+                              language="es-ES"
+                              labelTodayButton="Fecha actual"
+                              className="pointer-events-none"
+                              minDate={new Date(cell)}
+                              maxDate={new Date(cell)}
+                            />
+                          </div>
+                        ) : statusView ? (
+                          <div>
+                            {cell === "Cancelado" && (
+                              <Badge color="failure">Cancelado</Badge>
+                            )}
+                            {cell === "En progreso" && (
+                              <Badge color="warning">En progreso</Badge>
+                            )}
+                            {cell === "Finalizado" && (
+                              <Badge color="success">Finalizado</Badge>
+                            )}
+                          </div>
+                        ) : totalView ? (
+                          <div className="w-1/2 text-nowrap">{cell} €</div>
+                        ) : birthdayView ? (
+                          <div className="flex flex-row items-center gap-2 min-w-[275px]">
+                            <div className='text-center'>{calculateAge(new Date(cell))} años</div>
+                            <Datepicker
+                              language="es-ES"
+                              labelTodayButton="Fecha actual"
+                              className="pointer-events-none"
+                              minDate={new Date(cell)}
+                              maxDate={new Date(cell)}
+                            />
+                          </div>
+                        ) : (
+                          <div className="w-1/2">{cell}</div>
+                        )}
+                      </div>
+                    </td>
+
+                  )
+                })}
+                <td className="p-4 text-center border">
+                  <Button onClick={() => handleEditClick(row)}>Edit</Button>
+                </td>
               </tr>
             ))}
+
           </tbody>
         </table>
       </div>
-    </div>
+    </div >
   );
 }

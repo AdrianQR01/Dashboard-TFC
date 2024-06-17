@@ -52,8 +52,8 @@ export async function loader({ request }: LoaderFunctionArgs) {
             usuarioId: user.id,
         },
     })
-
-    return json({ presupuesto, entrada, evento, cliente, servicios });
+    const data = { presupuesto, entrada, evento, cliente, servicios }
+    return json({data});
 }
 interface DataItem {
     [key: string]: any;
@@ -94,7 +94,7 @@ export default function Servicios() {
             <div className="flex w-full flex-row flex-wrap flex-1">
                 <div className="flex flex-wrap p-4 flex-row justify-center w-fit h-fit">
                     
-                    {fetchedData.servicios.map((servicio) => (
+                    {data[0].data.servicios.map((servicio:any) => (
                         <CardTicket data={servicio}/>
                     ))}
                 </div>
