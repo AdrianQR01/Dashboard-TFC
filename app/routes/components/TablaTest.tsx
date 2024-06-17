@@ -39,20 +39,13 @@ export default function TablaTest({ data, setData }: TablaTestProps) {
   const [selectAll, setSelectAll] = useState(false);
   const [selectedRows, setSelectedRows] = useState(new Array(data.length).fill(false));
   const [editProduct, setEditProduct] = useState<dataItem | null>(null);
+  console.log("editProduct: ", editProduct)
 
 
-  const headers = Object.keys(data[0]).filter(header =>
-    !header.toLowerCase().includes('usuario') &&
-
-    !header.toLowerCase().includes('password')
-  );
+  const headers = Object.keys(data[0]).filter(header => header && !header.toLowerCase().includes('usuario') && !header.toLowerCase().includes('password'));
 
   const rows = data.map(item => {
-    return Object.keys(item).filter(key =>
-      !key.toLowerCase().includes('usuario') &&
-
-      !key.toLowerCase().includes('password')
-    ).map(key => item[key]);
+    return Object.keys(item).filter(key => key && !key.toLowerCase().includes('usuario') && !key.toLowerCase().includes('password')).map(key => item[key]);
   });
 
   const handleSelectAll = () => {
@@ -74,9 +67,14 @@ export default function TablaTest({ data, setData }: TablaTestProps) {
   };
   const createEmptydataGettedItem = (): dataItem => {
     const emptyItem: dataItem = {};
+    emptyItem["id"] = rows[rows.length - 1][0] + 1
     headers.forEach(header => {
-      emptyItem[header] = "";
+      if (header !== 'id') {
+        emptyItem[header] = "";
+      }
+
     });
+    console.log(emptyItem)
     return emptyItem;
   };
   const handleNewClick = () => {
@@ -89,29 +87,32 @@ export default function TablaTest({ data, setData }: TablaTestProps) {
   const handleEditClick = (item: dataItem) => {
     // Filtrar solo las claves relevantes para editProduct
     const filteredItem: dataItem = {};
+    console.log("filtrados: ", filteredItem)
     headers.forEach((header, index) => {
       filteredItem[header] = item[index];
+      console.log("filtrados2: ", filteredItem[header])
     });
     setEditProduct(filteredItem);
   };
   const handleProductSave = (updatedData: dataItem) => {
     const index = data.findIndex(item => item.id === updatedData.id);
     if (index !== -1) {
-        // Update existing data
-        const newData = [...data];
-        newData[index] = updatedData;
-        setData(newData);
+      // Update existing data
+      const newData = [...data];
+      newData[index] = updatedData;
+      setData(newData);
     } else {
-        // Add new data
-        setData([...data, updatedData]);
+      // Add new data
+      setData([...data, updatedData]);
     }
     setEditProduct(null);
   };
 
   const handleProductDelete = (id: string | number) => {
-    // Implement delete logic here
-    setEditProduct(null);
-  };
+  const newData = data.filter(item => item.id !== id);
+  setData(newData);
+  setEditProduct(null); // Cerrar el modal de edición si está abierto
+};
 
   return (
     <div className="w-full">
@@ -144,7 +145,7 @@ export default function TablaTest({ data, setData }: TablaTestProps) {
                 <Checkbox checked={selectAll} onChange={handleSelectAll} />
               </th>
               {headers.map((header, index) => {
-                if (header.toLowerCase() === "id") return null;
+                if (header?.toLowerCase() === "id") return null;
                 return (
                   <th
                     key={header}

@@ -4,7 +4,7 @@ import { Button, Navbar, Footer } from "flowbite-react";
 export default function Home() {
     const matches = useMatches();
     const actual_url = matches[2].id.split('.')[1]
-    console.log(actual_url)
+    // console.log(actual_url)
     return (
         <>
 

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import jsPDF from 'jspdf';
 
 interface DataItem {
   [key: string]: any;
@@ -10,15 +11,15 @@ interface TablaTestProps {
 }
 
 export default function AreaChart({ data, setData }: TablaTestProps) {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [Chart, setApexchart]: any = useState();
+
   useEffect(() => {
     import('react-apexcharts').then((d) => setApexchart(() => d.default));
   }, []);
-  console.log(data)
-  const totalPedidos = data[0].data.ordenDeEntrada
+  const totalPedidos = data[0]?.data?.ordenDeEntrada
     .flatMap((element: any) => element)
     .reduce((acc: any, item: any) => acc + item.cantidad, 0);
+  console.log(totalPedidos)
 
   const options = {
     chart: {
@@ -95,24 +96,19 @@ export default function AreaChart({ data, setData }: TablaTestProps) {
     },
   };
 
-  // Función para exportar los datos a un archivo CSV
-  const exportToCSV = () => {
-    // Procesar los datos en un formato CSV adecuado
-    let csvData = 'Day,Total Orders\n';
+  console.log(data)
+  const exportToPDF = () => {
+    const doc = new jsPDF();
+    let y = 20;
+
+    doc.setFontSize(18);
+    doc.text('Cantidad de Pedidos', 14, 15);
     data.forEach((entry: any) => {
-      csvData += `${entry.day},${entry.cantidad}\n`;
+      y += 10;
+      doc.text(`${totalPedidos}`, 14, y);
     });
 
-    // Crear un Blob con los datos CSV
-    const blob = new Blob([csvData], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-
-    // Crear un enlace y hacer clic en él para descargar el archivo
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'dac.csv';
-    a.click();
-    window.URL.revokeObjectURL(url);
+    doc.save('reporte_pedidos.pdf');
   };
 
   return !Chart ? (
@@ -133,10 +129,10 @@ export default function AreaChart({ data, setData }: TablaTestProps) {
       <div className="grid grid-cols-1 items-center border-gray-200 border-t dark:border-gray-700 justify-between">
         <div className="flex justify-between items-center pt-5">
           <button
-            onClick={exportToCSV}
+            onClick={exportToPDF}
             className="uppercase text-sm font-semibold inline-flex items-center rounded-lg text-[#6246ea] hover:text-[#6246ea] dark:hover:text-[#6246ea] hover:bg-gray-100 dark:hover:bg-gray-700 dark:focus:ring-gray-700 dark:border-gray-700 px-3 py-2"
           >
-            Exportar a CSV
+            Exportar a PDF
             <svg
               className="w-2.5 h-2.5 ms-1.5 rtl:rotate-180"
               aria-hidden="true"

@@ -12,15 +12,18 @@ export const meta: MetaFunction = () => {
 }
 
 export const loader = async ({ request }: LoaderFunctionArgs) => {
-  const user = await authenticator.isAuthenticated(request, {
+  const userId = await authenticator.isAuthenticated(request, {
     failureRedirect: "/login",
   })
+  const user = await db.usuario.findUnique({
+    where: { id: userId.id},
+  });
   // const subscription = await db.usuario.subscribe()
 
   // for await (const event of subscription) {
   //   console.log('New event:', event)
   // }
-  return { email: user.email, name: user.name, surname: user.surname, profilePic: user.profilePicture }
+  return { email: user?.email, name: user?.name, surname: user?.surname, profilePic: user?.profilePicture }
 };
 
 export async function action({ request }: ActionFunctionArgs) {

@@ -25,13 +25,23 @@ export default function ColumnChart({ data, setData }: TablaTestProps) {
 
   // Procesar los datos para las series del gráfico
   const daysOfWeek = ['Lun', 'Mar', 'Mie', 'Jue', 'Vie'];
-  const organicData = data[0].data.ordenDeEntrada.map((entry: any, index: number) => ({
-    x: daysOfWeek[index % daysOfWeek.length], // Esto asume que los datos se repiten semanalmente
+  const processedData = daysOfWeek.map((day, index) => {
+    const cantidad = data[0].data.ordenDeEntrada[index]?.cantidad || 0;
+    const precio = data[0].data.ordenDeEntrada[index]?.precio || 0;
+    return {
+      day,
+      cantidad,
+      precio,
+    };
+  });
+
+  const organicData = processedData.map((entry) => ({
+    x: entry.day,
     y: entry.cantidad,
   }));
 
-  const socialMediaData = data[0].data.ordenDeEntrada.map((entry: any, index: number) => ({
-    x: daysOfWeek[index % daysOfWeek.length], // Esto asume que los datos se repiten semanalmente
+  const socialMediaData = processedData.map((entry) => ({
+    x: entry.day,
     y: entry.precio,
   }));
 

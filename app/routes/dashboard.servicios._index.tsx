@@ -1,11 +1,14 @@
-import { LoaderFunctionArgs, MetaFunction, json } from "@remix-run/node"
-import AreaChartFW from "./components/charts/areachartFW"
+import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction, json } from "@remix-run/node"
+import AreaChart from "./components/charts/areachart"
 import { Cards } from "./components/services/CardServices"
 import db from "~/services/db"
 import { useLoaderData, useSubmit } from "@remix-run/react"
 import { useState } from 'react';
 import { authenticator } from "~/services/auth.server"
 import CardTicket from "./components/tickets/CardTicket"
+import TablaTest from "./components/TablaTest"
+import RadialChart from "./components/charts/radialchart"
+import AreaChartFW from "./components/charts/areachartFW"
 
 
 export const meta: MetaFunction = () => {
@@ -53,52 +56,85 @@ export async function loader({ request }: LoaderFunctionArgs) {
         },
     })
     const data = { presupuesto, entrada, evento, cliente, servicios }
-    return json({data});
+    return json({ data });
 }
+
+export const action = async ({ request }: ActionFunctionArgs) => {
+    const form = await request.formData();
+    const user = await authenticator.isAuthenticated(request, {
+        failureRedirect: "/login",
+    });
+    console.log(form.get("costo"), form.get("descripcion"), form.get("eventoId"), form.get("nombre"))
+    const servicios = await db.servicio.upsert({
+        where: { id: Number(form.get("id")) },
+        update: {
+            costo: Number(form.get("costo")),
+            descripcion: String(form.get("descripcion")),
+            eventoId: Number(form.get("eventoId")),
+            nombre: String(form.get("nombre")),
+            usuarioId: user.id
+        },
+        create: {
+            id: Number(form.get("id")),
+            costo: Number(form.get("costo")),
+            descripcion: String(form.get("descripcion")),
+            eventoId: Number(form.get("eventoId")),
+            nombre: String(form.get("nombre")),
+            usuarioId: user.id
+        }
+    });
+    // console.log("getId: ", form.get("id"))
+
+    return { result: true }
+}
+
 interface DataItem {
     [key: string]: any;
-  }
+}
 export default function Servicios() {
     const fetchedData = useLoaderData<typeof loader>();
 
     const submit = useSubmit();
 
     const [data, setData] = useState<DataItem[]>([fetchedData]); // State to hold fetched data
-  
     const updateData = (newData: DataItem) => {
-      setData(Array.from(newData as DataItem[]));
-      const formData = new FormData();
-      // console.log(newData[newData.length - 1])
-      for (const key in newData[newData.length - 1]) {
-        // Update the last key and value in each iteration
-        // console.log(newData[newData.length - 1][key])
-        formData.append(key, newData[newData.length - 1][key]);
-    }
-       // Populate FormData with key and value from newData
-      submit(formData, { method: "post" }); // Submit FormData
-      // console.log(newData); // Log updated data
+        const prevData = data[0].data.servicios;
+        console.log(prevData)
+        // Encontrar la fila alterada o creada
+        const updatedRow = newData.find((newItem: { [x: string]: any; id?: any; }) => {
+            const oldItem = prevData.find((prevItem: { id: any; }) => prevItem.id === newItem.id);
+
+            // Si no existe el elemento anterior, es una fila creada
+            if (!oldItem) return true;
+
+            // Comparar cada campo para detectar cambios
+            return Object.keys(newItem).some((key) => newItem[key] !== oldItem[key]);
+        });
+
+        console.log(updatedRow);
+
+        if (updatedRow) {
+            const formData = new FormData();
+            for (const key in updatedRow) {
+                formData.append(key, updatedRow[key]);
+            }
+            submit(formData, { method: "post" });
+        }
+
+        // Actualizar el estado con la nueva lista de datos
+        setData([{
+            data: {
+                servicio: newData
+            }
+        }]);
     };
     return (
-        <div className="flex flex-col h-fit sm:h-screen w-auto p-4">
-            {/* Top row */}
-            <div className="flex justify-center bg-[#222E3A]/[4%] rounded-lg w-full">
-                <div className="flex flex-col items-center sm:items-start sm:h-fit sm:flex-row mb-2 w-full">
-                    <div className="w-full sm:w-full">
-                        <div className="w-full"><AreaChartFW data={data} setData={updateData}/></div>
-                    </div>
-                </div>
-            </div>
-
-
+        <div className="flex flex-col h-fit sm:h-screen mt-8 w-auto p-4">
             {/* Bottom row */}
-            <div className="flex w-full flex-row flex-wrap flex-1">
-                <div className="flex flex-wrap p-4 flex-row justify-center w-fit h-fit">
-                    
-                    {data[0].data.servicios.map((servicio:any) => (
-                        <CardTicket data={servicio}/>
-                    ))}
-                </div>
+            <div className="flex flex-wrap flex-1">
+                <div className="w-full h-fit"><TablaTest data={data[0].data.servicios} setData={updateData} /></div>
             </div>
         </div>
+
     )
 }

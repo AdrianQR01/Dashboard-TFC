@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import dynamic from 'next/dynamic';
 
 interface DataItem {
   [key: string]: any;

@@ -15,7 +15,8 @@ async function uploadImage(data: AsyncIterable<Uint8Array>) {
       },
       (error, result) => {
         if (error) {
-          reject(error);
+          console.error("Error subiendo la imagen:", error);
+          resolve(error); // Return an empty string on error
         } else {
           resolve(result);
         }
@@ -29,11 +30,10 @@ async function uploadImage(data: AsyncIterable<Uint8Array>) {
       })
       .catch((error) => {
         // Handle stream writing error
-        console.error("Error subiendo la imagen:", error);
-        reject(error);
+        console.log("Error subiendo la imagen:", error);
+        reject("");
       });
   });
 }
 
-console.log("configs", cloudinary.v2.config());
 export { uploadImage };

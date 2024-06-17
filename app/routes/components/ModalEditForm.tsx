@@ -60,7 +60,7 @@ export function ModalEditForm({ data, onClose, onSave, onDelete }: ModalEditForm
                     <div className="space-y-6">
                         {Object.keys(formData).map((key: string) => (
                             key !== 'id' && (
-                                key.includes('fecha') ? (
+                                (key.includes('fecha') && fechaInicio && fechaFin) ? (
                                     <div key={key}>
                                         <label className="block text-sm text-gray-700" htmlFor={key}>
                                             {key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase())}
@@ -72,7 +72,7 @@ export function ModalEditForm({ data, onClose, onSave, onDelete }: ModalEditForm
                                             onSelectedDateChanged={(date) => (key.includes("fechaInicio") ? setFechaInicio(date) : setFechaFin(date))}
                                         />
                                     </div>
-                                ) : key.includes('estado') ? (
+                                ) : key.includes('estado') && estado ? (
                                     <div key={key}>
                                         <label className="block text-sm text-gray-700" htmlFor={key}>
                                             {key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase())}
@@ -84,12 +84,14 @@ export function ModalEditForm({ data, onClose, onSave, onDelete }: ModalEditForm
                                         </Select>
                                     </div>
                                 ) : (
-                                    <TextInput
-                                        key={key}
-                                        placeholder={key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase()).trim()}
-                                        value={formData[key] || ''}
-                                        onChange={(e) => handleChange(key, e.target.value)}
-                                    />
+                                    !key.includes('fecha') && !key.includes('estado') && (
+                                        <TextInput
+                                            key={key}
+                                            placeholder={key.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase()).trim()}
+                                            value={formData[key] || ''}
+                                            onChange={(e) => handleChange(key, e.target.value)}
+                                        />
+                                    )
                                 )
                             )
                         ))}

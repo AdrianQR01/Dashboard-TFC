@@ -45,7 +45,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
     }
   });
   
-  console.log(Number(form.get("id")), Number(form.get("total")),String(form.get("nombrePresupuesto")),String(form.get("estado")),String(form.get("fechaInicio")),String(form.get("fechaFin")),Number(form.get("eventoId")),Number(form.get("usuarioId")))
+  // console.log(Number(form.get("id")), Number(form.get("total")),String(form.get("nombrePresupuesto")),String(form.get("estado")),String(form.get("fechaInicio")),String(form.get("fechaFin")),Number(form.get("eventoId")),Number(form.get("usuarioId")))
   // return { presupuesto }
   return {result:true}
 }
@@ -57,22 +57,35 @@ export default function General() {
   const [data, setData] = useState<DataItem[]>([fetchedData]); // State to hold fetched data
 
   const updateData = (newData: DataItem) => {
-    // newData[newData.length - 1].id = (newData[newData.length - 2].id + 2)
-    setData(([{
-      data:{
+    const prevData = data[0].data.presupuesto;
+  
+    // Encontrar la fila alterada o creada
+    const updatedRow = newData.find((newItem: { [x: string]: any; id?: any; }) => {
+      const oldItem = prevData.find((prevItem: { id: any; }) => prevItem.id === newItem.id);
+  
+      // Si no existe el elemento anterior, es una fila creada
+      if (!oldItem) return true;
+  
+      // Comparar cada campo para detectar cambios
+      return Object.keys(newItem).some((key) => newItem[key] !== oldItem[key]);
+    });
+  
+    console.log(updatedRow);
+  
+    if (updatedRow) {
+      const formData = new FormData();
+      for (const key in updatedRow) {
+        formData.append(key, updatedRow[key]);
+      }
+      submit(formData, { method: "post" });
+    }
+  
+    // Actualizar el estado con la nueva lista de datos
+    setData([{
+      data: {
         presupuesto: newData
       }
-    }]));
-
-    const formData = new FormData();
-    // console.log(newData[newData.length - 1])
-    for (const key in newData[newData.length - 1]) {
-      // Update the last key and value in each iteration
-      // console.log(newData[newData.length - 1][key])
-      formData.append(key, newData[newData.length - 1][key]);
-    }
-    submit(formData, { method: "post" }); // Submit FormData
-    // console.log(newData); // Log updated data
+    }]);
   };
 
   return (
