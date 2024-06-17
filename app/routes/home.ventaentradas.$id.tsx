@@ -39,7 +39,7 @@ export default function VentaEntradasId() {
 
     return (
         <div className="bg-white shadow-lg rounded-lg overflow-hidden z-1 opacity-95 max-w-fit">
-            <img src="https://estaticos-cdn.prensaiberica.es/clip/235da730-3560-4464-862d-7d8539c3bd83_alta-libre-aspect-ratio_default_0.jpg" alt="Evento" className="w-screen h-[800px] object-cover" />
+            <img src="https://random-image-pepebigotes.vercel.app/api/random-image" alt="Evento" className="w-screen h-[800px] object-cover" />
 
             <div className="p-4 sticky bottom-20 bg-white">
                 <h2 className="font-bold text-xl mb-2">Nombre del Evento</h2>
