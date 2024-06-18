@@ -36,13 +36,13 @@ export default function VentaEntradasId() {
             setCantidadEntradas(cantidadEntradas + 1);
         }
     };
-
+    console.log(data[0].data.eventos[0])
     return (
         <div className="bg-white shadow-lg rounded-lg overflow-hidden z-1 opacity-95 max-w-fit">
             <img src="https://random-image-pepebigotes.vercel.app/api/random-image" alt="Evento" className="w-screen h-[800px] object-cover" />
 
             <div className="p-4 sticky bottom-20 bg-white">
-                <h2 className="font-bold text-xl mb-2">Nombre del Evento</h2>
+                <h2 className="font-bold text-xl mb-2">{data[0].data.eventos[0].nombre}</h2>
                 <p className="text-gray-700 text-base">Descripción del evento. Aquí puedes agregar una descripción breve que explique de qué se trata el evento.</p>
                 <div className="mt-4 flex items-stretch justify-end">
                     <div className="flex items-center pr-4">
